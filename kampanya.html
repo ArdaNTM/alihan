@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampanya ve Hediye Katılım Şartları</title>
+    <style>
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #0078D7; font-size: 24px; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        h2 { font-size: 18px; color: #444; margin-top: 25px; }
+        p, li { font-size: 14px; color: #555; text-align: justify; margin-bottom: 10px; }
+        ul { padding-left: 20px; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #0078D7; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .back-btn:hover { text-decoration: underline; }
+        .highlight { background-color: #fff3cd; padding: 2px 5px; border-radius: 3px; font-weight: bold; color: #856404; }
+        
+        /* ONAY BUTONU STİLİ */
+        .onay-button-container { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
+        .btn-onay { background-color: #0078D7; color: white; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,120,215,0.3); }
+        .btn-onay:hover { background-color: #005A9E; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,120,215,0.4); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="javascript:window.close();" class="back-btn">← Sayfayı Kapat ve Geri Dön</a>
+    
+    <h1>Kampanya ve Hediye Katılım Şartları</h1>
+    
+    <p>Bu kampanya, ARES SİGORTA tarafından düzenlenmektedir ve katılımcılar aşağıdaki şartları peşinen kabul etmiş sayılırlar.</p>
+
+    <h2>1. Kampanya Süresi</h2>
+    <p>Kampanyamız belirtilen tarihler arasında geçerli olup, bu tarihler dışında yapılan başvurular kampanya kapsamında değerlendirilmeyecektir.</p>
+
+    <h2>2. Katılım Koşulları</h2>
+    <ul>
+        <li>Kampanyaya katılmak için web sitemiz üzerinden yönlendirilen WhatsApp hattına, kişinin kendi adına veya birinci derece yakınına ait geçerli bir araç ruhsatı fotoğrafını iletmesi ve sigorta (kasko veya trafik) teklifi talep etmesi gerekmektedir.</li>
+        <li>Kampanya sadece 18 yaşından büyük gerçek kişiler için geçerlidir.</li>
+        <li>Eksik, okunamayan veya sahte ruhsat bilgileri ile yapılan başvurular geçersiz sayılacaktır.</li>
+    </ul>
+
+    <h2>3. Hediyelerin Kapsamı ve Dağıtımı</h2>
+    <p>Kampanya kapsamında belirlenen toplam 3.000 TL değerindeki hediye havuzu, şansa bağlı bir kura veya çekiliş yöntemiyle <strong style="text-decoration: underline;">dağıtılmamaktadır.</strong> Hediyeler aşağıdaki kurala göre hak sahiplerine teslim edilecektir:</p>
+    <ul>
+        <li>Kampanya süresi boyunca tarafımızdan teklif alıp, Trafik Sigortası veya Kasko poliçesini acentemizden kestiren <span class="highlight">belirli sayıdaki müşterimize</span> hediye takdimi yapılacaktır.</li>
+    </ul>
+
+    <h2>4. Genel Hükümler</h2>
+    <ul>
+        <li>Kazanılan hediyeler nakde çevrilemez, başka bir kişiye devredilemez ve değiştirilemez.</li>
+        <li>ARES SİGORTA, önceden haber vermeksizin kampanya şartlarında değişiklik yapma veya kampanyayı tamamen durdurma hakkını saklı tutar.</li>
+    </ul>
+
+    <div class="onay-button-container">
+        <button onclick="onayVeKapat()" class="btn-onay">✓ Okudum, Anlıyorum ve Onaylıyorum</button>
+    </div>
+</div>
+
+<script>
+    // Butona basıldığında ana siteye "Tiklendi" sinyali gönderir ve bu sayfayı kapatır.
+    function onayVeKapat() {
+        localStorage.setItem('kampanyaOnayModal', 'true');
+        window.close();
+    }
+</script>
+
+</body>
+</html>

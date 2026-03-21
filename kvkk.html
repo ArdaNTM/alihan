@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVKK Aydınlatma Metni</title>
+    <style>
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7fa; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1 { color: #0078D7; font-size: 24px; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
+        h2 { font-size: 18px; color: #444; margin-top: 25px; }
+        p { font-size: 14px; color: #555; text-align: justify; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #0078D7; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .back-btn:hover { text-decoration: underline; }
+        
+        /* ONAY BUTONU STİLİ */
+        .onay-button-container { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; }
+        .btn-onay { background-color: #0078D7; color: white; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,120,215,0.3); }
+        .btn-onay:hover { background-color: #005A9E; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,120,215,0.4); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="javascript:window.close();" class="back-btn">← Sayfayı Kapat ve Geri Dön</a>
+    
+    <h1>Kişisel Verilerin Korunması (KVKK) Aydınlatma Metni</h1>
+    
+    <p>İşbu Aydınlatma Metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, veri sorumlusu sıfatıyla ARES SİGORTA tarafından, müşterilerimizin ve potansiyel müşterilerimizin kişisel verilerinin işlenmesine ilişkin usul ve esaslar hakkında bilgilendirme amacıyla hazırlanmıştır.</p>
+
+    <h2>1. İşlenen Kişisel Verileriniz</h2>
+    <p>WhatsApp üzerinden iletmiş olduğunuz araç ruhsatınızda yer alan; adınız, soyadınız, T.C. Kimlik numaranız, araç plaka, şasi, motor numarası bilgileri ile iletişim bilgileriniz (telefon numarası) işlenmektedir.</p>
+
+    <h2>2. Kişisel Verilerin İşlenme Amacı</h2>
+    <p>Yukarıda belirtilen kişisel verileriniz;<br>
+    - Tarafınıza en uygun Kasko ve Trafik Sigortası tekliflerinin hazırlanması ve sunulması,<br>
+    - Hediye kampanyası katılım şartlarının sağlanması ve hediye sahiplerinin belirlenmesi,<br>
+    - İletişim faaliyetlerinin yürütülmesi amaçlarıyla sınırlı olarak işlenmektedir.</p>
+
+    <h2>3. Kişisel Verilerin Aktarılması</h2>
+    <p>Kişisel verileriniz, sigorta tekliflerinin oluşturulabilmesi amacıyla çalıştığımız sigorta şirketlerinin sistemlerine girilecek olup, yasal zorunluluklar haricinde hiçbir üçüncü kişi veya kurumla ticari amaçla paylaşılmayacaktır.</p>
+
+    <h2>4. Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebebi</h2>
+    <p>Kişisel verileriniz, web sitemiz üzerinden yönlendirildiğiniz WhatsApp uygulaması aracılığıyla, KVKK Madde 5/1 uyarınca "açık rızanızın alınması" ve Madde 5/2 (c) uyarınca "bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması" hukuki sebeplerine dayanılarak otomatik yöntemlerle toplanmaktadır.</p>
+
+    <h2>5. İlgili Kişi Olarak Haklarınız</h2>
+    <p>KVKK’nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltilmesini veya silinmesini talep etme hakkına sahipsiniz. Taleplerinizi WhatsApp hattımız üzerinden tarafımıza iletebilirsiniz.</p>
+
+    <div class="onay-button-container">
+        <button onclick="onayVeKapat()" class="btn-onay">✓ Okudum, Anlıyorum ve Onaylıyorum</button>
+    </div>
+</div>
+
+<script>
+    // Butona basıldığında ana siteye "Tiklendi" sinyali gönderir ve bu sayfayı kapatır.
+    function onayVeKapat() {
+        localStorage.setItem('kvkkOnayModal', 'true');
+        window.close();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigorta Teklifi & Hediye Kampanyası</title>
+    <style>
+        :root {
+            --primary-color: #004aad;
+            --whatsapp-color: #25D366;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+        }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 700; }
+        .header p { margin: 10px 0 0; font-size: 15px; opacity: 0.9; }
+        .content { padding: 30px 25px; }
+        .prize-box {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border: 2px dashed #ffc107;
+            padding: 15px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #d35400;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .steps {
+            list-style: none; padding: 0; margin-bottom: 25px;
+        }
+        .steps li {
+            margin-bottom: 12px; font-size: 15px; display: flex; align-items: flex-start;
+        }
+        .steps li::before {
+            content: '✓'; color: var(--primary-color); font-weight: bold; margin-right: 10px; font-size: 16px;
+        }
+        .legal-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .checkbox-group {
+            display: flex; align-items: flex-start; margin-bottom: 15px;
+        }
+        .checkbox-group:last-child { margin-bottom: 0; }
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 2px; 
+            margin-right: 12px; 
+            width: 20px; 
+            height: 20px; 
+            flex-shrink: 0; 
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        .checkbox-group label {
+            font-size: 13px; color: #555; line-height: 1.5; cursor: pointer;
+        }
+        .checkbox-group label a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .checkbox-group label a:hover { text-decoration: underline; }
+        .whatsapp-btn {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: not-allowed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            text-decoration: none;
+            box-sizing: border-box;
+            white-space: normal;
+        }
+        .whatsapp-btn.active {
+            opacity: 1; cursor: pointer; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-btn.active:hover { background-color: #128C7E; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Sigortanızı Yenileyin,<br>Hediyeleri Yakalayın!</h1>
+        <p>En uygun kasko ve trafik sigortası teklifini saniyeler içinde alın.</p>
+    </div>
+
+    <div class="content">
+        <div class="prize-box">
+            🎁 Toplam 3.000 TL Değerinde Hediye Havuzu!
+        </div>
+
+        <ul class="steps">
+            <li>Aşağıdaki yasal onay kutucuklarını işaretleyin.</li>
+            <li>WhatsApp üzerinden ruhsat fotoğrafınızı gönderin.</li>
+            <li>Size en uygun teklifi sunalım ve hediye kampanyamıza katılımınızı onaylayalım.</li>
+        </ul>
+
+        <div class="legal-box">
+            <div class="checkbox-group">
+                <input type="checkbox" id="kvkk" class="legal-check">
+                <label for="kvkk"><a href="kvkk.html" target="_blank">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin sigorta teklifi hazırlanması amacıyla işlenmesini kabul ediyorum.</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="kampanya" class="legal-check">
+                <label for="kampanya"><a href="kampanya.html" target="_blank">Kampanya ve Hediye Katılım Şartları</a>'nı okudum ve onaylıyorum.</label>
+            </div>
+        </div>
+
+        <a href="#" id="wpButton" class="whatsapp-btn">
+            WhatsApp ile Ruhsatı Gönder
+        </a>
+    </div>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.legal-check');
+    const wpButton = document.getElementById('wpButton');
+    
+    // Alihan Abinin Numarası
+    const phoneNumber = "905000000000"; 
+    const message = encodeURIComponent("Merhaba, hediye kampanyası için ruhsatımı gönderiyorum ve sigorta teklifi almak istiyorum.");
+    const wpLink = `https://wa.me/${phoneNumber}?text=${message}`;
+
+    function checkValidity() {
+        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+        if (allChecked) {
+            wpButton.classList.add('active');
+            wpButton.href = wpLink;
+            wpButton.target = "_blank";
+        } else {
+            wpButton.classList.remove('active');
+            wpButton.href = "#";
+            wpButton.target = "";
+        }
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', checkValidity);
+    });
+</script>
+
+</body>
+</html>

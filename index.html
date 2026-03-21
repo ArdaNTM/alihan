@@ -59,11 +59,25 @@
         .slider-next { right: -10px; }
         @media (min-width: 768px) { .slider-prev { left: -20px; } .slider-next { right: -20px; } }
 
-        /* KAMPANYA MODAL (POP-UP) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 99999; opacity: 0; transition: opacity 0.4s ease; }
+        /* KAMPANYA MODAL (POP-UP) - Kaydırma Özellikleri Eklendi */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); 
+            display: none; justify-content: center; align-items: flex-start; /* flex-start ile yukarıdan başlatılır */
+            z-index: 99999; opacity: 0; transition: opacity 0.4s ease;
+            overflow-y: auto; /* Pop-up içini kaydırılabilir yapar */
+            padding: 40px 15px; /* Üstten ve alttan boşluk bırakır */
+        }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-container { background-color: #fff; max-width: 500px; width: 90%; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; position: relative; transform: translateY(-30px) scale(0.95); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-container { 
+            background-color: #fff; max-width: 500px; width: 100%; 
+            border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+            overflow: hidden; position: relative; 
+            margin: auto; /* Ekran büyükse tam ortalar, küçükse yukarıdan başlatıp kaydırır */
+            transform: translateY(-30px) scale(0.95); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
         .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
+        
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; color: rgba(255, 255, 255, 0.8); cursor: pointer; z-index: 10; line-height: 1; transition: color 0.2s; }
         .close-btn:hover { color: #fff; transform: scale(1.1); }
         .modal-header-kampanya { background: linear-gradient(135deg, #0078D7, #005A9E); color: white; text-align: center; padding: 35px 20px; }
@@ -577,7 +591,7 @@
                 document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
             }
 
-            // ================= YORUM SLIDER MANTIĞI (SONSUZ DÖNGÜ EKLENDİ) =================
+            // ================= YORUM SLIDER MANTIĞI =================
             const track = document.getElementById('testimonialTrack');
             const cards = document.querySelectorAll('#testimonialTrack > div');
             const prevBtn = document.getElementById('sliderPrev');
@@ -596,13 +610,8 @@
                 const visible = getVisibleCardsCount();
                 const maxIndex = cards.length - visible;
                 
-                // === SONSUZ DÖNGÜ (LOOP) KISMI ===
-                if (currentIndex > maxIndex) {
-                    currentIndex = 0; // Sona gelince başa dön
-                }
-                if (currentIndex < 0) {
-                    currentIndex = maxIndex; // Baştayken geri basılırsa sona git
-                }
+                if (currentIndex > maxIndex) { currentIndex = 0; }
+                if (currentIndex < 0) { currentIndex = maxIndex; }
                 
                 const cardWidth = cards[0].offsetWidth;
                 currentTranslate = -(currentIndex * cardWidth);
@@ -615,7 +624,6 @@
 
             window.addEventListener('resize', updateCarousel);
 
-            // Sürükle Bırak (Drag & Swipe) İşlemleri
             track.addEventListener('mousedown', dragStart);
             track.addEventListener('touchstart', dragStart, {passive: true});
             window.addEventListener('mousemove', dragAction);
@@ -652,33 +660,25 @@
                 
                 updateCarousel();
             }
-            // ========================================================
 
-            // KAMPANYA MODAL VE WHATSAPP MANTIĞI (+ Arka Plan Kilitleme)
+            // ================= KAMPANYA MODAL VE ARKA PLAN KİLİTLEME =================
             const modal = document.getElementById('campaignModal');
-            setTimeout(() => { 
-                modal.classList.add('active'); 
-                document.body.style.overflow = 'hidden'; // Pop-up açılınca site kaymasını engelle
-            }, 4000); 
             
-            if(document.getElementById('openCampaignFloatBtn')) {
-                document.getElementById('openCampaignFloatBtn').addEventListener('click', () => {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
+            function openModal() {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Arka plan kaymasını engeller
             }
-            if(document.getElementById('closeModalBtn')) {
-                document.getElementById('closeModalBtn').addEventListener('click', () => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
+            
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Arka plan kaymasını geri açar
             }
-            modal.addEventListener('click', (event) => { 
-                if (event.target === modal) {
-                    modal.classList.remove('active'); 
-                    document.body.style.overflow = '';
-                } 
-            });
+
+            setTimeout(openModal, 4000); 
+            
+            if(document.getElementById('openCampaignFloatBtn')) document.getElementById('openCampaignFloatBtn').addEventListener('click', openModal);
+            if(document.getElementById('closeModalBtn')) document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
 
             // WhatsApp Validasyon
             const checkboxesModal = document.querySelectorAll('.legal-check-modal');

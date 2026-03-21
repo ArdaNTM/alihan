@@ -654,13 +654,31 @@
             }
             // ========================================================
 
-            // KAMPANYA MODAL VE WHATSAPP MANTIĞI
+            // KAMPANYA MODAL VE WHATSAPP MANTIĞI (+ Arka Plan Kilitleme)
             const modal = document.getElementById('campaignModal');
-            setTimeout(() => { modal.classList.add('active'); }, 4000); 
+            setTimeout(() => { 
+                modal.classList.add('active'); 
+                document.body.style.overflow = 'hidden'; // Pop-up açılınca site kaymasını engelle
+            }, 4000); 
             
-            if(document.getElementById('openCampaignFloatBtn')) document.getElementById('openCampaignFloatBtn').addEventListener('click', () => modal.classList.add('active'));
-            if(document.getElementById('closeModalBtn')) document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.remove('active'));
-            modal.addEventListener('click', (event) => { if (event.target === modal) modal.classList.remove('active'); });
+            if(document.getElementById('openCampaignFloatBtn')) {
+                document.getElementById('openCampaignFloatBtn').addEventListener('click', () => {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+            if(document.getElementById('closeModalBtn')) {
+                document.getElementById('closeModalBtn').addEventListener('click', () => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+            modal.addEventListener('click', (event) => { 
+                if (event.target === modal) {
+                    modal.classList.remove('active'); 
+                    document.body.style.overflow = '';
+                } 
+            });
 
             // WhatsApp Validasyon
             const checkboxesModal = document.querySelectorAll('.legal-check-modal');

@@ -59,7 +59,7 @@
         .slider-next { right: -10px; }
         @media (min-width: 768px) { .slider-prev { left: -20px; } .slider-next { right: -20px; } }
 
-        /* KAMPANYA MODAL (POP-UP) */
+        /* MODAL (POP-UP) GENEL CSS */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); 
@@ -77,6 +77,8 @@
         .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; color: rgba(255, 255, 255, 0.8); cursor: pointer; z-index: 10; line-height: 1; transition: color 0.2s; }
         .close-btn:hover { color: #fff; transform: scale(1.1); }
+
+        /* KAMPANYA ÖZEL CSS */
         .modal-header-kampanya { background: linear-gradient(135deg, #0078D7, #005A9E); color: white; text-align: center; padding: 35px 20px; }
         .modal-header-kampanya h1 { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.3;}
         .modal-header-kampanya p { margin: 10px 0 0; font-size: 15px; opacity: 0.9; }
@@ -91,7 +93,6 @@
         .checkbox-group input[type="checkbox"] { margin-top: 2px; margin-right: 12px; width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; accent-color: #0078D7; }
         .checkbox-group label { font-size: 13px; color: #555; line-height: 1.5; cursor: pointer; }
         .checkbox-group label a { color: #0078D7; text-decoration: none; font-weight: 600; }
-        .checkbox-group label a:hover { text-decoration: underline; }
         .whatsapp-btn { background-color: #25D366; color: white; border: none; width: 100%; padding: 16px 20px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: not-allowed; display: flex; justify-content: center; align-items: center; text-align: center; transition: all 0.3s ease; opacity: 0.5; text-decoration: none; box-sizing: border-box; }
         .whatsapp-btn.active { opacity: 1; cursor: pointer; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
         .whatsapp-btn.active:hover { background-color: #128C7E; transform: translateY(-2px); }
@@ -115,7 +116,8 @@
                         <a href="#iletisim" class="text-gray-700 hover:text-primary font-medium transition-colors">İletişim</a>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3">
+                    <button onclick="openAuthModal()" class="text-primary border border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg transition-all font-medium hidden md:block">Giriş Yap</button>
                     <button id="teklifHazirlaHeaderBtn" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all shadow-md hover:shadow-lg font-medium hidden md:block">Hızlı Teklif Al</button>
                     <button id="mobileMenuToggle" class="md:hidden text-gray-700 hover:text-primary p-2"><i class="fas fa-bars text-2xl"></i></button>
                 </div>
@@ -128,7 +130,8 @@
                 <a href="#sigorta-turleri" class="mobile-link block py-3 border-b border-gray-50 text-gray-700 font-medium hover:text-primary">Sigorta Türleri</a>
                 <a href="#hizmetlerimiz" class="mobile-link block py-3 border-b border-gray-50 text-gray-700 font-medium hover:text-primary">Hizmetlerimiz</a>
                 <a href="#iletisim" class="mobile-link block py-3 border-b border-gray-50 text-gray-700 font-medium hover:text-primary">İletişim</a>
-                <button id="teklifHazirlaMobileBtn" class="mt-4 mb-2 bg-primary text-white w-full py-3 rounded-lg font-medium">Hızlı Teklif Al</button>
+                <button onclick="openAuthModal()" class="mt-2 text-primary border border-primary hover:bg-primary hover:text-white w-full py-3 rounded-lg transition-all font-medium">Giriş Yap / Kayıt Ol</button>
+                <button id="teklifHazirlaMobileBtn" class="mt-2 mb-2 bg-primary text-white w-full py-3 rounded-lg font-medium">Hızlı Teklif Al</button>
             </div>
         </div>
     </header>
@@ -183,6 +186,29 @@
         </div>
     </section>
 
+    <section class="py-12 bg-white border-t border-b border-gray-100 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8 text-dark">Çalıştığımız Güvenilir Markalar</h2>
+            <div class="marquee-wrapper">
+                <div class="marquee-content flex-row-reverse">
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Anadolu Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Axa Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Allianz</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Groupama</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Sompo Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Mapfre</div></div>
+                    
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Anadolu Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Axa Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Allianz</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Groupama</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Sompo Sigorta</div></div>
+                    <div class="w-1/6 min-w-[150px] px-4"><div class="bg-gray-50 h-16 rounded-lg flex items-center justify-center shadow-sm text-gray-700 font-semibold border border-gray-100">Mapfre</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-dark text-white py-12" id="iletisim">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -203,6 +229,7 @@
                     <ul class="space-y-2 text-gray-400 mt-2">
                         <li><a href="kvkk.html" target="_blank" class="hover:text-primary transition-colors">KVKK Aydınlatma Metni</a></li>
                         <li><a href="kampanya.html" target="_blank" class="hover:text-primary transition-colors">Kampanya Şartları</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Gizlilik Politikası</a></li>
                     </ul>
                 </div>
                 <div>
@@ -214,8 +241,14 @@
                     </ul>
                 </div>
             </div>
+            
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center">
                 <p>&copy; 2024 Ares Sigorta. Tüm hakları saklıdır.</p>
+                <div class="flex space-x-5 mt-4 md:mt-0">
+                    <a href="https://www.tiktok.com/@aressigorta" target="_blank" class="text-gray-400 hover:text-white transition-colors text-2xl" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/aressigorta" target="_blank" class="text-gray-400 hover:text-white transition-colors text-2xl" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/905367074329" target="_blank" class="text-gray-400 hover:text-white transition-colors text-2xl" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
         </div>
     </footer>
@@ -226,7 +259,7 @@
 
     <div id="campaignModal" class="modal-overlay">
         <div class="modal-container">
-            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <span class="close-btn" id="closeModalBtn" style="top: 10px; right: 20px; color: rgba(255, 255, 255, 0.8);">&times;</span>
             <div class="modal-header-kampanya">
                 <h1>Hemen Teklif Alın,<br>Hediyeleri Yakalayın!</h1>
                 <p>Kasko ve Trafik poliçenizi yenileyin, avantajları kaçırmayın.</p>
@@ -249,6 +282,52 @@
                     </div>
                 </div>
                 <a href="#" id="wpButtonModal" class="whatsapp-btn">WhatsApp ile Ruhsatı Gönder</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="authModal" class="modal-overlay" style="z-index: 100000;">
+        <div class="modal-container max-w-md w-full relative">
+            <span class="close-btn text-gray-500 hover:text-dark" onclick="closeAuthModal()" style="top: 10px; right: 15px; color: #555;">&times;</span>
+            
+            <div class="p-8">
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-3 text-center font-bold text-primary border-b-2 border-primary transition-all">Giriş Yap</button>
+                    <button id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-3 text-center font-semibold text-gray-500 hover:text-primary transition-all">Kayıt Ol</button>
+                </div>
+
+                <form id="loginForm" class="animate-fade-in block">
+                    <div class="mb-4">
+                        <label class="form-label" for="loginEmail">E-posta Adresi</label>
+                        <input type="email" id="loginEmail" class="form-input bg-gray-50" required placeholder="ornek@mail.com">
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="form-label mb-0" for="loginPassword">Şifre</label>
+                            <a href="#" class="text-xs text-primary hover:underline">Şifremi Unuttum</a>
+                        </div>
+                        <input type="password" id="loginPassword" class="form-input bg-gray-50" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-secondary transition-all shadow-md">Giriş Yap</button>
+                </form>
+
+                <form id="registerForm" class="animate-fade-in hidden">
+                    <div class="mb-4">
+                        <label class="form-label" for="regName">Ad Soyad</label>
+                        <input type="text" id="regName" class="form-input bg-gray-50" required placeholder="Adınız Soyadınız">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="regEmail">E-posta Adresi</label>
+                        <input type="email" id="regEmail" class="form-input bg-gray-50" required placeholder="ornek@mail.com">
+                    </div>
+                    <div class="mb-6">
+                        <label class="form-label" for="regPassword">Şifre Belirleyin</label>
+                        <input type="password" id="regPassword" class="form-input bg-gray-50" required placeholder="En az 6 karakter">
+                    </div>
+                    <button type="submit" class="w-full bg-secondary text-white py-3 rounded-lg font-bold hover:bg-dark transition-all shadow-md">Hesap Oluştur</button>
+                </form>
+                
+                <div id="authResult" class="mt-4 text-center text-sm"></div>
             </div>
         </div>
     </div>
@@ -373,12 +452,10 @@
                 submitButton.classList.add('opacity-70', 'cursor-not-allowed');
                 sonucMesaji.innerHTML = '';
 
-                // Formdaki verileri JSON formatına çeviriyoruz
                 const formData = new FormData(formDiv);
                 const data = Object.fromEntries(formData.entries());
 
                 try {
-                    // Verileri doğrudan Vercel'deki güvenli /api/send uzantımıza yolluyoruz.
                     const response = await fetch('/api/send', {
                         method: 'POST',
                         headers: {
@@ -401,17 +478,18 @@
                     submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
                 }
             });
-            // ==========================================================
         }
 
-        // --- 2. SAYFA YÜKLENDİĞİNDE ÇALIŞACAK KODLAR ---
+        // --- 2. SAYFA YÜKLENDİĞİNDE ÇALIŞACAK KODLAR VE MODALLAR ---
         document.addEventListener('DOMContentLoaded', function() {
             
+            // Header Buton Yönlendirmeleri
             const formTarget = document.getElementById('sigortaSecimiAlani');
             function scrollToForm() { if (formTarget) { formTarget.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('mobileMenu').classList.add('hidden'); } }
             if(document.getElementById('teklifHazirlaHeaderBtn')) document.getElementById('teklifHazirlaHeaderBtn').addEventListener('click', scrollToForm);
             if(document.getElementById('teklifHazirlaMobileBtn')) document.getElementById('teklifHazirlaMobileBtn').addEventListener('click', scrollToForm);
 
+            // Mobil Menü Toggle
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             if(mobileMenuToggle && mobileMenu) {
@@ -419,15 +497,16 @@
                 document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
             }
 
-            const modal = document.getElementById('campaignModal');
-            function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-            function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+            // KAMPANYA MODALI (Pop-up)
+            const campModal = document.getElementById('campaignModal');
+            function openCampModal() { campModal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            function closeCampModal() { campModal.classList.remove('active'); document.body.style.overflow = ''; }
 
-            setTimeout(openModal, 4000); 
+            setTimeout(openCampModal, 4000); 
             
-            if(document.getElementById('openCampaignFloatBtn')) document.getElementById('openCampaignFloatBtn').addEventListener('click', openModal);
-            if(document.getElementById('closeModalBtn')) document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-            modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
+            if(document.getElementById('openCampaignFloatBtn')) document.getElementById('openCampaignFloatBtn').addEventListener('click', openCampModal);
+            if(document.getElementById('closeModalBtn')) document.getElementById('closeModalBtn').addEventListener('click', closeCampModal);
+            campModal.addEventListener('click', (event) => { if (event.target === campModal) closeCampModal(); });
 
             const checkboxesModal = document.querySelectorAll('.legal-check-modal');
             const wpButtonModal = document.getElementById('wpButtonModal');
@@ -454,7 +533,63 @@
                     localStorage.removeItem('kampanyaOnayModal');
                 }
             });
+        });
 
+        // --- 3. HESAP SİSTEMİ (AUTH MODAL) JS KODLARI ---
+        const authModal = document.getElementById('authModal');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const tabLogin = document.getElementById('tabLogin');
+        const tabRegister = document.getElementById('tabRegister');
+        const authResult = document.getElementById('authResult');
+
+        function openAuthModal() {
+            authModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('mobileMenu').classList.add('hidden'); // Mobil menü açıksa kapat
+        }
+
+        function closeAuthModal() {
+            authModal.classList.remove('active');
+            document.body.style.overflow = '';
+            authResult.innerHTML = ''; 
+        }
+
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) closeAuthModal();
+        });
+
+        function switchAuthTab(tab) {
+            authResult.innerHTML = ''; 
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLogin.classList.add('text-primary', 'border-b-2', 'border-primary', 'font-bold');
+                tabLogin.classList.remove('text-gray-500', 'font-semibold');
+                tabRegister.classList.remove('text-primary', 'border-b-2', 'border-primary', 'font-bold');
+                tabRegister.classList.add('text-gray-500', 'font-semibold');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                tabRegister.classList.add('text-primary', 'border-b-2', 'border-primary', 'font-bold');
+                tabRegister.classList.remove('text-gray-500', 'font-semibold');
+                tabLogin.classList.remove('text-primary', 'border-b-2', 'border-primary', 'font-bold');
+                tabLogin.classList.add('text-gray-500', 'font-semibold');
+            }
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            authResult.innerHTML = `<span class="text-blue-600 font-medium">Giriş yapılıyor... (${email})</span>`;
+            // İleride buraya Vercel API veya Supabase Login kodu eklenecek.
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            authResult.innerHTML = `<span class="text-green-600 font-medium">Kayıt oluşturuluyor... Hoş geldin, ${name}!</span>`;
+            // İleride buraya Vercel API veya Supabase Register kodu eklenecek.
         });
     </script>
 </body>

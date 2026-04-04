@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelişmiş Çarkıfelek</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2c3e50;
+            font-family: sans-serif;
+            color: white;
+        }
+        .wheel-outer {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+        .arrow {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #e74c3c;
+            z-index: 10;
+        }
+        canvas {
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+        button {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+        button:disabled { background-color: #7f8c8d; }
+        #result {
+            margin-top: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f1c40f;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Şansını Dene!</h1>
+    
+    <div class="wheel-outer">
+        <div class="arrow"></div>
+        <canvas id="wheel" width="400" height="400"></canvas>
+    </div>
+
+    <button id="spinBtn">Çarkı Çevir</button>
+    <div id="result"></div>
+
+    <script>
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const resultDiv = document.getElementById('result');
+
+        const sectors = ["Hediye 1", "Tekrar Dene", "İndirim %10", "Pas", "Hediye 2", "İndirim %50", "Ücretsiz Kargo", "Büyük Ödül"];
+        const colors = ["#f1c40f", "#e67e22", "#e74c3c", "#9b59b6", "#3498db", "#2ecc71", "#1abc9c", "#34495e"];
+        
+        const numSectors = sectors.length;
+        const arc = (2 * Math.PI) / numSectors;
+        const sectorDeg = 360 / numSectors;
+        let currentRotation = 0;
+
+        function drawWheel() {
+            for (let i = 0; i < numSectors; i++) {
+                const angle = i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = colors[i];
+                ctx.moveTo(200, 200);
+                ctx.arc(200, 200, 200, angle, angle + arc);
+                ctx.lineTo(200, 200);
+                ctx.fill();
+
+                ctx.save();
+                ctx.translate(200, 200);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 16px Arial";
+                ctx.fillText(sectors[i], 180, 10);
+                ctx.restore();
+            }
+        }
+
+        drawWheel();
+
+        spinBtn.addEventListener('click', () => {
+            spinBtn.disabled = true;
+            resultDiv.innerText = "Dönüyor...";
+
+            // 1. Kazananı Seç (Büyük Ödül hariç)
+            let availableIndices = sectors.map((s, i) => s !== "Büyük Ödül" ? i : null).filter(i => i !== null);
+            const winningIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            
+            // 2. Tam Ortaya Getirme Hesabı
+            // Dilimin tam ortasına gelmesi için sectorDeg / 2 ekliyoruz.
+            // Ayrıca hafif bir rastgelelik (-10 ile +10 derece arası) ekleyerek doğal görünmesini sağlıyoruz.
+            const randomOffset = (Math.random() * (sectorDeg * 0.6)) - (sectorDeg * 0.3); 
+            const targetRotation = 360 - (winningIndex * sectorDeg) - 90 - (sectorDeg / 2) + randomOffset;
+            
+            // 3. Dönüşü Başlat
+            const extraTours = 360 * 5; 
+            const finalRotation = currentRotation + extraTours + (targetRotation - (currentRotation % 360) + 360) % 360;
+
+            currentRotation = finalRotation;
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                spinBtn.disabled = false;
+                resultDiv.innerText = "Kazandın: " + sectors[winningIndex];
+            }, 4000);
+        });
+    </script>
+</body>
+</html>

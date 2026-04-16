@@ -135,10 +135,10 @@
             <div class="lg:w-1/2">
                 <span class="bg-yellow-100 text-yellow-800 font-bold px-4 py-1.5 rounded-full text-sm mb-4 inline-block"><i class="fas fa-star text-yellow-500 mr-1"></i> Yeni Özellik</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold mb-5 text-dark leading-tight">Ares Avantajlar Dünyasına Hoş Geldiniz!</h2>
-                <p class="text-lg text-gray-600 mb-6">Sisteme üye olun, acentemize özel görevleri tamamlayın ve çarkıfelek hakları kazanın. 1000 TL'ye varan hediye çekleri ve sürpriz büyük ödüller sizi bekliyor.</p>
+                <p class="text-lg text-gray-600 mb-6">Sisteme üye olun, acentemize özel görevleri tamamlayın ve çarkıfelek hakları kazanın. 1000 TL'ye varan A101 hediye çekleri ve sürpriz büyük ödüller sizi bekliyor.</p>
                 <ul class="space-y-3 mb-8 text-gray-600 font-medium">
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Poliçe tanzim ettikçe çark hakkı kazanın</li>
-                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Anında kazanılan dijital hediye çekleri</li>
+                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Anında kazanılan dijital A101 hediye çekleri</li>
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Ödüllerim sekmesinden kolay takip</li>
                 </ul>
                 <button onclick="document.getElementById('campaignModal').classList.add('active')" class="bg-gradient-to-r from-accent to-yellow-500 text-dark font-extrabold text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">
@@ -246,14 +246,14 @@
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm font-medium">
-                <p>&copy; 2024 Ares Sigorta. Tüm hakları saklıdır.</p>
+                <p>© 2024 Ares Sigorta. Tüm hakları saklıdır.</p>
             </div>
         </div>
     </footer>
 
     <div id="campaignModal" class="modal-overlay">
         <div class="modal-container">
-            <span class="close-btn" onclick="closeCampaignModal()">&times;</span>
+            <span class="close-btn" onclick="closeCampaignModal()">×</span>
             
             <div id="unauthCampaignView" class="block">
                 <div class="modal-header-kampanya">
@@ -262,7 +262,7 @@
                 <div class="p-8 text-center">
                     <div class="text-6xl mb-4 animate-bounce">🎁</div>
                     <h3 class="text-xl font-bold mb-2 text-gray-800">Kampanyaya Katılmak İçin Üye Olmalısınız</h3>
-                    <p class="text-gray-500 font-medium mb-8">Üyelerimize özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık hediye çekleri kazanabilirsiniz!</p>
+                    <p class="text-gray-500 font-medium mb-8">Üyelerimize özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık A101 hediye çekleri kazanabilirsiniz!</p>
                     <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3.5 rounded-xl font-bold w-full mb-6 hover:bg-secondary transition-all shadow-md">Hemen Giriş Yap / Kayıt Ol</button>
                     
                     <div class="border-t border-gray-100 pt-6 flex items-center justify-center">
@@ -301,7 +301,7 @@
                 </div>
 
                 <div id="odulSection" class="p-6 md:p-8 hidden max-h-[500px] overflow-y-auto bg-gray-50">
-                    <p class="text-sm text-gray-500 font-medium mb-6">Çarkıfelekten kazandığınız tüm ödüller ve dijital hediye kodları bu alanda listelenir.</p>
+                    <p class="text-sm text-gray-500 font-medium mb-6">Çarkıfelekten kazandığınız tüm A101 Hediye Çekleri bu alanda listelenir.</p>
                     <div id="prizesContainer" class="space-y-4"></div>
                 </div>
             </div>
@@ -310,7 +310,7 @@
 
     <div id="authModal" class="modal-overlay">
         <div class="modal-container max-w-md w-full">
-            <span class="close-btn close-btn-dark" onclick="closeAuthModal()">&times;</span>
+            <span class="close-btn close-btn-dark" onclick="closeAuthModal()">×</span>
             <div class="p-8">
                 <div class="flex border-b border-gray-200 mb-8 transition-all duration-300">
                     <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-3 font-bold text-primary border-b-2 border-primary outline-none">Giriş Yap</button>
@@ -337,7 +337,7 @@
 
     <div id="profileModal" class="modal-overlay">
         <div class="modal-container max-w-md w-full">
-            <span class="close-btn close-btn-dark" onclick="closeProfileModal()">&times;</span>
+            <span class="close-btn close-btn-dark" onclick="closeProfileModal()">×</span>
             <div class="p-8">
                 <h2 class="text-2xl font-bold mb-6 text-primary border-b border-gray-100 pb-4">Profil Bilgilerim</h2>
                 <form id="profileForm">
@@ -496,13 +496,16 @@
                         <div class="text-4xl">🎁</div>
                         <div><h4 class="font-extrabold text-gray-800 text-lg">${p.odul_adi}</h4><p class="text-xs text-gray-500 font-medium">Kazanma Tarihi: ${date}</p></div>
                     </div>
-                    ${isDelivered && p.teslim_edilen_kod ? `<div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm text-center"><p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Hediye Kodunuz</p><p class="font-black text-xl text-primary tracking-widest">${p.teslim_edilen_kod}</p></div>` : `<p class="text-sm text-gray-600 font-medium mt-3 border-t border-yellow-200/50 pt-3">Tebrikler! Yöneticimiz en kısa sürede ödül kodunuzu tanımlayacaktır.</p>`}
+                    ${isDelivered && p.teslim_edilen_kod ? `<div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm text-center"><p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">A101 Hediye Kodunuz</p><p class="font-black text-xl text-primary tracking-widest">${p.teslim_edilen_kod}</p></div>` : `<p class="text-sm text-gray-600 font-medium mt-3 border-t border-yellow-200/50 pt-3">Tebrikler! Yöneticimiz en kısa sürede A101 ödül kodunuzu tanımlayacaktır.</p>`}
                 </div>`;
             }).join('');
         }
 
+        // --- HİLELİ YÜKSEK ÇÖZÜNÜRLÜKLÜ ÇARKIFELEK (A101 Güncellemesi) ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["250 TL Çek", "500 TL Çek", "Tekrar Dene", "800 TL Çek", "1000 TL Çek", "Iphone 15"];
+        
+        // Yeni A101 Dilimleri (6 adet)
+        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; 
         const sectorDeg = 360 / numSectors; 
@@ -515,7 +518,7 @@
                 const angle = i * arc;
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(center, center); ctx.arc(center, center, center, angle, angle + arc); ctx.fill();
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 22px Inter, sans-serif"; ctx.fillText(sectors[i], center - 30, 8); ctx.restore();
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 20px Inter, sans-serif"; ctx.fillText(sectors[i], center - 30, 8); ctx.restore();
             }
         }
         drawWheel();
@@ -529,13 +532,14 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
+            // Gizli Olasılık Algoritması
             const probabilities = [
-                { index: 0, prob: 25 }, 
-                { index: 1, prob: 20 }, 
-                { index: 2, prob: 30 }, 
-                { index: 3, prob: 15 }, 
-                { index: 4, prob: 10 }, 
-                { index: 5, prob: 0  }  
+                { index: 0, prob: 25 }, // 100 TL A101 (%25)
+                { index: 1, prob: 20 }, // 250 TL A101 (%20)
+                { index: 2, prob: 30 }, // Tekrar Dene (%30)
+                { index: 3, prob: 15 }, // 500 TL A101 (%15)
+                { index: 4, prob: 10 }, // 1000 TL A101 (%10)
+                { index: 5, prob: 0  }  // Iphone 15 (%0)
             ];
 
             let rand = Math.random() * 100;
@@ -556,7 +560,12 @@
             canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(async () => {
-                btn.disabled = false; const wonPrize = sectors[winningIndex];
+                btn.disabled = false; 
+                let wonPrize = sectors[winningIndex];
+                
+                // Gösterimde A101 Çeki olarak belirt
+                if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
+
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
                 
                 if(wonPrize !== "Tekrar Dene") {
@@ -626,7 +635,6 @@
         function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
         document.getElementById('profileForm').addEventListener('submit', async (e) => { e.preventDefault(); const s = e.target.querySelector('button[type="submit"]'); s.disabled = true; s.innerText = "Kaydediliyor..."; const n = document.getElementById('profileName').value; await supabaseClient.auth.updateUser({ data: { full_name: n } }); userProfileData.full_name = n; document.getElementById('profileResult').innerHTML = '<span class="text-green-600">✅ Güncellendi!</span>'; setTimeout(() => { closeProfileModal(); s.disabled = false; s.innerText = "Değişiklikleri Kaydet"; }, 1000); });
 
-        // --- TAM VE EKSİKSİZ SİGORTA FORMU ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('.insurance-card').forEach(card => {
                 card.classList.remove('active', 'border-primary', 'bg-blue-50');

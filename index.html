@@ -75,9 +75,7 @@
             </div>
             <div class="flex items-center space-x-3">
                 <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-medium">Giriş Yap</button>
-                
                 <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-medium hidden">Profilim</button>
-                
                 <button id="userNavBtn" onclick="handleLogout()" class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-5 py-2 rounded-lg font-medium hidden">Çıkış Yap</button>
                 <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 rounded-lg font-medium">Hızlı Teklif Al</button>
             </div>
@@ -231,22 +229,23 @@
         <div class="modal-container max-w-md w-full">
             <span class="close-btn close-btn-dark" onclick="closeAuthModal()">&times;</span>
             <div class="p-8">
-                <div class="flex border-b border-gray-200 mb-6">
-                    <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-3 font-bold text-primary border-b-2 border-primary">Giriş Yap</button>
-                    <button id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-3 font-semibold text-gray-500">Kayıt Ol</button>
+                <div class="flex border-b border-gray-200 mb-6 transition-all duration-300">
+                    <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-3 font-bold text-primary border-b-2 border-primary transition-all duration-300">Giriş Yap</button>
+                    <button id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-3 font-semibold text-gray-500 border-b-2 border-transparent transition-all duration-300">Kayıt Ol</button>
                 </div>
-                <form id="loginForm" class="block">
+                
+                <form id="loginForm" class="block animate-fade-in">
                     <div class="mb-4"><label class="form-label">E-posta</label><input type="email" id="loginEmail" class="form-input bg-gray-50" required></div>
                     <div class="mb-6"><label class="form-label">Şifre</label><input type="password" id="loginPassword" class="form-input bg-gray-50" required></div>
-                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold">Giriş Yap</button>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold transition-all hover:bg-secondary">Giriş Yap</button>
                 </form>
-                <form id="registerForm" class="hidden">
+                
+                <form id="registerForm" class="hidden animate-fade-in">
                     <div class="mb-4"><label class="form-label">Ad Soyad</label><input type="text" id="regName" class="form-input bg-gray-50" required></div>
                     <div class="mb-4"><label class="form-label">E-posta</label><input type="email" id="regEmail" class="form-input bg-gray-50" required></div>
                     <div class="mb-6"><label class="form-label">Şifre</label><input type="password" id="regPassword" class="form-input bg-gray-50" required minlength="6"></div>
-                    <button type="submit" class="w-full bg-secondary text-white py-3 rounded-lg font-bold">Kayıt Ol</button>
+                    <button type="submit" class="w-full bg-secondary text-white py-3 rounded-lg font-bold transition-all hover:bg-primary">Kayıt Ol</button>
                 </form>
-                <div id="authResult" class="mt-4 text-center text-sm"></div>
             </div>
         </div>
     </div>
@@ -349,9 +348,10 @@
         }
         function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
 
-        document.getElementById('profileForm').onsubmit = async (e) => {
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
             submitBtn.disabled = true; submitBtn.innerText = "Kaydediliyor...";
             
             const newName = document.getElementById('profileName').value;
@@ -363,8 +363,8 @@
                 userProfileData.full_name = newName;
                 closeProfileModal();
             }
-            submitBtn.disabled = false; submitBtn.innerText = "Bilgileri Kaydet";
-        };
+            submitBtn.disabled = false; submitBtn.innerText = originalText;
+        });
 
         // --- Görev İşlemleri ---
         async function goreviOnayaGonder(gorevAdi, btnElement) {
@@ -447,7 +447,7 @@
             }, 4000);
         });
 
-        // Modal Kapatma & "Bir Daha Gösterme" Mantığı
+        // Modal Kapatma & Animasyonlu Sekme Geçişi
         function openAuthModal() { document.getElementById('authModal').classList.add('active'); }
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
         function closeCampaignModal() { 
@@ -458,20 +458,59 @@
         }
         
         function switchAuthTab(t) {
-            if(t==='login'){ document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('registerForm').classList.add('hidden'); }
-            else { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+
+            if(t === 'login'){ 
+                loginForm.classList.remove('hidden'); 
+                registerForm.classList.add('hidden'); 
+                tabLogin.classList.add('text-primary', 'border-primary', 'font-bold');
+                tabLogin.classList.remove('text-gray-500', 'border-transparent', 'font-semibold');
+                tabRegister.classList.remove('text-primary', 'border-primary', 'font-bold');
+                tabRegister.classList.add('text-gray-500', 'border-transparent', 'font-semibold');
+            } else { 
+                loginForm.classList.add('hidden'); 
+                registerForm.classList.remove('hidden'); 
+                tabRegister.classList.add('text-primary', 'border-primary', 'font-bold');
+                tabRegister.classList.remove('text-gray-500', 'border-transparent', 'font-semibold');
+                tabLogin.classList.remove('text-primary', 'border-primary', 'font-bold');
+                tabLogin.classList.add('text-gray-500', 'border-transparent', 'font-semibold');
+            }
         }
 
-        document.getElementById('loginForm').onsubmit = async (e) => {
+        // Giriş ve Kayıt İşlemleri (Animasyonlu ve Güvenli)
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const { error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value });
-            if(error) alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edip, e-postanızı doğruladığınızdan emin olun."); 
-            else { closeAuthModal(); alert("Giriş yapıldı!"); }
-        };
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Bekleyiniz...";
 
-        // Kayıt olurken Vercel adresine yönlendirme sağlandı
-        document.getElementById('registerForm').onsubmit = async (e) => {
+            const { error } = await supabaseClient.auth.signInWithPassword({ 
+                email: document.getElementById('loginEmail').value, 
+                password: document.getElementById('loginPassword').value 
+            });
+            
+            if(error) {
+                alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edip, e-postanızı doğruladığınızdan emin olun."); 
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+            } else { 
+                closeAuthModal(); 
+                alert("Başarıyla giriş yapıldı!"); 
+                location.reload(); 
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Hesap Oluşturuluyor...";
+
             const { error } = await supabaseClient.auth.signUp({ 
                 email: document.getElementById('regEmail').value, 
                 password: document.getElementById('regPassword').value, 
@@ -480,12 +519,19 @@
                     emailRedirectTo: window.location.origin
                 } 
             });
-            if(error) alert("Hata: " + error.message); 
-            else {
+            
+            if(error) {
+                alert("Hata: " + error.message); 
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+            } else {
                 closeAuthModal();
                 alert("Kayıt başarılı! Lütfen e-postanıza giderek hesabınızı doğrulayın.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+                document.getElementById('registerForm').reset();
             }
-        };
+        });
 
         async function handleLogout() { await supabaseClient.auth.signOut(); location.reload(); }
 
@@ -597,10 +643,8 @@
             `;
             formDiv.innerHTML = formHTML;
 
-            // Form Oluştuktan sonra telefon maskelemesi
             IMask(document.getElementById('cep_telefonu'), { mask: '0 (500) 000 00 00' });
 
-            // Form Gönderim İşlemi
             formDiv.addEventListener('submit', async function(e) {
                 e.preventDefault(); 
                 const submitButton = formDiv.querySelector('button[type="submit"]');

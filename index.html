@@ -501,7 +501,9 @@
             } else { 
                 closeAuthModal(); 
                 alert("Başarıyla giriş yapıldı!"); 
-                location.reload(); 
+                submitBtn.disabled = false;
+                submitBtn.innerText = originalText;
+                document.getElementById('loginForm').reset();
             }
         });
 
@@ -534,7 +536,7 @@
             }
         });
 
-        async function handleLogout() { await supabaseClient.auth.signOut(); location.reload(); }
+        async function handleLogout() { await supabaseClient.auth.signOut(); }
 
         // --- ORİJİNAL FORM MANTIĞI EKSİKSİZ ---
         function sigortaTuruSec(tur) {

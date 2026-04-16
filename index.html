@@ -382,7 +382,8 @@
                 btnElement.className = "mt-3 w-full bg-yellow-500 text-white font-bold py-2 rounded cursor-not-allowed";
                 alert("Görev onaya gönderildi! Yönetici onayladığında çark hakkınız eklenecektir.");
             } else {
-                alert("Hata oluştu.");
+                console.error("Görev gönderim hatası:", error);
+                alert("Hata oluştu: " + (error.message || JSON.stringify(error)));
                 btnElement.disabled = false;
                 btnElement.innerText = "Görevi Tamamladım";
             }

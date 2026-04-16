@@ -293,41 +293,48 @@
             "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
         ];
 
-        // --- 1. ZORUNLU OTURUM KONTROLÜ (Hydration Sorunu Çözümü) ---
-        // Sayfa yüklendiğinde tarayıcı hafızasını saniyesinde okuyup UI'yi günceller
-        async function initSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                currentUser = session.user;
-                userProfileData = currentUser.user_metadata;
-                await fetchUserRights();
-            } else {
-                currentUser = null;
-                userProfileData = null;
-                spinRights = 0;
+        // --- ZORUNLU VE GÜÇLÜ OTURUM KONTROLÜ (Senkronizasyon Sorunu Çözümü) ---
+        async function checkSession() {
+            try {
+                // Tarayıcı hafızasını zorla okur
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                
+                if (session) {
+                    currentUser = session.user;
+                    userProfileData = currentUser.user_metadata;
+                    await fetchUserRights();
+                } else {
+                    currentUser = null;
+                    userProfileData = null;
+                    spinRights = 0;
+                }
+                updateUIBasedOnAuth();
+            } catch (err) {
+                console.error("Oturum kontrol hatası:", err);
             }
-            updateUIBasedOnAuth();
+        }
+
+        // Sayfa her yüklendiğinde ve sekme her aktif olduğunda oturumu kontrol et
+        window.addEventListener('DOMContentLoaded', () => {
+            checkSession();
             
-            // Otomatik kampanya modalını kontrol et
+            // Otomatik kampanya modalı
             setTimeout(() => {
                 const dontShow = localStorage.getItem('hideCampaignModal');
                 if(!dontShow && !currentUser) {
                     document.getElementById('campaignModal').classList.add('active');
                 }
             }, 3000);
-        }
+        });
 
-        // Sayfa DOM'u yüklenince hemen oturumu kontrol et
-        window.addEventListener('DOMContentLoaded', initSession);
-
-        // Arka plandaki diğer giriş/çıkış işlemlerini dinler
-        supabaseClient.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'INITIAL_SESSION') return; // InitSession zaten halletti
+        // Arka plan değişikliklerini (Giriş/Çıkış) anında yakalar
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'INITIAL_SESSION') return; // DOMContentLoaded zaten yapıyor
             
             if (session) {
                 currentUser = session.user;
                 userProfileData = currentUser.user_metadata;
-                await fetchUserRights();
+                fetchUserRights();
             } else {
                 currentUser = null;
                 userProfileData = null;
@@ -349,19 +356,27 @@
         }
 
         function updateUIBasedOnAuth() {
+            const authNavBtn = document.getElementById('authNavBtn');
+            const profileNavBtn = document.getElementById('profileNavBtn');
+            const userNavBtn = document.getElementById('userNavBtn');
+            const unauthCampaignView = document.getElementById('unauthCampaignView');
+            const authCampaignView = document.getElementById('authCampaignView');
+
             if(currentUser) {
-                document.getElementById('authNavBtn').classList.add('hidden');
-                document.getElementById('profileNavBtn').classList.remove('hidden');
-                document.getElementById('userNavBtn').classList.remove('hidden');
-                document.getElementById('unauthCampaignView').classList.replace('block', 'hidden');
-                document.getElementById('authCampaignView').classList.replace('hidden', 'block');
+                // GİRİŞ YAPILMIŞ DURUM
+                if(authNavBtn) authNavBtn.classList.add('hidden');
+                if(profileNavBtn) profileNavBtn.classList.remove('hidden');
+                if(userNavBtn) userNavBtn.classList.remove('hidden');
+                if(unauthCampaignView) unauthCampaignView.classList.replace('block', 'hidden');
+                if(authCampaignView) authCampaignView.classList.replace('hidden', 'block');
                 renderTasks();
             } else {
-                document.getElementById('authNavBtn').classList.remove('hidden');
-                document.getElementById('profileNavBtn').classList.add('hidden');
-                document.getElementById('userNavBtn').classList.add('hidden');
-                document.getElementById('unauthCampaignView').classList.replace('hidden', 'block');
-                document.getElementById('authCampaignView').classList.replace('block', 'hidden');
+                // ÇIKIŞ YAPILMIŞ DURUM
+                if(authNavBtn) authNavBtn.classList.remove('hidden');
+                if(profileNavBtn) profileNavBtn.classList.add('hidden');
+                if(userNavBtn) userNavBtn.classList.add('hidden');
+                if(unauthCampaignView) unauthCampaignView.classList.replace('hidden', 'block');
+                if(authCampaignView) authCampaignView.classList.replace('block', 'hidden');
             }
         }
 
@@ -516,7 +531,7 @@
             }
         }
 
-        // --- GÜVENLİ VE HIZLI GİRİŞ İŞLEMİ ---
+        // --- HAYALET OTURUMU TEMİZLEYEN GÜVENLİ GİRİŞ İŞLEMİ ---
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -527,12 +542,11 @@
             submitBtn.innerText = "Giriş Yapılıyor...";
             authResultDiv.innerHTML = '';
 
-            // Hayalet oturum kilitlenmesini çözmek için güvenlik önlemi
-            if (currentUser) {
-                await supabaseClient.auth.signOut();
-            }
-
             try {
+                // EĞER ARKA PLANDA SIKIŞMIŞ BİR OTURUM VARSA, ÖNCE ONU SİL (DÜĞÜMÜ ÇÖZ)
+                await supabaseClient.auth.signOut();
+                
+                // SONRA TERTEMİZ YENİ BİR GİRİŞ YAP
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ 
                     email: document.getElementById('loginEmail').value, 
                     password: document.getElementById('loginPassword').value 
@@ -574,6 +588,9 @@
             authResultDiv.innerHTML = '';
 
             try {
+                // Kayıt olurken hayalet oturumları engelle
+                await supabaseClient.auth.signOut();
+
                 const { data, error } = await supabaseClient.auth.signUp({ 
                     email: document.getElementById('regEmail').value, 
                     password: document.getElementById('regPassword').value, 
@@ -605,8 +622,9 @@
         // ÇIKIŞ İŞLEMİ
         async function handleLogout() { 
             await supabaseClient.auth.signOut(); 
-            // Çıkışta temiz bir sayfa için reload faydalıdır
-            location.reload(); 
+            currentUser = null;
+            userProfileData = null;
+            updateUIBasedOnAuth();
         }
 
         // --- ORİJİNAL FORM MANTIĞI EKSİKSİZ ---

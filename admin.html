@@ -2,25 +2,25 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Ares Sigorta - Admin Panel</title>
+    <title>Yönetim Paneli</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-100 p-8">
-    <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-xl p-6">
-        <h1 class="text-3xl font-bold mb-6 text-primary">Gelen Teklif Talepleri</h1>
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6">
+        <h1 class="text-3xl font-bold mb-6 text-blue-600">Görev Onay Paneli</h1>
+        
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="p-3">Tarih</th>
-                        <th class="p-3">Ad Soyad</th>
-                        <th class="p-3">Telefon</th>
-                        <th class="p-3">Sigorta Türü</th>
-                        <th class="p-3">Detaylar</th>
+                        <th class="p-3">Kullanıcı / E-posta</th>
+                        <th class="p-3">Görev Adı</th>
+                        <th class="p-3">Durum</th>
+                        <th class="p-3">İşlem</th>
                     </tr>
                 </thead>
-                <tbody id="adminTableBody">
+                <tbody id="onayTablosu">
                     </tbody>
             </table>
         </div>
@@ -28,22 +28,50 @@
 
     <script>
         const supabase = supabase.createClient('https://kruafohztdgemqyaamyk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM');
-        async function fetchLeads() {
-            const { data, error } = await supabase.from('teklifler').select('*').order('olusturulma_tarihi', { ascending: false });
+        
+        async function talepleriGetir() {
+            // Sadece bekleyen talepleri getirir
+            const { data, error } = await supabase.from('gorev_talepleri').select('*').eq('durum', 'Bekliyor').order('olusturulma_tarihi', { ascending: false });
+            
             if(data) {
-                const body = document.getElementById('adminTableBody');
-                body.innerHTML = data.map(item => `
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-3 text-sm">${new Date(item.olusturulma_tarihi).toLocaleString('tr-TR')}</td>
-                        <td class="p-3 font-bold">${item.ad_soyad}</td>
-                        <td class="p-3">${item.telefon}</td>
-                        <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">${item.sigorta_turu}</span></td>
-                        <td class="p-3 text-xs">${JSON.stringify(item.detaylar)}</td>
+                const tbody = document.getElementById('onayTablosu');
+                tbody.innerHTML = data.map(talep => `
+                    <tr class="border-b hover:bg-gray-50" id="talep-${talep.id}">
+                        <td class="p-3"><b>${talep.ad_soyad}</b><br><span class="text-sm text-gray-500">${talep.kullanici_email}</span></td>
+                        <td class="p-3 font-semibold text-gray-700">${talep.gorev_adi}</td>
+                        <td class="p-3"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">${talep.durum}</span></td>
+                        <td class="p-3">
+                            <button onclick="goreviOnayla(${talep.id}, '${talep.kullanici_email}')" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2">✓ Onayla</button>
+                            <button onclick="goreviReddet(${talep.id})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">X Reddet</button>
+                        </td>
                     </tr>
                 `).join('');
             }
         }
-        fetchLeads();
+
+        async function goreviOnayla(talepId, email) {
+            // 1. Talebin durumunu onaylandı yap
+            await supabase.from('gorev_talepleri').update({ durum: 'Onaylandı' }).eq('id', talepId);
+            
+            // 2. Kullanıcının mevcut çark hakkını bul
+            const { data: hakData } = await supabase.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
+            const mevcutHak = hakData ? hakData.kalan_hak : 0;
+            
+            // 3. Hakkı +1 artır ve veritabanına yaz
+            await supabase.from('kullanici_haklari').upsert({ email: email, kalan_hak: mevcutHak + 1 });
+            
+            // Satırı ekrandan sil
+            document.getElementById('talep-' + talepId).remove();
+            alert("Görev onaylandı! Kullanıcıya 1 Çark hakkı eklendi.");
+        }
+
+        async function goreviReddet(talepId) {
+            await supabase.from('gorev_talepleri').update({ durum: 'Reddedildi' }).eq('id', talepId);
+            document.getElementById('talep-' + talepId).remove();
+            alert("Görev reddedildi.");
+        }
+
+        talepleriGetir();
     </script>
 </body>
 </html>

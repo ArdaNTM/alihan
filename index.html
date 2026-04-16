@@ -76,9 +76,7 @@
             </div>
             <div class="flex items-center space-x-3">
                 <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border-2 border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-bold transition">Giriş Yap</button>
-                
                 <button id="adminNavBtn" onclick="window.location.href='/admin.html'" class="bg-red-600 text-white hover:bg-red-700 px-5 py-2 rounded-lg font-bold transition shadow-md hidden"><i class="fas fa-user-shield mr-1"></i> Admin Paneli</button>
-                
                 <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
                 <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-5 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
                 <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md hidden md:block">Hızlı Teklif Al</button>
@@ -193,6 +191,7 @@
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Groupama</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Sompo Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Mapfre</div></div>
+                    
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Anadolu Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Axa Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Allianz</div></div>
@@ -352,8 +351,8 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // --- 1. ADIM: KENDİ ADMİN E-POSTANI BURAYA YAZ ---
-        const ADMIN_EMAIL = 'admin@aressigorta.com'; // Kendi mailinle değiştir!
+        // --- ADMİN E-POSTA ---
+        const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
         let currentUser = null;
         let userProfileData = null;
@@ -422,7 +421,6 @@
                 if(elements.auth) elements.auth.classList.add('hidden');
                 if(elements.user) elements.user.classList.remove('hidden');
                 
-                // Admin kontrolü: Sadece admin ise butonu göster, değilse profil sekmesini göster
                 if(currentUser.email === ADMIN_EMAIL) {
                     if(elements.adminBtn) elements.adminBtn.classList.remove('hidden');
                     if(elements.profile) elements.profile.classList.add('hidden'); 
@@ -497,39 +495,76 @@
             }).join('');
         }
 
-        // --- YÜKSEK ÇÖZÜNÜRLÜKLÜ ÇARKIFELEK ---
+        // --- HİLELİ YÜKSEK ÇÖZÜNÜRLÜKLÜ ÇARKIFELEK ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["100 TL Çek", "Pas", "250 TL Çek", "Tekrar Dene", "500 TL Çek", "800 TL Çek", "1000 TL Çek", "Iphone 15"];
-        const colors = ["#f1c40f", "#e67e22", "#e74c3c", "#9b59b6", "#3498db", "#2ecc71", "#1abc9c", "#34495e"];
-        const arc = (2 * Math.PI) / sectors.length; let currentRotation = 0;
+        // Yeni 6 Dilim
+        const sectors = ["250 TL Çek", "500 TL Çek", "Tekrar Dene", "800 TL Çek", "1000 TL Çek", "Iphone 15"];
+        const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
+        const numSectors = sectors.length; // 6
+        const sectorDeg = 360 / numSectors; // 60 derece
+        const arc = (2 * Math.PI) / numSectors; 
+        let currentRotation = 0;
 
         function drawWheel() {
             const center = 200; 
-            for (let i = 0; i < sectors.length; i++) {
+            for (let i = 0; i < numSectors; i++) {
                 const angle = i * arc;
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(center, center); ctx.arc(center, center, center, angle, angle + arc); ctx.fill();
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 20px Inter, sans-serif"; ctx.fillText(sectors[i], center - 25, 7); ctx.restore();
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 22px Inter, sans-serif"; ctx.fillText(sectors[i], center - 30, 8); ctx.restore();
             }
         }
         drawWheel();
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
             if (spinRights <= 0) return alert("Çarkı çevirmek için Görevlerim sekmesinden görev tamamlayıp hak kazanmalısınız!");
+            
             const btn = document.getElementById('spinBtn'); btn.disabled = true; document.getElementById('wheelResult').innerText = "Şansın Dönüyor...";
+            
+            // Veritabanından hakkı düşür
             const yeniHak = spinRights - 1;
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
-            let rand = Math.random() * 100, winningIndex = (rand < 1) ? 7 : Math.floor(Math.random() * 7);
-            let finalRotation = currentRotation + 1800 + (360 - (winningIndex * (360/sectors.length)) - 90 - ((360/sectors.length) / 2));
-            currentRotation = finalRotation; canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            // --- GİZLİ ORAN ALGORİTMASI ---
+            const probabilities = [
+                { index: 0, prob: 25 }, // 250 TL (%25)
+                { index: 1, prob: 20 }, // 500 TL (%20)
+                { index: 2, prob: 30 }, // Tekrar Dene (%30)
+                { index: 3, prob: 15 }, // 800 TL (%15)
+                { index: 4, prob: 10 }, // 1000 TL (%10)
+                { index: 5, prob: 0  }  // Iphone 15 (%0 - Asla çıkmaz)
+            ];
+
+            let rand = Math.random() * 100;
+            let sum = 0;
+            let winningIndex = 0;
+            for(let p of probabilities) {
+                sum += p.prob;
+                if(rand <= sum) { winningIndex = p.index; break; }
+            }
+
+            // DOĞRU DÖNDÜRME HESAPLAMASI
+            // Canvas üst orta noktası 270 (-90) derecedir.
+            const targetRotation = 270 - (winningIndex * sectorDeg + sectorDeg / 2);
+            const currentMod = currentRotation % 360;
+            let rotationNeeded = targetRotation - currentMod;
+            if (rotationNeeded < 0) rotationNeeded += 360;
+            
+            // Mevcut açıya + 10 tam tur (3600 derece) + eksik olan açıyı ekle
+            const finalRotation = currentRotation + 3600 + rotationNeeded;
+            currentRotation = finalRotation; 
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(async () => {
                 btn.disabled = false; const wonPrize = sectors[winningIndex];
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
-                if(wonPrize !== "Pas" && wonPrize !== "Tekrar Dene") {
+                
+                if(wonPrize !== "Tekrar Dene") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);
                     alert(`Tebrikler! ${wonPrize} kazandınız. Ödülünüz "Ödüllerim" sekmesine eklendi.`); renderPrizes(); 
+                } else {
+                    alert("Tüh, Tekrar Dene geldi! Görevleri tamamlayarak yeni hak kazanabilirsiniz.");
                 }
             }, 4000);
         });
@@ -572,7 +607,6 @@
                 
                 setTimeout(() => { 
                     closeAuthModal(); document.getElementById('loginForm').reset(); s.disabled = false; s.innerText = o; document.getElementById('authResult').innerHTML = ''; 
-                    // Giren kişi admin ise direkt yönlendir
                     if (mail === ADMIN_EMAIL) window.location.href = '/admin.html';
                 }, 1000);
             } catch (error) { document.getElementById('authResult').innerHTML = `<span class="text-red-500 font-semibold">❌ Giriş başarısız.</span>`; s.disabled = false; s.innerText = o; }

@@ -188,7 +188,7 @@
                     <div class="text-6xl mb-4">🎁</div>
                     <h3 class="text-xl font-bold mb-2">Kampanyaya Katılmak İçin Üye Olmalısınız</h3>
                     <p class="text-gray-600 mb-6">Ares Sigorta üyelerine özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık çekler kazanabilirsiniz!</p>
-                    <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3 rounded-lg font-bold w-full mb-4">Hemen Giriş Yap / Kayıt Ol</button>
+                    <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3 rounded-lg font-bold w-full mb-4 hover:bg-secondary transition-all">Hemen Giriş Yap / Kayıt Ol</button>
                     
                     <div class="border-t pt-4 mt-2 flex items-center justify-center">
                         <input type="checkbox" id="dontShowAgain" class="mr-2 w-4 h-4 cursor-pointer">
@@ -243,9 +243,11 @@
                 <form id="registerForm" class="hidden animate-fade-in">
                     <div class="mb-4"><label class="form-label">Ad Soyad</label><input type="text" id="regName" class="form-input bg-gray-50" required></div>
                     <div class="mb-4"><label class="form-label">E-posta</label><input type="email" id="regEmail" class="form-input bg-gray-50" required></div>
-                    <div class="mb-6"><label class="form-label">Şifre</label><input type="password" id="regPassword" class="form-input bg-gray-50" required minlength="6"></div>
+                    <div class="mb-6"><label class="form-label">Şifre (En az 6 karakter)</label><input type="password" id="regPassword" class="form-input bg-gray-50" required minlength="6"></div>
                     <button type="submit" class="w-full bg-secondary text-white py-3 rounded-lg font-bold transition-all hover:bg-primary">Kayıt Ol</button>
                 </form>
+                
+                <div id="authResult" class="mt-4 text-center text-sm"></div>
             </div>
         </div>
     </div>
@@ -265,6 +267,7 @@
                         <input type="text" id="profileName" class="form-input bg-gray-50" required>
                     </div>
                     <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-secondary transition">Bilgileri Kaydet</button>
+                    <div id="profileResult" class="mt-3 text-center text-sm font-semibold"></div>
                 </form>
             </div>
         </div>
@@ -300,11 +303,15 @@
             }, 3000);
         });
 
+        // Sayfa yüklenince veya giriş/çıkış yapılınca tetiklenir (Sayfa yenilemeye GEREK YOKTUR)
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
             currentUser = session?.user || null;
             if (currentUser) {
                 userProfileData = currentUser.user_metadata;
                 await fetchUserRights();
+            } else {
+                userProfileData = null;
+                spinRights = 0;
             }
             updateUIBasedOnAuth();
         });
@@ -321,6 +328,7 @@
             }
         }
 
+        // Kullanıcı giriş yaptıysa UI güncelleyen fonksiyon
         function updateUIBasedOnAuth() {
             if(currentUser) {
                 document.getElementById('authNavBtn').classList.add('hidden');
@@ -343,6 +351,7 @@
             if(currentUser) {
                 document.getElementById('profileEmail').value = currentUser.email;
                 document.getElementById('profileName').value = userProfileData?.full_name || '';
+                document.getElementById('profileResult').innerHTML = '';
                 document.getElementById('profileModal').classList.add('active');
             }
         }
@@ -351,17 +360,21 @@
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
+            const resultDiv = document.getElementById('profileResult');
             const originalText = submitBtn.innerText;
+            
             submitBtn.disabled = true; submitBtn.innerText = "Kaydediliyor...";
+            resultDiv.innerHTML = '';
             
             const newName = document.getElementById('profileName').value;
             const { data, error } = await supabaseClient.auth.updateUser({ data: { full_name: newName } });
             
-            if(error) alert("Hata: " + error.message);
-            else {
-                alert("Profil başarıyla güncellendi!");
+            if(error) {
+                resultDiv.innerHTML = `<span class="text-red-500">Hata: ${error.message}</span>`;
+            } else {
+                resultDiv.innerHTML = `<span class="text-green-600">✅ Profil başarıyla güncellendi!</span>`;
                 userProfileData.full_name = newName;
-                closeProfileModal();
+                setTimeout(closeProfileModal, 1500);
             }
             submitBtn.disabled = false; submitBtn.innerText = originalText;
         });
@@ -382,8 +395,7 @@
                 btnElement.className = "mt-3 w-full bg-yellow-500 text-white font-bold py-2 rounded cursor-not-allowed";
                 alert("Görev onaya gönderildi! Yönetici onayladığında çark hakkınız eklenecektir.");
             } else {
-                console.error("Görev gönderim hatası:", error);
-                alert("Hata oluştu: " + (error.message || JSON.stringify(error)));
+                alert("Sistemsel bir hata oluştu.");
                 btnElement.disabled = false;
                 btnElement.innerText = "Görevi Tamamladım";
             }
@@ -449,10 +461,13 @@
         });
 
         // Modal Kapatma & Animasyonlu Sekme Geçişi
-        function openAuthModal() { document.getElementById('authModal').classList.add('active'); }
+        function openAuthModal() { 
+            document.getElementById('authModal').classList.add('active'); 
+            document.getElementById('authResult').innerHTML = ''; // Hataları temizle
+        }
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
         function closeCampaignModal() { 
-            if(document.getElementById('dontShowAgain').checked) {
+            if(document.getElementById('dontShowAgain') && document.getElementById('dontShowAgain').checked) {
                 localStorage.setItem('hideCampaignModal', 'true');
             }
             document.getElementById('campaignModal').classList.remove('active'); 
@@ -463,6 +478,7 @@
             const registerForm = document.getElementById('registerForm');
             const tabLogin = document.getElementById('tabLogin');
             const tabRegister = document.getElementById('tabRegister');
+            document.getElementById('authResult').innerHTML = '';
 
             if(t === 'login'){ 
                 loginForm.classList.remove('hidden'); 
@@ -481,62 +497,93 @@
             }
         }
 
-        // Giriş ve Kayıt İşlemleri (Animasyonlu ve Güvenli)
+        // GÜVENLİ VE HIZLI GİRİŞ İŞLEMİ (Try-Catch Bloklu)
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
+            const authResultDiv = document.getElementById('authResult');
             const originalText = submitBtn.innerText;
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Bekleyiniz...";
-
-            const { error } = await supabaseClient.auth.signInWithPassword({ 
-                email: document.getElementById('loginEmail').value, 
-                password: document.getElementById('loginPassword').value 
-            });
             
-            if(error) {
-                alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edip, e-postanızı doğruladığınızdan emin olun."); 
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Giriş Yapılıyor...";
+            authResultDiv.innerHTML = '';
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+                    email: document.getElementById('loginEmail').value, 
+                    password: document.getElementById('loginPassword').value 
+                });
+                
+                if (error) throw error;
+                
+                // Başarılı Giriş
+                authResultDiv.innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı! Yönlendiriliyor...</span>';
+                
+                setTimeout(() => {
+                    closeAuthModal();
+                    document.getElementById('loginForm').reset();
+                    authResultDiv.innerHTML = '';
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                }, 1000);
+                
+            } catch (error) {
+                let errorMsg = "Giriş başarısız. Bilgilerinizi kontrol ediniz.";
+                if(error.message.includes('Email not confirmed')) errorMsg = "Lütfen e-postanıza gelen linke tıklayarak hesabınızı doğrulayın.";
+                if(error.message.includes('Invalid login credentials')) errorMsg = "E-posta veya şifreniz hatalı.";
+                
+                authResultDiv.innerHTML = `<span class="text-red-500 font-semibold">❌ ${errorMsg}</span>`;
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalText;
-            } else { 
-                closeAuthModal(); 
-                alert("Başarıyla giriş yapıldı!"); 
-                submitBtn.disabled = false;
-                submitBtn.innerText = originalText;
-                document.getElementById('loginForm').reset();
             }
         });
 
+        // GÜVENLİ KAYIT İŞLEMİ
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
+            const authResultDiv = document.getElementById('authResult');
             const originalText = submitBtn.innerText;
+            
             submitBtn.disabled = true;
             submitBtn.innerText = "Hesap Oluşturuluyor...";
+            authResultDiv.innerHTML = '';
 
-            const { error } = await supabaseClient.auth.signUp({ 
-                email: document.getElementById('regEmail').value, 
-                password: document.getElementById('regPassword').value, 
-                options: { 
-                    data: { full_name: document.getElementById('regName').value },
-                    emailRedirectTo: window.location.origin
-                } 
-            });
-            
-            if(error) {
-                alert("Hata: " + error.message); 
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({ 
+                    email: document.getElementById('regEmail').value, 
+                    password: document.getElementById('regPassword').value, 
+                    options: { 
+                        data: { full_name: document.getElementById('regName').value },
+                        emailRedirectTo: window.location.origin
+                    } 
+                });
+                
+                if (error) throw error;
+                
+                authResultDiv.innerHTML = '<span class="text-green-600 font-bold">✅ Kayıt başarılı! Lütfen e-postanıza gelen linki onaylayın.</span>';
+                setTimeout(() => {
+                    closeAuthModal();
+                    document.getElementById('registerForm').reset();
+                    authResultDiv.innerHTML = '';
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                    switchAuthTab('login'); // Onaydan sonra giriş ekranı hazır olsun
+                }, 3000);
+
+            } catch (error) {
+                authResultDiv.innerHTML = `<span class="text-red-500 font-semibold">❌ Hata: ${error.message}</span>`;
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalText;
-            } else {
-                closeAuthModal();
-                alert("Kayıt başarılı! Lütfen e-postanıza giderek hesabınızı doğrulayın.");
-                submitBtn.disabled = false;
-                submitBtn.innerText = originalText;
-                document.getElementById('registerForm').reset();
             }
         });
 
-        async function handleLogout() { await supabaseClient.auth.signOut(); }
+        // ÇIKIŞ İŞLEMİ
+        async function handleLogout() { 
+            await supabaseClient.auth.signOut(); 
+            // Çıkışta temiz bir sayfa için reload faydalıdır
+            location.reload(); 
+        }
 
         // --- ORİJİNAL FORM MANTIĞI EKSİKSİZ ---
         function sigortaTuruSec(tur) {

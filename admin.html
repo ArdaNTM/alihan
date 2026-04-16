@@ -40,16 +40,16 @@
     </div>
 
     <script>
-        // Supabase Bağlantısı (Senin anahtarların)
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // Sadece durumu "Bekliyor" olan talepleri getirir
+        // Çakışmayı önlemek için değişken adını supabaseClient olarak değiştirdik
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
         async function talepleriGetir() {
             const tbody = document.getElementById('onayTablosu');
             
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('gorev_talepleri')
                 .select('*')
                 .eq('durum', 'Bekliyor')
@@ -88,40 +88,30 @@
             }).join('');
         }
 
-        // Görevi Onaylama ve Çark Hakkı Verme Fonksiyonu
         async function goreviOnayla(talepId, email) {
             const btnDiv = event.target.closest('td');
             btnDiv.innerHTML = '<span class="text-green-600 font-bold"><i class="fas fa-spinner fa-spin"></i> İşleniyor...</span>';
 
-            // 1. Talebin durumunu "Onaylandı" yap (Listeden düşer)
-            await supabase.from('gorev_talepleri').update({ durum: 'Onaylandı' }).eq('id', talepId);
+            await supabaseClient.from('gorev_talepleri').update({ durum: 'Onaylandı' }).eq('id', talepId);
             
-            // 2. Kullanıcının mevcut çark hakkını bul
-            const { data: hakData } = await supabase.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
+            const { data: hakData } = await supabaseClient.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
             const mevcutHak = hakData ? hakData.kalan_hak : 0;
             
-            // 3. Hakkı +1 artır ve veritabanına yaz
-            await supabase.from('kullanici_haklari').upsert({ email: email, kalan_hak: mevcutHak + 1 });
+            await supabaseClient.from('kullanici_haklari').upsert({ email: email, kalan_hak: mevcutHak + 1 });
             
-            // Ekrandan o satırı gizle
             document.getElementById('talep-' + talepId).style.display = 'none';
-            
-            // Onay mesajı (İsteğe bağlı kapatabilirsin)
-            // alert("Görev başarıyla onaylandı! Üyeye 1 adet çark çevirme hakkı eklendi.");
         }
 
-        // Görevi Reddetme Fonksiyonu
         async function goreviReddet(talepId) {
             if(!confirm("Bu görevi reddetmek istediğinize emin misiniz?")) return;
             
             const btnDiv = event.target.closest('td');
             btnDiv.innerHTML = '<span class="text-red-600 font-bold"><i class="fas fa-spinner fa-spin"></i> Reddediliyor...</span>';
 
-            await supabase.from('gorev_talepleri').update({ durum: 'Reddedildi' }).eq('id', talepId);
+            await supabaseClient.from('gorev_talepleri').update({ durum: 'Reddedildi' }).eq('id', talepId);
             document.getElementById('talep-' + talepId).style.display = 'none';
         }
 
-        // Sayfa açıldığında talepleri yükle
         window.addEventListener('DOMContentLoaded', talepleriGetir);
     </script>
 </body>

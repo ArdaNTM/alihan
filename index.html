@@ -273,8 +273,6 @@
         </div>
     </div>
 
-    <div id="openCampaignFloatBtn" class="floating-campaign-btn" onclick="document.getElementById('campaignModal').classList.add('active')">🎁 Görevler & Çark</div>
-
     <script>
         // --- Supabase Ayarları ---
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
@@ -293,12 +291,10 @@
             "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
         ];
 
-        // --- ZORUNLU VE GÜÇLÜ OTURUM KONTROLÜ (Senkronizasyon Sorunu Çözümü) ---
+        // --- OTURUM KONTROLÜ ---
         async function checkSession() {
             try {
-                // Tarayıcı hafızasını zorla okur
                 const { data: { session }, error } = await supabaseClient.auth.getSession();
-                
                 if (session) {
                     currentUser = session.user;
                     userProfileData = currentUser.user_metadata;
@@ -314,11 +310,8 @@
             }
         }
 
-        // Sayfa her yüklendiğinde ve sekme her aktif olduğunda oturumu kontrol et
         window.addEventListener('DOMContentLoaded', () => {
             checkSession();
-            
-            // Otomatik kampanya modalı
             setTimeout(() => {
                 const dontShow = localStorage.getItem('hideCampaignModal');
                 if(!dontShow && !currentUser) {
@@ -327,10 +320,8 @@
             }, 3000);
         });
 
-        // Arka plan değişikliklerini (Giriş/Çıkış) anında yakalar
         supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'INITIAL_SESSION') return; // DOMContentLoaded zaten yapıyor
-            
+            if (event === 'INITIAL_SESSION') return; 
             if (session) {
                 currentUser = session.user;
                 userProfileData = currentUser.user_metadata;
@@ -363,15 +354,13 @@
             const authCampaignView = document.getElementById('authCampaignView');
 
             if(currentUser) {
-                // GİRİŞ YAPILMIŞ DURUM
                 if(authNavBtn) authNavBtn.classList.add('hidden');
                 if(profileNavBtn) profileNavBtn.classList.remove('hidden');
                 if(userNavBtn) userNavBtn.classList.remove('hidden');
                 if(unauthCampaignView) unauthCampaignView.classList.replace('block', 'hidden');
                 if(authCampaignView) authCampaignView.classList.replace('hidden', 'block');
-                renderTasks();
+                renderTasks(); // Görevleri Yenile
             } else {
-                // ÇIKIŞ YAPILMIŞ DURUM
                 if(authNavBtn) authNavBtn.classList.remove('hidden');
                 if(profileNavBtn) profileNavBtn.classList.add('hidden');
                 if(userNavBtn) userNavBtn.classList.add('hidden');
@@ -413,10 +402,11 @@
             submitBtn.disabled = false; submitBtn.innerText = originalText;
         });
 
-        // --- Görev İşlemleri ---
+        // --- GELİŞMİŞ GÖREV İŞLEMLERİ (HAFIZALI) ---
         async function goreviOnayaGonder(gorevAdi, btnElement) {
             btnElement.disabled = true;
-            btnElement.innerText = "Gönderiliyor...";
+            btnElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+            
             const { error } = await supabaseClient.from('gorev_talepleri').insert([{
                 kullanici_email: currentUser.email,
                 ad_soyad: userProfileData?.full_name || 'İsimsiz Üye',
@@ -425,24 +415,60 @@
             }]);
 
             if(!error) {
-                btnElement.innerText = "⏳ Onay Bekliyor";
-                btnElement.className = "mt-3 w-full bg-yellow-500 text-white font-bold py-2 rounded cursor-not-allowed";
-                alert("Görev onaya gönderildi! Yönetici onayladığında çark hakkınız eklenecektir.");
+                // Gönderilir gönderilmez UI'ı direkt sarı butona çeviriyoruz
+                btnElement.outerHTML = `<button disabled class="mt-3 w-full bg-yellow-500 text-white font-bold py-2 rounded cursor-not-allowed">⏳ Onay Bekleniyor</button>`;
+                alert("Görev başarıyla onaya gönderildi! Yönetici onayladığında çark hakkınız hesabınıza yüklenecektir.");
             } else {
                 alert("Sistemsel bir hata oluştu.");
                 btnElement.disabled = false;
-                btnElement.innerText = "Görevi Tamamladım";
+                btnElement.innerHTML = "✓ Görevi Tamamladım";
             }
         }
 
-        function renderTasks() {
+        async function renderTasks() {
             const container = document.getElementById('tasksContainer');
-            container.innerHTML = gorevListesi.map(g => `
-                <div class="bg-white p-4 rounded shadow-sm border border-gray-100">
+            container.innerHTML = '<div class="text-center py-4 text-gray-500"><i class="fas fa-spinner fa-spin"></i> Görevler yükleniyor...</div>';
+            
+            // Kullanıcının daha önce gönderdiği görevleri veritabanından çek
+            const { data: userTasks } = await supabaseClient
+                .from('gorev_talepleri')
+                .select('gorev_adi, durum')
+                .eq('kullanici_email', currentUser.email);
+                
+            // Görevlerin durumlarını bir sözlüğe (Map) kaydet
+            const taskStatusMap = {};
+            if (userTasks) {
+                userTasks.forEach(t => {
+                    taskStatusMap[t.gorev_adi] = t.durum;
+                });
+            }
+
+            container.innerHTML = gorevListesi.map(g => {
+                const durum = taskStatusMap[g];
+                
+                let buttonHTML = '';
+                if (durum === 'Bekliyor') {
+                    // Eğer admin henüz onaylamadıysa
+                    buttonHTML = `<button disabled class="mt-3 w-full bg-yellow-500 text-white font-bold py-2 rounded cursor-not-allowed shadow-inner">⏳ Onay Bekleniyor</button>`;
+                } else if (durum === 'Onaylandı') {
+                    // Eğer admin onayladıysa
+                    buttonHTML = `<button disabled class="mt-3 w-full bg-green-500 text-white font-bold py-2 rounded cursor-not-allowed shadow-inner">✅ Görev Tamamlandı</button>`;
+                } else {
+                    // Eğer admin reddettiyse veya kullanıcı bu göreve hiç tıklamadıysa
+                    let ekMetin = durum === 'Reddedildi' ? '<span class="text-red-500 text-xs font-bold block mb-2"><i class="fas fa-exclamation-circle"></i> Önceki talebiniz reddedildi, tekrar deneyebilirsiniz.</span>' : '';
+                    buttonHTML = `
+                        ${ekMetin}
+                        <button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-primary text-white font-bold py-2 rounded hover:bg-secondary transition shadow">✓ Görevi Tamamladım</button>
+                    `;
+                }
+
+                return `
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition">
                     <p class="font-semibold text-gray-800">${g}</p>
-                    <button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-primary text-white font-bold py-2 rounded hover:bg-secondary transition">✓ Görevi Tamamladım</button>
+                    ${buttonHTML}
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function switchCampaignTab(tab) {
@@ -457,7 +483,7 @@
             }
         }
 
-        // Çarkıfelek Mantığı
+        // --- Çarkıfelek Mantığı ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
         const sectors = ["100 TL Çek", "Pas", "250 TL Çek", "Tekrar Dene", "500 TL Çek", "800 TL Çek", "1000 TL Çek", "Iphone 15"];
         const colors = ["#f1c40f", "#e67e22", "#e74c3c", "#9b59b6", "#3498db", "#2ecc71", "#1abc9c", "#34495e"];
@@ -497,7 +523,7 @@
         // Modal Kapatma & Animasyonlu Sekme Geçişi
         function openAuthModal() { 
             document.getElementById('authModal').classList.add('active'); 
-            document.getElementById('authResult').innerHTML = ''; // Hataları temizle
+            document.getElementById('authResult').innerHTML = '';
         }
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
         function closeCampaignModal() { 
@@ -531,7 +557,7 @@
             }
         }
 
-        // --- HAYALET OTURUMU TEMİZLEYEN GÜVENLİ GİRİŞ İŞLEMİ ---
+        // --- GİRİŞ İŞLEMİ ---
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -542,11 +568,9 @@
             submitBtn.innerText = "Giriş Yapılıyor...";
             authResultDiv.innerHTML = '';
 
+            if (currentUser) await supabaseClient.auth.signOut();
+
             try {
-                // EĞER ARKA PLANDA SIKIŞMIŞ BİR OTURUM VARSA, ÖNCE ONU SİL (DÜĞÜMÜ ÇÖZ)
-                await supabaseClient.auth.signOut();
-                
-                // SONRA TERTEMİZ YENİ BİR GİRİŞ YAP
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ 
                     email: document.getElementById('loginEmail').value, 
                     password: document.getElementById('loginPassword').value 
@@ -554,9 +578,7 @@
                 
                 if (error) throw error;
                 
-                // Başarılı Giriş
                 authResultDiv.innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı!</span>';
-                
                 setTimeout(() => {
                     closeAuthModal();
                     document.getElementById('loginForm').reset();
@@ -576,7 +598,7 @@
             }
         });
 
-        // GÜVENLİ KAYIT İŞLEMİ
+        // --- KAYIT İŞLEMİ ---
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -588,9 +610,7 @@
             authResultDiv.innerHTML = '';
 
             try {
-                // Kayıt olurken hayalet oturumları engelle
                 await supabaseClient.auth.signOut();
-
                 const { data, error } = await supabaseClient.auth.signUp({ 
                     email: document.getElementById('regEmail').value, 
                     password: document.getElementById('regPassword').value, 
@@ -627,7 +647,7 @@
             updateUIBasedOnAuth();
         }
 
-        // --- ORİJİNAL FORM MANTIĞI EKSİKSİZ ---
+        // --- SİGORTA FORMU ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('#sigortaTuruSecim button').forEach(btn => {
                 btn.classList.remove('bg-primary', 'text-white', 'shadow-md'); btn.classList.add('bg-gray-100', 'text-gray-700');

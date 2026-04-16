@@ -191,7 +191,6 @@
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Groupama</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Sompo Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Mapfre</div></div>
-                    
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Anadolu Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Axa Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Allianz</div></div>
@@ -227,9 +226,22 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-gray-100">İletişim Bilgileri</h4>
                     <ul class="space-y-4 text-gray-400 font-medium">
-                        <li class="flex items-center"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-phone text-primary"></i></div><a href="tel:05367074329" class="hover:text-white transition-colors">0 (536) 707 43 29</a></li>
-                        <li class="flex items-center"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-envelope text-primary"></i></div>info@aressigorta.com</li>
-                        <li class="flex items-start"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3 mt-1"><i class="fas fa-map-marker-alt text-primary"></i></div>İstanbul, Türkiye</li>
+                        <li class="flex items-center">
+                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-phone text-primary"></i></div>
+                            <a href="tel:+905367074329" class="hover:text-white transition-colors">0 (536) 707 43 29</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fab fa-whatsapp text-green-500"></i></div>
+                            <a href="https://wa.me/905367074329" target="_blank" class="hover:text-white transition-colors">WhatsApp Destek Hattı</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-envelope text-primary"></i></div>
+                            <a href="mailto:info@aressigorta.com" class="hover:text-white transition-colors">info@aressigorta.com</a>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3 mt-1"><i class="fas fa-map-marker-alt text-primary"></i></div>
+                            <a href="https://maps.app.goo.gl/8yQLhEUqW89rrr4Z7" target="_blank" class="hover:text-white transition-colors text-left leading-tight">Mareşal Çakmak, Civelek Sk. NO: 5 A,<br>34000 Güngören/İstanbul, Türkiye</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -344,14 +356,11 @@
         </div>
     </div>
 
-    <div id="openCampaignFloatBtn" class="floating-campaign-btn" onclick="document.getElementById('campaignModal').classList.add('active')"><i class="fas fa-gift mr-1"></i> Görevler & Çark</div>
-
     <script>
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // --- ADMİN E-POSTA ---
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
         let currentUser = null;
@@ -366,7 +375,6 @@
             "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
         ];
 
-        // --- ZORUNLU OTURUM KONTROLÜ ---
         async function checkSession() {
             try {
                 const { data: { session }, error } = await supabaseClient.auth.getSession();
@@ -442,7 +450,6 @@
             }
         }
 
-        // --- GÖREVLER MANTIĞI ---
         async function goreviOnayaGonder(gorevAdi, btnElement) {
             btnElement.disabled = true; btnElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
             const { error } = await supabaseClient.from('gorev_talepleri').insert([{
@@ -471,7 +478,6 @@
             }).join('');
         }
 
-        // --- ÖDÜLLERİM MANTIĞI ---
         async function renderPrizes() {
             const container = document.getElementById('prizesContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Ödüller yükleniyor...</div>';
@@ -495,13 +501,11 @@
             }).join('');
         }
 
-        // --- HİLELİ YÜKSEK ÇÖZÜNÜRLÜKLÜ ÇARKIFELEK ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        // Yeni 6 Dilim
         const sectors = ["250 TL Çek", "500 TL Çek", "Tekrar Dene", "800 TL Çek", "1000 TL Çek", "Iphone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
-        const numSectors = sectors.length; // 6
-        const sectorDeg = 360 / numSectors; // 60 derece
+        const numSectors = sectors.length; 
+        const sectorDeg = 360 / numSectors; 
         const arc = (2 * Math.PI) / numSectors; 
         let currentRotation = 0;
 
@@ -521,19 +525,17 @@
             
             const btn = document.getElementById('spinBtn'); btn.disabled = true; document.getElementById('wheelResult').innerText = "Şansın Dönüyor...";
             
-            // Veritabanından hakkı düşür
             const yeniHak = spinRights - 1;
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            // --- GİZLİ ORAN ALGORİTMASI ---
             const probabilities = [
-                { index: 0, prob: 25 }, // 250 TL (%25)
-                { index: 1, prob: 20 }, // 500 TL (%20)
-                { index: 2, prob: 30 }, // Tekrar Dene (%30)
-                { index: 3, prob: 15 }, // 800 TL (%15)
-                { index: 4, prob: 10 }, // 1000 TL (%10)
-                { index: 5, prob: 0  }  // Iphone 15 (%0 - Asla çıkmaz)
+                { index: 0, prob: 25 }, 
+                { index: 1, prob: 20 }, 
+                { index: 2, prob: 30 }, 
+                { index: 3, prob: 15 }, 
+                { index: 4, prob: 10 }, 
+                { index: 5, prob: 0  }  
             ];
 
             let rand = Math.random() * 100;
@@ -544,14 +546,11 @@
                 if(rand <= sum) { winningIndex = p.index; break; }
             }
 
-            // DOĞRU DÖNDÜRME HESAPLAMASI
-            // Canvas üst orta noktası 270 (-90) derecedir.
             const targetRotation = 270 - (winningIndex * sectorDeg + sectorDeg / 2);
             const currentMod = currentRotation % 360;
             let rotationNeeded = targetRotation - currentMod;
             if (rotationNeeded < 0) rotationNeeded += 360;
             
-            // Mevcut açıya + 10 tam tur (3600 derece) + eksik olan açıyı ekle
             const finalRotation = currentRotation + 3600 + rotationNeeded;
             currentRotation = finalRotation; 
             canvas.style.transform = `rotate(${currentRotation}deg)`;
@@ -569,7 +568,6 @@
             }, 4000);
         });
 
-        // --- SEKME GEÇİŞLERİ VE MODAL KONTROLLERİ ---
         function switchCampaignTab(tab) {
             const tabs = ['cark', 'gorev', 'odul'];
             tabs.forEach(t => {

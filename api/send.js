@@ -1,7 +1,6 @@
 // api/send.js
-import { createClient } from '@supabase/supabase-js';
 
-// Telegram MarkdownV2 formatını bozabilecek karakterleri temizleyen/kaçış ekleyen fonksiyon
+// Telegram MarkdownV2 formatını bozabilecek karakterleri temizleyen fonksiyon
 function escapeMarkdown(text) {
     if (!text) return '';
     return String(text).replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
@@ -18,46 +17,44 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Ad Soyad ve Telefon zorunludur." });
     }
 
-    // Çevresel değişkenler
     const BOT_TOKEN = process.env.BOT_TOKEN;
     const CHAT_ID = process.env.CHAT_ID;
     const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
+    const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
     if (!BOT_TOKEN || !CHAT_ID || !SUPABASE_URL || !SUPABASE_KEY) {
-        console.error("Sunucu hatası: Çevresel değişkenler eksik.");
+        console.error("Eksik çevresel değişkenler var.");
         return res.status(500).json({ message: "Sunucu yapılandırma hatası." });
     }
 
-    // Supabase İstemcisini Başlat
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
     try {
-        // 1. AŞAMA: VERİLERİ SUPABASE VERİTABANINA KAYDET
-        const { error: dbError } = await supabase
-            .from('teklifler') // Supabase'deki tablonuzun adı
-            .insert([
-                {
-                    ad_soyad: formData.ad_soyad,
-                    telefon: formData.cep_telefonu,
-                    eposta: formData.eposta || null,
-                    sigorta_turu: formData.sigorta_turu || null,
-                    detaylar: formData // Geri kalan tüm verileri JSON olarak saklar
-                }
-            ]);
+        // 1. SUPABASE'E KAYIT ATMA (Hiçbir paket kurmadan direkt fetch ile)
+        const supabaseEndpoint = `${SUPABASE_URL}/rest/v1/teklifler`;
+        
+        await fetch(supabaseEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+                ad_soyad: formData.ad_soyad,
+                telefon: formData.cep_telefonu,
+                eposta: formData.eposta || null,
+                sigorta_turu: formData.sigorta_turu || null,
+                detaylar: formData
+            })
+        });
 
-        if (dbError) {
-            console.error("Veritabanı kayıt hatası:", dbError);
-            // Veritabanı çökse bile Telegram'a gitmesi için throw atmıyoruz, sadece logluyoruz.
-        }
-
-        // 2. AŞAMA: TELEGRAM'A BİLDİRİM GÖNDER (Güvenli Metin ile)
+        // 2. TELEGRAM'A GÖNDERME (Markdown korumalı)
         let text = `🚨 *YENİ SİGORTA TEKLİF TALEBİ* 🚨\n\n`;
         text += `👤 *Ad Soyad:* ${escapeMarkdown(formData.ad_soyad)}\n`;
         text += `📞 *Telefon:* ${escapeMarkdown(formData.cep_telefonu)}\n`;
         text += `✉️ *E\\-posta:* ${escapeMarkdown(formData.eposta || 'Belirtilmedi')}\n`;
         text += `🛡 *Sigorta Türü:* ${escapeMarkdown(formData.sigorta_turu || 'Belirtilmedi')}\n\n`;
-        text += `📋 *Sisteme Girilen Detaylar:*\n`;
+        text += `📋 *Detaylar:*\n`;
 
         const ignoredKeys = ['ad_soyad', 'cep_telefonu', 'eposta', 'sigorta_turu', 'kvkk'];
         for (const [key, value] of Object.entries(formData)) {
@@ -73,19 +70,17 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 chat_id: CHAT_ID,
                 text: text,
-                parse_mode: "MarkdownV2" // MarkdownV2 daha güvenlidir
+                parse_mode: "MarkdownV2"
             })
         });
 
         if (!telegramResponse.ok) {
-            const errBody = await telegramResponse.text();
-            console.error("Telegram Hatası:", errBody);
-            throw new Error("Telegram API tarafında bir hata oluştu.");
+            throw new Error("Telegram API hatası.");
         }
 
-        return res.status(200).json({ message: "Başarıyla gönderildi ve kaydedildi" });
+        return res.status(200).json({ message: "Başarıyla gönderildi" });
     } catch (error) {
-        console.error("Sistem Hatası:", error);
+        console.error("Hata:", error);
         return res.status(500).json({ message: "İşlem başarısız." });
     }
 }

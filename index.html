@@ -36,7 +36,6 @@
         section, footer { scroll-margin-top: 80px; }
         #sigortaSecimiAlani { scroll-margin-top: 100px; }
 
-        /* Orijinal Marquee CSS */
         @keyframes marquee-right { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         .marquee-wrapper { overflow: hidden; width: 100%; position: relative; }
         .marquee-wrapper::before, .marquee-wrapper::after { content: ''; position: absolute; top: 0; width: 50px; height: 100%; z-index: 2; }
@@ -45,7 +44,6 @@
         .marquee-content { display: flex; width: 200%; animation: marquee-right 20s linear infinite; }
         .marquee-content:hover { animation-play-state: paused; }
 
-        /* Modal CSS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: flex-start; z-index: 99999; opacity: 0; transition: opacity 0.4s ease; overflow-y: auto; padding: 40px 15px; }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-container { background-color: #fff; max-width: 600px; width: 100%; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; margin: auto; transform: translateY(-30px) scale(0.95); transition: all 0.4s; }
@@ -77,6 +75,9 @@
             </div>
             <div class="flex items-center space-x-3">
                 <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-medium">Giriş Yap</button>
+                
+                <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-medium hidden">Profilim</button>
+                
                 <button id="userNavBtn" onclick="handleLogout()" class="text-red-500 border border-red-500 hover:bg-red-500 hover:text-white px-5 py-2 rounded-lg font-medium hidden">Çıkış Yap</button>
                 <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 rounded-lg font-medium">Hızlı Teklif Al</button>
             </div>
@@ -189,7 +190,12 @@
                     <div class="text-6xl mb-4">🎁</div>
                     <h3 class="text-xl font-bold mb-2">Kampanyaya Katılmak İçin Üye Olmalısınız</h3>
                     <p class="text-gray-600 mb-6">Ares Sigorta üyelerine özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık çekler kazanabilirsiniz!</p>
-                    <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3 rounded-lg font-bold w-full">Hemen Giriş Yap / Kayıt Ol</button>
+                    <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3 rounded-lg font-bold w-full mb-4">Hemen Giriş Yap / Kayıt Ol</button>
+                    
+                    <div class="border-t pt-4 mt-2 flex items-center justify-center">
+                        <input type="checkbox" id="dontShowAgain" class="mr-2 w-4 h-4 cursor-pointer">
+                        <label for="dontShowAgain" class="text-sm text-gray-500 cursor-pointer">Bu bildirimi tekrar gösterme</label>
+                    </div>
                 </div>
             </div>
 
@@ -245,6 +251,26 @@
         </div>
     </div>
 
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-container max-w-md w-full">
+            <span class="close-btn close-btn-dark" onclick="closeProfileModal()">&times;</span>
+            <div class="p-8">
+                <h2 class="text-2xl font-bold mb-6 text-primary border-b pb-2">Profilimi Düzenle</h2>
+                <form id="profileForm">
+                    <div class="mb-4">
+                        <label class="form-label">E-posta Adresi (Değiştirilemez)</label>
+                        <input type="email" id="profileEmail" class="form-input bg-gray-100 cursor-not-allowed" disabled>
+                    </div>
+                    <div class="mb-6">
+                        <label class="form-label">Ad Soyad</label>
+                        <input type="text" id="profileName" class="form-input bg-gray-50" required>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-secondary transition">Bilgileri Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div id="openCampaignFloatBtn" class="floating-campaign-btn" onclick="document.getElementById('campaignModal').classList.add('active')">🎁 Görevler & Çark</div>
 
     <script>
@@ -264,6 +290,16 @@
             "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Kasko poliçesi",
             "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
         ];
+
+        // Otomatik Kampanya Modalı (Üyesiz ziyaretçilere 3 saniye sonra açılır)
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const dontShow = localStorage.getItem('hideCampaignModal');
+                if(!dontShow && !currentUser) {
+                    document.getElementById('campaignModal').classList.add('active');
+                }
+            }, 3000);
+        });
 
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
             currentUser = session?.user || null;
@@ -289,18 +325,48 @@
         function updateUIBasedOnAuth() {
             if(currentUser) {
                 document.getElementById('authNavBtn').classList.add('hidden');
+                document.getElementById('profileNavBtn').classList.remove('hidden');
                 document.getElementById('userNavBtn').classList.remove('hidden');
                 document.getElementById('unauthCampaignView').classList.replace('block', 'hidden');
                 document.getElementById('authCampaignView').classList.replace('hidden', 'block');
                 renderTasks();
             } else {
                 document.getElementById('authNavBtn').classList.remove('hidden');
+                document.getElementById('profileNavBtn').classList.add('hidden');
                 document.getElementById('userNavBtn').classList.add('hidden');
                 document.getElementById('unauthCampaignView').classList.replace('hidden', 'block');
                 document.getElementById('authCampaignView').classList.replace('block', 'hidden');
             }
         }
 
+        // --- Profil İşlemleri ---
+        function openProfileModal() {
+            if(currentUser) {
+                document.getElementById('profileEmail').value = currentUser.email;
+                document.getElementById('profileName').value = userProfileData?.full_name || '';
+                document.getElementById('profileModal').classList.add('active');
+            }
+        }
+        function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
+
+        document.getElementById('profileForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true; submitBtn.innerText = "Kaydediliyor...";
+            
+            const newName = document.getElementById('profileName').value;
+            const { data, error } = await supabaseClient.auth.updateUser({ data: { full_name: newName } });
+            
+            if(error) alert("Hata: " + error.message);
+            else {
+                alert("Profil başarıyla güncellendi!");
+                userProfileData.full_name = newName;
+                closeProfileModal();
+            }
+            submitBtn.disabled = false; submitBtn.innerText = "Bilgileri Kaydet";
+        };
+
+        // --- Görev İşlemleri ---
         async function goreviOnayaGonder(gorevAdi, btnElement) {
             btnElement.disabled = true;
             btnElement.innerText = "Gönderiliyor...";
@@ -381,9 +447,15 @@
             }, 4000);
         });
 
+        // Modal Kapatma & "Bir Daha Gösterme" Mantığı
         function openAuthModal() { document.getElementById('authModal').classList.add('active'); }
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
-        function closeCampaignModal() { document.getElementById('campaignModal').classList.remove('active'); }
+        function closeCampaignModal() { 
+            if(document.getElementById('dontShowAgain').checked) {
+                localStorage.setItem('hideCampaignModal', 'true');
+            }
+            document.getElementById('campaignModal').classList.remove('active'); 
+        }
         
         function switchAuthTab(t) {
             if(t==='login'){ document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('registerForm').classList.add('hidden'); }
@@ -393,18 +465,31 @@
         document.getElementById('loginForm').onsubmit = async (e) => {
             e.preventDefault();
             const { error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value });
-            if(error) alert("Hata: " + error.message); else { closeAuthModal(); alert("Giriş yapıldı!"); }
+            if(error) alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edip, e-postanızı doğruladığınızdan emin olun."); 
+            else { closeAuthModal(); alert("Giriş yapıldı!"); }
         };
 
+        // Kayıt olurken Vercel adresine yönlendirme sağlandı
         document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
-            const { error } = await supabaseClient.auth.signUp({ email: document.getElementById('regEmail').value, password: document.getElementById('regPassword').value, options: { data: { full_name: document.getElementById('regName').value } } });
-            if(error) alert("Hata: " + error.message); else alert("Kayıt başarılı! E-postanızı doğrulayın.");
+            const { error } = await supabaseClient.auth.signUp({ 
+                email: document.getElementById('regEmail').value, 
+                password: document.getElementById('regPassword').value, 
+                options: { 
+                    data: { full_name: document.getElementById('regName').value },
+                    emailRedirectTo: window.location.origin
+                } 
+            });
+            if(error) alert("Hata: " + error.message); 
+            else {
+                closeAuthModal();
+                alert("Kayıt başarılı! Lütfen e-postanıza giderek hesabınızı doğrulayın.");
+            }
         };
 
         async function handleLogout() { await supabaseClient.auth.signOut(); location.reload(); }
 
-        // --- 4. ORİJİNAL FORM MANTIĞI EKSİKSİZ ---
+        // --- ORİJİNAL FORM MANTIĞI EKSİKSİZ ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('#sigortaTuruSecim button').forEach(btn => {
                 btn.classList.remove('bg-primary', 'text-white', 'shadow-md'); btn.classList.add('bg-gray-100', 'text-gray-700');

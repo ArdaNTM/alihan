@@ -293,23 +293,43 @@
             "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
         ];
 
-        // Otomatik Kampanya Modalı (Üyesiz ziyaretçilere 3 saniye sonra açılır)
-        window.addEventListener('DOMContentLoaded', () => {
+        // --- 1. ZORUNLU OTURUM KONTROLÜ (Hydration Sorunu Çözümü) ---
+        // Sayfa yüklendiğinde tarayıcı hafızasını saniyesinde okuyup UI'yi günceller
+        async function initSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                currentUser = session.user;
+                userProfileData = currentUser.user_metadata;
+                await fetchUserRights();
+            } else {
+                currentUser = null;
+                userProfileData = null;
+                spinRights = 0;
+            }
+            updateUIBasedOnAuth();
+            
+            // Otomatik kampanya modalını kontrol et
             setTimeout(() => {
                 const dontShow = localStorage.getItem('hideCampaignModal');
                 if(!dontShow && !currentUser) {
                     document.getElementById('campaignModal').classList.add('active');
                 }
             }, 3000);
-        });
+        }
 
-        // Sayfa yüklenince veya giriş/çıkış yapılınca tetiklenir (Sayfa yenilemeye GEREK YOKTUR)
+        // Sayfa DOM'u yüklenince hemen oturumu kontrol et
+        window.addEventListener('DOMContentLoaded', initSession);
+
+        // Arka plandaki diğer giriş/çıkış işlemlerini dinler
         supabaseClient.auth.onAuthStateChange(async (event, session) => {
-            currentUser = session?.user || null;
-            if (currentUser) {
+            if (event === 'INITIAL_SESSION') return; // InitSession zaten halletti
+            
+            if (session) {
+                currentUser = session.user;
                 userProfileData = currentUser.user_metadata;
                 await fetchUserRights();
             } else {
+                currentUser = null;
                 userProfileData = null;
                 spinRights = 0;
             }
@@ -328,7 +348,6 @@
             }
         }
 
-        // Kullanıcı giriş yaptıysa UI güncelleyen fonksiyon
         function updateUIBasedOnAuth() {
             if(currentUser) {
                 document.getElementById('authNavBtn').classList.add('hidden');
@@ -497,7 +516,7 @@
             }
         }
 
-        // GÜVENLİ VE HIZLI GİRİŞ İŞLEMİ (Try-Catch Bloklu)
+        // --- GÜVENLİ VE HIZLI GİRİŞ İŞLEMİ ---
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -508,6 +527,11 @@
             submitBtn.innerText = "Giriş Yapılıyor...";
             authResultDiv.innerHTML = '';
 
+            // Hayalet oturum kilitlenmesini çözmek için güvenlik önlemi
+            if (currentUser) {
+                await supabaseClient.auth.signOut();
+            }
+
             try {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ 
                     email: document.getElementById('loginEmail').value, 
@@ -517,7 +541,7 @@
                 if (error) throw error;
                 
                 // Başarılı Giriş
-                authResultDiv.innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı! Yönlendiriliyor...</span>';
+                authResultDiv.innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı!</span>';
                 
                 setTimeout(() => {
                     closeAuthModal();
@@ -568,7 +592,7 @@
                     authResultDiv.innerHTML = '';
                     submitBtn.disabled = false;
                     submitBtn.innerText = originalText;
-                    switchAuthTab('login'); // Onaydan sonra giriş ekranı hazır olsun
+                    switchAuthTab('login');
                 }, 3000);
 
             } catch (error) {

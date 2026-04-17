@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        tailwind.config = { theme: { extend: { colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], }, animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards' }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } } } } }
+        tailwind.config = { theme: { extend: { colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], }, animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, } } } } }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -32,10 +32,6 @@
         .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; } .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; } .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; } .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; } .prose li { margin-bottom: 0.25rem; }
         .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } .cursor-grabbing { cursor: grabbing !important; }
-        
-        /* RUHSAT GÖRSEL CSS */
-        .ruhsat-tooltip { visibility: hidden; opacity: 0; transition: all 0.3s ease; bottom: 100%; left: 0; transform: translateY(10px); }
-        .ruhsat-trigger:hover .ruhsat-tooltip { visibility: visible; opacity: 1; transform: translateY(0); bottom: 120%; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
@@ -196,13 +192,11 @@
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">1</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3>
                     <p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
-                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-5 text-3xl text-gray-300 transform -translate-y-1/2 translate-x-1/2 z-20"></i>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">2</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3>
                     <p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
-                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-5 text-3xl text-gray-300 transform -translate-y-1/2 translate-x-1/2 z-20"></i>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">3</div>
@@ -284,7 +278,7 @@
                     <div class="flex items-center text-sm text-gray-500 font-bold mb-4 uppercase tracking-widest">
                         <span id="blogModalKategori" class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
                         <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> <span id="blogModalTarih"></span></span>
-                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Editör</span>
+                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Yönetici</span>
                     </div>
                     <div id="blogModalContent" class="prose max-w-none text-gray-700 whitespace-pre-line"></div>
                     <div class="mt-12 pt-8 border-t border-gray-200">
@@ -410,7 +404,6 @@
             else { btn.classList.add('opacity-0', 'pointer-events-none'); btn.classList.remove('opacity-100', 'pointer-events-auto'); }
         });
 
-        // --- BLOG SÜRÜKLEME KONTROLLERİ ---
         const slider = document.getElementById('blogSlider');
         let isDown = false; let startX; let scrollLeft;
         slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('cursor-grabbing'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
@@ -418,7 +411,6 @@
         slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('cursor-grabbing'); });
         slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
 
-        // --- SİGORTA BİLGİ METİNLERİ VE AKILLI YÖNLENDİRME ---
         const insuranceDetails = {
             trafik: { parentType: 'arac', formId: 'trafik', title: "Zorunlu Trafik Sigortası", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz.</p><p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz.</p><h3>Trafik Sigortası Nedir?</h3><p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p><h3>Trafik Sigortası Ne İşe Yarar?</h3><ul><li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li><li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altına alınır.</li><li><strong>Maddi Hasar Teminatı:</strong> Çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li></ul><h3>Yenilenmezse Ne Olur?</h3><ul><li>Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Aracınız trafikten men edilebilir.</li><li>İdari para cezasına neden olur.</li><li>Karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar size ait olur.</li></ul>`},
             kasko: { parentType: 'arac', formId: 'kasko', title: "Kasko Sigortası", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur.</p><h3>Kasko Sigortası Nedir?</h3><p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz.</p><h3>Kasko Sigortası Neleri Kapsar?</h3><ul><li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması veya devrilmesi sonucu oluşan hasarlar.</li><li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri ödenir.</li><li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar.</li><li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar.</li><li><strong>Yolda Yardım Hizmetleri:</strong> Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini.</li></ul>`},
@@ -444,7 +436,6 @@
             setTimeout(() => { sigortaTuruSec(parentType); if(formId) teklifFormuOlustur(parentType, formId, title); }, 300); 
         }
 
-        // --- BLOG MODALLARI ---
         function openBlogModalDefault() {
             document.getElementById('blogModalImage').src = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200&h=500";
             document.getElementById('blogModalKategori').innerText = "Genel";
@@ -464,7 +455,6 @@
         }
         function closeBlogModal() { document.getElementById('blogModal').classList.remove('active'); }
 
-        // --- MOBİL MENÜ ---
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu'); const icon = document.querySelector('#mobileMenuBtn i');
             if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.remove('fa-bars'); icon.classList.add('fa-times'); } 
@@ -479,7 +469,6 @@
             else { dropMenu.classList.add('hidden'); dropMenu.classList.remove('grid'); dropIcon.style.transform = 'rotate(0deg)'; }
         }
 
-        // --- SUPABASE VE OTURUM KONTROLÜ ---
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -493,13 +482,13 @@
             const slider = document.getElementById('blogSlider');
             if(!data || data.length === 0) {
                 slider.innerHTML = `
-                <div onclick="openBlogModalDefault()" class="w-full md:w-[calc(33.333%-1rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                <div onclick="openBlogModalDefault()" class="w-full md:w-[calc(33.333%-1.5rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group mx-auto max-w-[350px]">
                     <div class="h-48 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div></div>
                     <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Bugün</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p></div>
                 </div>`;
             } else {
                 slider.innerHTML = data.map(b => `
-                <div onclick="openBlogModalDynamic('${b.id}')" class="w-full md:w-[calc(33.333%-1rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                <div onclick="openBlogModalDynamic('${b.id}')" class="w-full md:w-[calc(33.333%-1.5rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group mx-auto max-w-[350px]">
                     <div class="h-48 overflow-hidden relative"><img src="${b.resim_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">${b.kategori}</div></div>
                     <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> ${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">${b.baslik}</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">${b.icerik.replace(/<[^>]*>?/gm, '')}</p></div>
                 </div>`).join('');
@@ -598,7 +587,6 @@
             }).join('');
         }
 
-        // --- ÇARKIFELEK KONTROLLERİ ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
         const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "iPhone 15", "Tekrar Deneyiniz"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
@@ -611,7 +599,8 @@
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(center, center); ctx.arc(center, center, center, angle, angle + arc); ctx.fill();
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right"; ctx.fillStyle = "#fff"; 
-                ctx.font = sectors[i].length > 14 ? "bold 15px Inter, sans-serif" : "bold 20px Inter, sans-serif"; 
+                // YAZI BOYUTLARI KÜÇÜLTÜLDÜ, iPhone 15 özel olarak ayarlandı
+                ctx.font = sectors[i].length > 14 ? "bold 14px Inter, sans-serif" : "bold 18px Inter, sans-serif"; 
                 ctx.fillText(sectors[i], center - 35, 6); 
                 if(sectors[i] === "iPhone 15") { ctx.font = "14px 'Font Awesome 5 Free'"; ctx.fillText("\uf179", center - 15, 22); }
                 ctx.restore();
@@ -626,6 +615,7 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
+            // GİZLİ ORANLAR
             const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 30 }, { index: 2, prob: 10 }, { index: 3, prob: 5 }, { index: 4, prob: 0 }, { index: 5, prob: 30 }];
             let rand = Math.random() * 100; let sum = 0; let winningIndex = 0;
             for(let p of probabilities) { sum += p.prob; if(rand <= sum) { winningIndex = p.index; break; } }
@@ -713,7 +703,7 @@
                 altTurButonlariDiv.appendChild(createAltTurButton(tur, 'tss', 'Tamamlayıcı Sağlık (TSS)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'oss', 'Özel Sağlık (ÖSS)'));
             } else if (tur === 'konut') {
                 formBaslik.textContent = 'Konut Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Paket Sigortası'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Sigortası'));
             } else if (tur === 'seyahat') {
                 formBaslik.textContent = 'Seyahat Sigortası Türünü Seçin';
                 altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_disi', 'Yurt Dışı Seyahat')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_ici', 'Yurt İçi Seyahat'));
@@ -802,7 +792,6 @@
                 const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
 
                 try {
-                    // TELEGRAM GÖNDERİMİ (Sizin ID ve Tokenınız)
                     let tgMessage = `🚀 *YENİ SİGORTA TALEBİ* 🚀\n\n`;
                     for (const [key, value] of Object.entries(data)) {
                         if(key === 'kvkk') continue;

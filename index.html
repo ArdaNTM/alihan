@@ -31,11 +31,7 @@
         .insurance-card { border: 2px solid transparent; } .insurance-card.active { border-color: #0078D7; background-color: #eff6ff; } .insurance-card.active .icon-box { background-color: #0078D7; color: white; }
         .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; } .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; } .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; } .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; } .prose li { margin-bottom: 0.25rem; }
-        
-        /* Kaydırmalı Blog İçin Scrollbar Gizleme */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .cursor-grabbing { cursor: grabbing !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } .cursor-grabbing { cursor: grabbing !important; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
@@ -74,10 +70,7 @@
                         <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
                         <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-4 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
                         
-                        <a href="https://wa.me/905367074329" target="_blank" class="bg-green-500 text-white px-4 py-2 border-2 border-green-500 rounded-lg font-bold hover:bg-green-600 transition shadow-md flex items-center">
-                            <i class="fab fa-whatsapp mr-1 text-lg"></i> Destek
-                        </a>
-                        
+                        <a href="https://wa.me/905367074329" target="_blank" class="bg-green-500 text-white px-4 py-2 border-2 border-green-500 rounded-lg font-bold hover:bg-green-600 transition shadow-md flex items-center"><i class="fab fa-whatsapp mr-1 text-lg"></i> Destek</a>
                         <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-5 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif</button>
                     </div>
                     <button id="mobileMenuBtn" class="lg:hidden text-gray-800 text-2xl focus:outline-none p-2" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
@@ -153,10 +146,10 @@
             <div class="lg:w-1/2">
                 <span class="bg-yellow-100 text-yellow-800 font-bold px-4 py-1.5 rounded-full text-sm mb-4 inline-block"><i class="fas fa-star text-yellow-500 mr-1"></i> Yeni Özellik</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold mb-5 text-dark leading-tight">Ares Avantajlar Dünyasına Hoş Geldiniz!</h2>
-                <p class="text-lg text-gray-600 mb-6">Sisteme üye olun, acentemize özel görevleri tamamlayın ve çarkıfelek hakları kazanın. 1000 TL'ye varan A101 hediye çekleri ve sürpriz büyük ödüller sizi bekliyor.</p>
+                <p class="text-lg text-gray-600 mb-6">Sisteme üye olun, acentemize özel görevleri tamamlayın ve çarkıfelek hakları kazanın. 1000 TL'ye varan Opet Yakıt Çekleri ve sürpriz büyük ödüller sizi bekliyor.</p>
                 <ul class="space-y-3 mb-8 text-gray-600 font-medium">
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Poliçe tanzim ettikçe çark hakkı kazanın</li>
-                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Anında kazanılan dijital A101 hediye çekleri</li>
+                    <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Anında kazanılan dijital Opet yakıt çekleri</li>
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Ödüllerim sekmesinden kolay takip</li>
                 </ul>
                 <button onclick="document.getElementById('campaignModal').classList.add('active')" class="bg-gradient-to-r from-accent to-yellow-500 text-dark font-extrabold text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">🎁 Hemen Çarkı Çevir</button>
@@ -180,11 +173,9 @@
             
             <div class="relative group/carousel">
                 <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
-                
                 <div id="blogSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-4 px-2">
                     <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
                 </div>
-                
                 <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
@@ -261,9 +252,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm font-medium">
-                <p>© 2024 Ares Sigorta. Tüm hakları saklıdır.</p>
-            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm font-medium"><p>© 2024 Ares Sigorta. Tüm hakları saklıdır.</p></div>
         </div>
     </footer>
 
@@ -282,18 +271,15 @@
                     <div class="flex items-center text-sm text-gray-500 font-bold mb-4 uppercase tracking-widest">
                         <span id="blogModalKategori" class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
                         <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> <span id="blogModalTarih"></span></span>
-                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Yönetici</span>
+                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Editör</span>
                     </div>
                     <div id="blogModalContent" class="prose max-w-none text-gray-700 whitespace-pre-line"></div>
-                    
                     <div class="mt-12 pt-8 border-t border-gray-200">
                         <h3 class="text-2xl font-bold text-gray-900 mb-6">Yorum Yapın</h3>
                         <form onsubmit="alert('Yorumunuz değerlendirilmek üzere yöneticiye iletildi.'); event.preventDefault();" class="space-y-5">
                             <textarea rows="4" class="form-input" placeholder="Yorumunuzu buraya yazın..." required></textarea>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <input type="text" class="form-input" placeholder="İsim *" required>
-                                <input type="email" class="form-input" placeholder="E-posta *" required>
-                                <input type="text" class="form-input md:col-span-2" placeholder="İnternet Sitesi (Opsiyonel)">
+                                <input type="text" class="form-input" placeholder="İsim *" required><input type="email" class="form-input" placeholder="E-posta *" required><input type="text" class="form-input md:col-span-2" placeholder="İnternet Sitesi (Opsiyonel)">
                             </div>
                             <div class="flex items-start space-x-3">
                                 <input type="checkbox" id="saveInfo" class="mt-1 h-4 w-4 cursor-pointer accent-primary">
@@ -331,12 +317,9 @@
                 <div class="p-8 text-center">
                     <div class="text-6xl mb-4 animate-bounce">🎁</div>
                     <h3 class="text-xl font-bold mb-2 text-gray-800">Kampanyaya Katılmak İçin Üye Olmalısınız</h3>
-                    <p class="text-gray-500 font-medium mb-8">Üyelerimize özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık A101 hediye çekleri kazanabilirsiniz!</p>
+                    <p class="text-gray-500 font-medium mb-8">Üyelerimize özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık Opet Yakıt Çekleri kazanabilirsiniz!</p>
                     <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3.5 rounded-xl font-bold w-full mb-6 hover:bg-secondary transition-all shadow-md">Hemen Giriş Yap / Kayıt Ol</button>
-                    <div class="border-t border-gray-100 pt-6 flex items-center justify-center">
-                        <input type="checkbox" id="dontShowAgain" class="mr-2 w-4 h-4 cursor-pointer accent-primary">
-                        <label for="dontShowAgain" class="text-sm font-medium text-gray-500 cursor-pointer">Bu uyarıyı bir daha otomatik gösterme</label>
-                    </div>
+                    <div class="border-t border-gray-100 pt-6 flex items-center justify-center"><input type="checkbox" id="dontShowAgain" class="mr-2 w-4 h-4 cursor-pointer accent-primary"><label for="dontShowAgain" class="text-sm font-medium text-gray-500 cursor-pointer">Bu uyarıyı bir daha otomatik gösterme</label></div>
                 </div>
             </div>
             <div id="authCampaignView" class="hidden">
@@ -362,7 +345,7 @@
                     <div id="tasksContainer" class="space-y-4"></div>
                 </div>
                 <div id="odulSection" class="p-6 md:p-8 hidden max-h-[500px] overflow-y-auto bg-gray-50">
-                    <p class="text-sm text-gray-500 font-medium mb-6">Çarkıfelekten kazandığınız tüm A101 Hediye Çekleri bu alanda listelenir.</p>
+                    <p class="text-sm text-gray-500 font-medium mb-6">Çarkıfelekten kazandığınız tüm Opet Yakıt Çekleri bu alanda listelenir.</p>
                     <div id="prizesContainer" class="space-y-4"></div>
                 </div>
             </div>
@@ -399,14 +382,8 @@
             <div class="p-8">
                 <h2 class="text-2xl font-bold mb-6 text-primary border-b border-gray-100 pb-4">Profil Bilgilerim</h2>
                 <form id="profileForm">
-                    <div class="mb-5">
-                        <label class="form-label text-gray-400">E-posta Adresi (Değiştirilemez)</label>
-                        <input type="email" id="profileEmail" class="form-input cursor-not-allowed text-gray-500" disabled>
-                    </div>
-                    <div class="mb-8">
-                        <label class="form-label">Adınız Soyadınız</label>
-                        <input type="text" id="profileName" class="form-input" required>
-                    </div>
+                    <div class="mb-5"><label class="form-label text-gray-400">E-posta Adresi (Değiştirilemez)</label><input type="email" id="profileEmail" class="form-input cursor-not-allowed text-gray-500" disabled></div>
+                    <div class="mb-8"><label class="form-label">Adınız Soyadınız</label><input type="text" id="profileName" class="form-input" required></div>
                     <button type="submit" class="w-full bg-primary text-white py-3.5 rounded-lg font-bold hover:bg-secondary transition shadow-md">Değişiklikleri Kaydet</button>
                     <div id="profileResult" class="mt-4 text-center text-sm font-semibold"></div>
                 </form>
@@ -415,13 +392,18 @@
     </div>
 
     <script>
+        // --- TELEGRAM BOT AYARLARI ---
+        // LÜTFEN AŞAĞIYA KENDİ BOT TOKENİNİ YAZ (Örn: '1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ')
+        const TELEGRAM_BOT_TOKEN = '8695667817:AAH2l1gh_7UFiZQ7YFrPXxMYWFtV0qA6OtA'; 
+        const TELEGRAM_CHAT_ID = '6416095981';
+
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('scrollTopBtn');
             if (window.scrollY > 300) { btn.classList.remove('opacity-0', 'pointer-events-none'); btn.classList.add('opacity-100', 'pointer-events-auto'); } 
             else { btn.classList.add('opacity-0', 'pointer-events-none'); btn.classList.remove('opacity-100', 'pointer-events-auto'); }
         });
 
-        // --- BLOG SÜRÜKLE KONTROLÜ (SNAP SCROLL + MOUSE DRAG) ---
+        // --- BLOG SÜRÜKLEME KONTROLLERİ ---
         const slider = document.getElementById('blogSlider');
         let isDown = false; let startX; let scrollLeft;
         slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('cursor-grabbing'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
@@ -429,7 +411,7 @@
         slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('cursor-grabbing'); });
         slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
 
-        // --- SİGORTA METİNLERİ ---
+        // --- SİGORTA BİLGİ METİNLERİ ---
         const insuranceDetails = {
             trafik: { parentType: 'arac', formId: 'trafik', title: "Zorunlu Trafik Sigortası", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz.</p><p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz.</p><h3>Trafik Sigortası Nedir?</h3><p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p><h3>Trafik Sigortası Ne İşe Yarar?</h3><ul><li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li><li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altına alınır.</li><li><strong>Maddi Hasar Teminatı:</strong> Çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li></ul><h3>Yenilenmezse Ne Olur?</h3><ul><li>Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Aracınız trafikten men edilebilir.</li><li>İdari para cezasına neden olur.</li><li>Karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar size ait olur.</li></ul>`},
             kasko: { parentType: 'arac', formId: 'kasko', title: "Kasko Sigortası", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur.</p><h3>Kasko Sigortası Nedir?</h3><p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz.</p><h3>Kasko Sigortası Neleri Kapsar?</h3><ul><li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması veya devrilmesi sonucu oluşan hasarlar.</li><li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri ödenir.</li><li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar.</li><li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar.</li><li><strong>Yolda Yardım Hizmetleri:</strong> Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini.</li></ul>`},
@@ -445,68 +427,24 @@
             if(info) {
                 document.getElementById('infoModalImageContainer').innerHTML = `<img src="${info.image}" alt="${info.title}" class="w-full h-48 md:h-64 object-cover">`;
                 document.getElementById('infoModalContent').innerHTML = `<h2 class="text-3xl font-extrabold text-primary mb-6 border-b border-gray-200 pb-4">${info.title}</h2>${info.content}`;
-                // Seyahat sigortası formId si boş, bu yüzden alt menüyü açıp formu bekletiyoruz.
                 document.getElementById('infoModalButtonContainer').innerHTML = `<button onclick="goToForm('${info.parentType}', '${info.formId}', '${info.title}')" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif Al</button>`;
                 document.getElementById('infoModal').classList.add('active');
             }
         }
         function closeInfoModal() { document.getElementById('infoModal').classList.remove('active'); }
-        
         function goToForm(parentType, formId, title) {
             closeInfoModal(); document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'});
             setTimeout(() => { sigortaTuruSec(parentType); if(formId) teklifFormuOlustur(parentType, formId, title); }, 300); 
         }
 
-        // --- SUPABASE VE BLOG / SİSTEM ---
-        const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // ADMIN MAİLİNİ BURAYA YAZ
-        const ADMIN_EMAIL = 'admin@aressigorta.com'; 
-
-        let currentUser = null; let userProfileData = null; let spinRights = 0;
-        
-        // YENİ GÖREVLER
-        const gorevListesi = [
-            "Aylık Trafik Sigortası poliçesi tanzim et",
-            "Aylık Kasko Sigortası poliçesi tanzim et",
-            "Aylık Tamamlayıcı Sağlık (TSS) poliçesi tanzim et",
-            "Aylık Özel Sağlık (ÖSS) poliçesi tanzim et",
-            "Aylık DASK poliçesi tanzim et",
-            "Aylık Konut Sigortası poliçesi tanzim et",
-            "Aylık Seyahat Sigortası poliçesi tanzim et"
-        ];
-
-        async function fetchBlogs() {
-            const { data } = await supabaseClient.from('blog_yazilari').select('*').order('olusturulma_tarihi', { ascending: false });
-            const slider = document.getElementById('blogSlider');
-            if(!data || data.length === 0) {
-                slider.innerHTML = `
-                <div onclick="openBlogModalDefault()" class="min-w-[300px] md:min-w-[400px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
-                    <div class="h-48 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div></div>
-                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Bugün • <i class="fas fa-user-edit ml-2 mr-1"></i> Editör</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p><div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div></div>
-                </div>`;
-            } else {
-                slider.innerHTML = data.map(b => `
-                <div onclick="openBlogModalDynamic('${b.id}')" class="min-w-[300px] md:min-w-[400px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
-                    <div class="h-48 overflow-hidden relative"><img src="${b.resim_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">${b.kategori}</div></div>
-                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> ${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">${b.baslik}</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">${b.icerik}</p><div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div></div>
-                </div>
-                `).join('');
-                // Data objesini globalde tut ki modalda açabilelim
-                window.blogData = data;
-            }
-        }
-
+        // --- BLOG MODALLARI ---
         function openBlogModalDefault() {
             document.getElementById('blogModalImage').src = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200&h=500";
             document.getElementById('blogModalKategori').innerText = "Genel";
             document.getElementById('blogModalTarih').innerText = "Şubat 11, 2025";
-            document.getElementById('blogModalContent').innerHTML = `<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h2><p>Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p>`;
+            document.getElementById('blogModalContent').innerHTML = `<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h2><p>Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir. Sigorta, bu belirsizliğe karşı en güçlü kalkanımızdır. Hem bireysel hem de ticari anlamda sigorta, risklere karşı finansal güvence sağlayarak, yaşamı daha huzurlu ve güvenli hale getirir.</p><h3>Sigorta Türleri ve Faydaları</h3><ul><li><strong>Zorunlu Trafik Sigortası:</strong> Üçüncü kişilere verilen zararları karşılar.</li><li><strong>Kasko Sigortası:</strong> Aracınızı olası kaza, hırsızlık, yangın gibi risklere karşı korur.</li><li><strong>Sağlık Sigortası:</strong> Acil sağlık hizmetleri güvencesini sağlar.</li></ul><p>Bizimle iletişim geçin ve size özel sigorta çözümlerini keşfedin!</p>`;
             document.getElementById('blogModal').classList.add('active');
         }
-
         function openBlogModalDynamic(id) {
             const b = window.blogData.find(x => x.id == id);
             if(b) {
@@ -517,11 +455,55 @@
                 document.getElementById('blogModal').classList.add('active');
             }
         }
+        function closeBlogModal() { document.getElementById('blogModal').classList.remove('active'); }
+
+        // --- MOBİL MENÜ ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu'); const icon = document.querySelector('#mobileMenuBtn i');
+            if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.remove('fa-bars'); icon.classList.add('fa-times'); } 
+            else { menu.classList.add('hidden'); icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+            const mobileAuthContainer = document.getElementById('mobileAuthContainer');
+            if(currentUser) { mobileAuthContainer.innerHTML = `<button onclick="openProfileModal(); toggleMobileMenu()" class="bg-blue-100 text-primary w-full py-3 rounded-lg font-bold mb-2">Profilim</button>${currentUser.email === ADMIN_EMAIL ? `<button onclick="window.location.href='/admin.html'" class="bg-red-600 text-white w-full py-3 rounded-lg font-bold mb-2">Admin Paneli</button>` : ''}<button onclick="handleLogout()" class="bg-gray-200 text-gray-700 w-full py-3 rounded-lg font-bold">Çıkış Yap</button>`; } 
+            else { mobileAuthContainer.innerHTML = `<button onclick="openAuthModal(); toggleMobileMenu()" class="bg-primary text-white w-full py-3 rounded-lg font-bold">Giriş Yap / Kayıt Ol</button>`; }
+        }
+        function toggleMobileDropdown() {
+            const dropMenu = document.getElementById('mobileSigortalarMenu'); const dropIcon = document.getElementById('mobileDropIcon');
+            if (dropMenu.classList.contains('hidden')) { dropMenu.classList.remove('hidden'); dropMenu.classList.add('grid'); dropIcon.style.transform = 'rotate(180deg)'; } 
+            else { dropMenu.classList.add('hidden'); dropMenu.classList.remove('grid'); dropIcon.style.transform = 'rotate(0deg)'; }
+        }
+
+        // --- SUPABASE VE OTURUM KONTROLÜ ---
+        const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const ADMIN_EMAIL = 'admin@aressigorta.com'; 
+
+        let currentUser = null; let userProfileData = null; let spinRights = 0;
+        const gorevListesi = [ "Aylık Trafik Sigortası poliçesi tanzim et", "Aylık Kasko Sigortası poliçesi tanzim et", "Aylık Tamamlayıcı Sağlık (TSS) poliçesi tanzim et", "Aylık Özel Sağlık (ÖSS) poliçesi tanzim et", "Aylık DASK poliçesi tanzim et", "Aylık Konut Sigortası poliçesi tanzim et", "Aylık Seyahat Sigortası poliçesi tanzim et" ];
+
+        async function fetchBlogs() {
+            const { data } = await supabaseClient.from('blog_yazilari').select('*').order('olusturulma_tarihi', { ascending: false });
+            const slider = document.getElementById('blogSlider');
+            if(!data || data.length === 0) {
+                slider.innerHTML = `
+                <div onclick="openBlogModalDefault()" class="w-[320px] md:w-[350px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                    <div class="h-48 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div></div>
+                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Bugün</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p></div>
+                </div>`;
+            } else {
+                slider.innerHTML = data.map(b => `
+                <div onclick="openBlogModalDynamic('${b.id}')" class="w-[320px] md:w-[350px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                    <div class="h-48 overflow-hidden relative"><img src="${b.resim_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">${b.kategori}</div></div>
+                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> ${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">${b.baslik}</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">${b.icerik.replace(/<[^>]*>?/gm, '')}</p></div>
+                </div>`).join('');
+                window.blogData = data;
+            }
+        }
 
         async function checkSession() {
-            fetchBlogs(); // Sayfa açılırken blogları yükle
+            fetchBlogs();
             try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
                 if (session) { currentUser = session.user; userProfileData = currentUser.user_metadata; await fetchUserRights(); } 
                 else { currentUser = null; userProfileData = null; spinRights = 0; }
                 updateUIBasedOnAuth();
@@ -529,7 +511,8 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            checkSession(); setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
+            checkSession();
+            setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
         });
 
         supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -572,16 +555,11 @@
             const container = document.getElementById('tasksContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Görevler yükleniyor...</div>';
             const { data: userTasks } = await supabaseClient.from('gorev_talepleri').select('gorev_adi, durum, olusturulma_tarihi').eq('kullanici_email', currentUser.email).order('olusturulma_tarihi', { ascending: false });
-            
             container.innerHTML = gorevListesi.map(g => {
-                const taskData = userTasks?.find(t => t.gorev_adi === g);
-                const isMonthly = g.startsWith('Aylık');
-                let btn = '';
-                
+                const taskData = userTasks?.find(t => t.gorev_adi === g); const isMonthly = g.startsWith('Aylık'); let btn = '';
                 if (taskData) {
                     const durum = taskData.durum; const taskDate = new Date(taskData.olusturulma_tarihi);
                     const diffDays = Math.ceil(Math.abs(new Date() - taskDate) / (1000 * 60 * 60 * 24));
-                    
                     if (durum === 'Bekliyor') btn = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`;
                     else if (durum === 'Onaylandı_Otomatik') btn = `<button disabled class="mt-3 w-full bg-blue-50 text-blue-600 border border-blue-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-sync-alt mr-2"></i> Her Ay Otomatik Yenileniyor</button>`;
                     else if (durum === 'Onaylandı_Tek' || durum === 'Onaylandı') {
@@ -608,13 +586,13 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border ${isDelivered ? 'border-green-200 bg-green-50/50' : 'border-yellow-200 bg-yellow-50/50'} relative">
                     <div class="absolute top-4 right-4 text-xs font-bold px-2.5 py-1 rounded-md ${isDelivered ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${isDelivered ? '<i class="fas fa-check mr-1"></i> İletildi' : '<i class="fas fa-clock mr-1"></i> Bekleniyor'}</div>
                     <div class="flex items-center space-x-4 mb-2"><div class="text-4xl">🎁</div><div><h4 class="font-extrabold text-gray-800 text-lg">${p.odul_adi}</h4><p class="text-xs text-gray-500 font-medium">Kazanma Tarihi: ${date}</p></div></div>
-                    ${isDelivered && p.teslim_edilen_kod ? `<div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm text-center"><p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">A101 Hediye Kodunuz</p><p class="font-black text-xl text-primary tracking-widest">${p.teslim_edilen_kod}</p></div>` : `<p class="text-sm text-gray-600 font-medium mt-3 border-t border-yellow-200/50 pt-3">Tebrikler! Yöneticimiz en kısa sürede A101 ödül kodunuzu tanımlayacaktır.</p>`}
+                    ${isDelivered && p.teslim_edilen_kod ? `<div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm text-center"><p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Opet Yakıt Kodunuz</p><p class="font-black text-xl text-primary tracking-widest">${p.teslim_edilen_kod}</p></div>` : `<p class="text-sm text-gray-600 font-medium mt-3 border-t border-yellow-200/50 pt-3">Tebrikler! Yöneticimiz en kısa sürede Opet yakıt kodunuzu tanımlayacaktır.</p>`}
                 </div>`;
             }).join('');
         }
 
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
+        const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "Iphone 15", "Tekrar Deneyiniz"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; const sectorDeg = 360 / numSectors; const arc = (2 * Math.PI) / numSectors; let currentRotation = 0;
 
@@ -636,7 +614,8 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 20 }, { index: 2, prob: 30 }, { index: 3, prob: 15 }, { index: 4, prob: 10 }, { index: 5, prob: 0 }];
+            // Gizli Oranlar (Toplam 100)
+            const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 30 }, { index: 2, prob: 10 }, { index: 3, prob: 5 }, { index: 4, prob: 0 }, { index: 5, prob: 30 }];
             let rand = Math.random() * 100; let sum = 0; let winningIndex = 0;
             for(let p of probabilities) { sum += p.prob; if(rand <= sum) { winningIndex = p.index; break; } }
 
@@ -646,12 +625,12 @@
 
             setTimeout(async () => {
                 btn.disabled = false; let wonPrize = sectors[winningIndex];
-                if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
+                if (wonPrize !== "Tekrar Deneyiniz" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
-                if(wonPrize !== "Tekrar Dene") {
+                if(wonPrize !== "Tekrar Deneyiniz") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);
                     alert(`Tebrikler! ${wonPrize} kazandınız. Ödülünüz "Ödüllerim" sekmesine eklendi.`); renderPrizes(); 
-                } else { alert("Tüh, Tekrar Dene geldi! Görevleri tamamlayarak yeni hak kazanabilirsiniz."); }
+                } else { alert("Tüh, Tekrar Deneyiniz geldi! Görevleri tamamlayarak yeni hak kazanabilirsiniz."); }
             }, 4000);
         });
 
@@ -704,7 +683,6 @@
         function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
         document.getElementById('profileForm').addEventListener('submit', async (e) => { e.preventDefault(); const s = e.target.querySelector('button[type="submit"]'); s.disabled = true; s.innerText = "Kaydediliyor..."; const n = document.getElementById('profileName').value; await supabaseClient.auth.updateUser({ data: { full_name: n } }); userProfileData.full_name = n; document.getElementById('profileResult').innerHTML = '<span class="text-green-600">✅ Güncellendi!</span>'; setTimeout(() => { closeProfileModal(); s.disabled = false; s.innerText = "Değişiklikleri Kaydet"; }, 1000); });
 
-        // --- TAM VE EKSİKSİZ SİGORTA FORMU MANTIĞI ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('.insurance-card').forEach(card => {
                 card.classList.remove('active', 'border-primary', 'bg-blue-50'); card.querySelector('.icon-box').classList.remove('bg-primary', 'text-white'); card.querySelector('.icon-box').classList.add('bg-blue-50', 'text-primary');
@@ -724,7 +702,7 @@
                 altTurButonlariDiv.appendChild(createAltTurButton(tur, 'tss', 'Tamamlayıcı Sağlık (TSS)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'oss', 'Özel Sağlık (ÖSS)'));
             } else if (tur === 'konut') {
                 formBaslik.textContent = 'Konut Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Paket Sigortası'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Sigortası'));
             } else if (tur === 'seyahat') {
                 formBaslik.textContent = 'Seyahat Sigortası Türünü Seçin';
                 altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_disi', 'Yurt Dışı Seyahat')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_ici', 'Yurt İçi Seyahat'));
@@ -794,13 +772,42 @@
             formDiv.addEventListener('submit', async function(e) {
                 e.preventDefault(); const submitButton = formDiv.querySelector('button[type="submit"]'); const sonucMesaji = document.getElementById('formSonuc');
                 submitButton.disabled = true; submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; submitButton.classList.add('opacity-70', 'cursor-not-allowed'); sonucMesaji.innerHTML = '';
-                const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
+                
+                const formData = new FormData(formDiv); 
+                const data = Object.fromEntries(formData.entries());
+
                 try {
-                    const response = await fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                    if (response.ok) { sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>'; formDiv.reset(); } 
-                    else { throw new Error('Sunucu hatası.'); }
-                } catch (error) { sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; } 
-                finally { submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed'); }
+                    // YENİ: TELEGRAM MESAJ GÖNDERİMİ (Backend'e İhtiyaç Duymadan Anında İletim)
+                    const botToken = TELEGRAM_BOT_TOKEN; 
+                    const chatId = TELEGRAM_CHAT_ID;
+                    
+                    let tgMessage = `🚀 *YENİ SİGORTA TALEBİ* 🚀\n\n`;
+                    for (const [key, value] of Object.entries(data)) {
+                        if(key === 'kvkk') continue; // kvkk ibaresini göndermeye gerek yok
+                        const cleanKey = key.replace(/_/g, ' ').toUpperCase();
+                        tgMessage += `▪️ *${cleanKey}:* ${value}\n`;
+                    }
+
+                    if(botToken && botToken !== 'BURAYA_BOT_TOKEN_YAZIN') {
+                        const tgResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: chatId, text: tgMessage, parse_mode: 'Markdown' })
+                        });
+                        if (!tgResponse.ok) throw new Error('Telegram Hatası');
+                    } else {
+                        // Eğer token ayarlanmamışsa log at (test amaçlı)
+                        console.log("Gönderilen Veri:", data);
+                        console.warn("Telegram Bot Token eksik olduğu için mesaj atılamadı.");
+                    }
+
+                    sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
+                    formDiv.reset();
+                    
+                } catch (error) {
+                    sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`;
+                } finally {
+                    submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
             });
         }
     </script>

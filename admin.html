@@ -7,9 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <style>
         .tab-btn.active { background-color: #f3f4f6; color: #1d4ed8; border-bottom: 3px solid #1d4ed8; font-weight: bold; }
         #adminApp { display: none; }
+        .ql-editor { min-height: 200px; font-family: 'Inter', sans-serif; font-size: 15px; }
     </style>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
@@ -23,31 +26,19 @@
         <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 text-white flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold"><i class="fas fa-user-shield mr-2"></i> Yönetim Paneli</h1>
-                <p class="text-blue-200 text-sm mt-1">Görev onayları, ödüller ve blog içeriklerini yönetin.</p>
+                <p class="text-blue-200 text-sm mt-1">Görev, ödül ve blog yönetimi.</p>
             </div>
             <div class="flex space-x-3">
-                <button onclick="window.location.href='/index.html'" class="bg-blue-600 text-white border border-blue-500 px-4 py-2 rounded font-bold hover:bg-blue-500 transition shadow">
-                    <i class="fas fa-home mr-1"></i> Ana Sayfa
-                </button>
-                <button onclick="verileriYenile()" class="bg-white text-blue-800 px-4 py-2 rounded font-bold hover:bg-gray-100 transition shadow">
-                    <i class="fas fa-sync-alt mr-1"></i> Yenile
-                </button>
-                <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600 transition shadow">
-                    <i class="fas fa-sign-out-alt mr-1"></i> Çıkış
-                </button>
+                <button onclick="window.location.href='/index.html'" class="bg-blue-600 text-white border border-blue-500 px-4 py-2 rounded font-bold hover:bg-blue-500 transition shadow"><i class="fas fa-home mr-1"></i> Sİteye Dön</button>
+                <button onclick="verileriYenile()" class="bg-white text-blue-800 px-4 py-2 rounded font-bold hover:bg-gray-100 transition shadow"><i class="fas fa-sync-alt mr-1"></i> Yenile</button>
+                <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600 transition shadow"><i class="fas fa-sign-out-alt mr-1"></i> Çıkış</button>
             </div>
         </div>
         
         <div class="flex border-b border-gray-200 bg-gray-50 overflow-x-auto">
-            <button id="tabGorev" onclick="switchAdminTab('gorev')" class="tab-btn active flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
-                <i class="fas fa-tasks mr-2"></i> Görev Onayları
-            </button>
-            <button id="tabOdul" onclick="switchAdminTab('odul')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
-                <i class="fas fa-gift mr-2"></i> Ödül Teslimatı
-            </button>
-            <button id="tabBlog" onclick="switchAdminTab('blog')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
-                <i class="fas fa-blog mr-2"></i> Blog Yönetimi
-            </button>
+            <button id="tabGorev" onclick="switchAdminTab('gorev')" class="tab-btn active flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none"><i class="fas fa-tasks mr-2"></i> Görev Onayları</button>
+            <button id="tabOdul" onclick="switchAdminTab('odul')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none"><i class="fas fa-gift mr-2"></i> Ödül Teslimatı</button>
+            <button id="tabBlog" onclick="switchAdminTab('blog')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none"><i class="fas fa-blog mr-2"></i> Blog Yönetimi</button>
         </div>
 
         <div id="gorevSection" class="p-6 overflow-x-auto block">
@@ -59,7 +50,7 @@
 
         <div id="odulSection" class="p-6 overflow-x-auto hidden">
             <table class="w-full text-left border-collapse">
-                <thead><tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200"><th class="p-3">Kazanma Tarihi</th><th class="p-3">Kullanıcı</th><th class="p-3">Kazanılan Ödül</th><th class="p-3">Kod / Teslimat İşlemi</th></tr></thead>
+                <thead><tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200"><th class="p-3">Tarih</th><th class="p-3">Kullanıcı</th><th class="p-3">Kazanılan Ödül</th><th class="p-3">Kod / Teslim Et</th></tr></thead>
                 <tbody id="odulTablosu"><tr><td colspan="4" class="p-8 text-center text-gray-500">Yükleniyor...</td></tr></tbody>
             </table>
         </div>
@@ -69,12 +60,22 @@
                 <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"><i class="fas fa-plus-circle text-blue-600 mr-2"></i>Yeni Blog Yazısı Ekle</h3>
                 <form id="blogForm" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Başlık</label><input type="text" id="blogBaslik" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
-                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Kategori (Örn: Genel, Kasko)</label><input type="text" id="blogKategori" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-1">Kapak Fotoğrafı URL (Link)</label><input type="url" id="blogResim" placeholder="https://images.unsplash.com/..." required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-1">İçerik (Paragraflar halinde yazabilirsiniz)</label><textarea id="blogIcerik" rows="6" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></textarea></div>
+                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Başlık</label><input type="text" id="blogBaslik" required class="w-full p-2 border border-gray-300 rounded outline-none"></div>
+                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Kategori (Örn: Genel)</label><input type="text" id="blogKategori" required class="w-full p-2 border border-gray-300 rounded outline-none"></div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Kapak Fotoğrafı (Dosyadan Seç)</label>
+                            <input type="file" id="blogResimFile" accept="image/*" class="w-full p-2 border border-gray-300 rounded outline-none bg-white">
+                            <input type="hidden" id="blogResimBase64">
+                            <div id="imagePreview" class="mt-2 hidden"><img src="" class="h-32 rounded shadow object-cover"></div>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-gray-700 mb-1">İçerik (Gelişmiş Editör)</label>
+                            <div id="editor-container" class="bg-white"></div>
+                        </div>
                     </div>
-                    <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 shadow transition"><i class="fas fa-paper-plane mr-2"></i>Blogu Yayımla</button>
+                    <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 shadow mt-4"><i class="fas fa-paper-plane mr-2"></i>Blogu Yayımla</button>
                     <div id="blogSonuc" class="mt-2 text-sm font-bold"></div>
                 </form>
             </div>
@@ -97,22 +98,40 @@
         // ADMIN MAİLİNİ BURAYA YAZ
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
+        // Gelişmiş Editörü Başlat
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: 'Blog içeriğini buraya yazın...',
+            modules: { toolbar: [ [{ 'header': [1, 2, 3, false] }], ['bold', 'italic', 'underline', 'strike'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['clean'] ] }
+        });
+
+        // Resim Dosyasını Seçme ve Base64'e Çevirme İşlemi
+        document.getElementById('blogResimFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                document.getElementById('blogResimBase64').value = reader.result;
+                const preview = document.getElementById('imagePreview');
+                preview.classList.remove('hidden');
+                preview.querySelector('img').src = reader.result;
+            }
+            reader.readAsDataURL(file);
+        });
+
         async function checkAdminAuth() {
             const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session || session.user.email !== ADMIN_EMAIL) {
-                alert("Bu sayfayı görüntüleme yetkiniz yok!"); window.location.href = '/index.html';
-            } else {
-                document.getElementById('loadingScreen').style.display = 'none'; document.getElementById('adminApp').style.display = 'block'; verileriYenile();
-            }
+            if (!session || session.user.email !== ADMIN_EMAIL) { alert("Yetkiniz yok!"); window.location.href = '/index.html'; } 
+            else { document.getElementById('loadingScreen').style.display = 'none'; document.getElementById('adminApp').style.display = 'block'; verileriYenile(); }
         }
         window.addEventListener('DOMContentLoaded', checkAdminAuth);
         async function adminLogout() { await supabaseClient.auth.signOut(); window.location.href = '/index.html'; }
 
         function switchAdminTab(tab) {
-            document.getElementById('gorevSection').classList[tab === 'gorev' ? 'replace' : 'replace'](tab === 'gorev' ? 'hidden' : 'block', tab === 'gorev' ? 'block' : 'hidden');
-            document.getElementById('odulSection').classList[tab === 'odul' ? 'replace' : 'replace'](tab === 'odul' ? 'hidden' : 'block', tab === 'odul' ? 'block' : 'hidden');
-            document.getElementById('blogSection').classList[tab === 'blog' ? 'replace' : 'replace'](tab === 'blog' ? 'hidden' : 'block', tab === 'blog' ? 'block' : 'hidden');
-            document.getElementById('tabGorev').classList.toggle('active', tab === 'gorev'); document.getElementById('tabOdul').classList.toggle('active', tab === 'odul'); document.getElementById('tabBlog').classList.toggle('active', tab === 'blog');
+            ['gorev', 'odul', 'blog'].forEach(t => {
+                document.getElementById(t+'Section').classList[t===tab ? 'replace' : 'replace'](t===tab?'hidden':'block', t===tab?'block':'hidden');
+                document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle('active', t===tab);
+            });
         }
         function verileriYenile() { talepleriGetir(); odulleriGetir(); bloglariGetir(); }
 
@@ -120,18 +139,18 @@
         async function talepleriGetir() {
             const tbody = document.getElementById('onayTablosu');
             const { data, error } = await supabaseClient.from('gorev_talepleri').select('*').eq('durum', 'Bekliyor').order('olusturulma_tarihi', { ascending: false });
-            if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
+            if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata</td></tr>`; return; }
             if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Bekleyen görev yok.</td></tr>`; return; }
             tbody.innerHTML = data.map(t => {
                 const isMonthly = t.gorev_adi.startsWith('Aylık');
                 let actionBtns = isMonthly 
-                    ? `<div class="flex flex-col space-y-2"><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Tek')" class="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 text-xs font-bold shadow"><i class="fas fa-check mr-1"></i> Tek Seferlik (1 Ay Bekler)</button><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Otomatik')" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-xs font-bold shadow"><i class="fas fa-sync-alt mr-1"></i> Otomatik (Her Ay)</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-xs font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button></div>`
-                    : `<button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı')" class="bg-green-500 text-white px-3 py-1.5 rounded hover:bg-green-600 mr-2 font-bold shadow"><i class="fas fa-check mr-1"></i> Onayla</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>`;
+                    ? `<div class="flex flex-col space-y-2"><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Tek')" class="bg-green-500 text-white px-3 py-2 rounded text-xs font-bold"><i class="fas fa-check mr-1"></i> Tek Seferlik (1 Ay)</button><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Otomatik')" class="bg-blue-500 text-white px-3 py-2 rounded text-xs font-bold"><i class="fas fa-sync-alt mr-1"></i> Otomatik (Her Ay)</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded text-xs font-bold"><i class="fas fa-times"></i> Reddet</button></div>`
+                    : `<button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı')" class="bg-green-500 text-white px-3 py-1.5 rounded font-bold mr-2">Onayla</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded font-bold">Reddet</button>`;
                 return `<tr class="border-b hover:bg-gray-50" id="talep-${t.id}"><td class="p-3 text-sm">${new Date(t.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3"><b>${t.ad_soyad}</b><br><span class="text-xs text-gray-500">${t.kullanici_email}</span></td><td class="p-3 font-medium text-blue-700">${t.gorev_adi}</td><td class="p-3 text-center align-middle">${actionBtns}</td></tr>`;
             }).join('');
         }
         async function goreviOnayla(id, email, newDurum) {
-            const btnDiv = event.target.closest('td'); btnDiv.innerHTML = '<span class="text-green-600 font-bold"><i class="fas fa-spinner fa-spin"></i> İşleniyor...</span>';
+            event.target.closest('td').innerHTML = '<span class="text-green-600 font-bold">İşleniyor...</span>';
             await supabaseClient.from('gorev_talepleri').update({ durum: newDurum, olusturulma_tarihi: new Date().toISOString() }).eq('id', id);
             const { data: h } = await supabaseClient.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
             await supabaseClient.from('kullanici_haklari').upsert({ email: email, kalan_hak: (h ? h.kalan_hak : 0) + 1 });
@@ -143,36 +162,47 @@
         async function odulleriGetir() {
             const tbody = document.getElementById('odulTablosu');
             const { data, error } = await supabaseClient.from('kazanilan_oduller').select('*').eq('durum', 'Bekliyor').order('kazanma_tarihi', { ascending: false });
-            if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
-            if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Teslimat bekleyen ödül yok.</td></tr>`; return; }
-            tbody.innerHTML = data.map(o => `<tr class="border-b hover:bg-yellow-50 bg-yellow-50/30" id="odul-${o.id}"><td class="p-3 text-sm">${new Date(o.kazanma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3"><b>${o.ad_soyad}</b><br><span class="text-xs text-gray-500">${o.kullanici_email}</span></td><td class="p-3 font-bold text-orange-600 text-lg">🎁 ${o.odul_adi}</td><td class="p-3"><div class="flex items-center space-x-2"><input type="text" id="kodInput-${o.id}" placeholder="Hediye Kodunu Girin" class="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500 w-full"><button onclick="odulTeslimEt(${o.id})" class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 whitespace-nowrap">Teslim Et</button></div></td></tr>`).join('');
+            if (error || data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Teslimat bekleyen ödül yok.</td></tr>`; return; }
+            tbody.innerHTML = data.map(o => `<tr class="border-b hover:bg-yellow-50 bg-yellow-50/30" id="odul-${o.id}"><td class="p-3 text-sm">${new Date(o.kazanma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3"><b>${o.ad_soyad}</b><br><span class="text-xs text-gray-500">${o.kullanici_email}</span></td><td class="p-3 font-bold text-orange-600 text-lg">🎁 ${o.odul_adi}</td><td class="p-3"><div class="flex items-center space-x-2"><input type="text" id="kodInput-${o.id}" placeholder="Hediye Kodunu Girin" class="border border-gray-300 px-3 py-2 rounded w-full"><button onclick="odulTeslimEt(${o.id})" class="bg-blue-600 text-white px-4 py-2 rounded font-bold">Teslim Et</button></div></td></tr>`).join('');
         }
         async function odulTeslimEt(id) {
-            const kod = document.getElementById(`kodInput-${id}`).value; if(!kod) return alert("Lütfen üyeye iletilecek hediye çekinin kodunu giriniz!");
-            const btn = event.target; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
+            const kod = document.getElementById(`kodInput-${id}`).value; if(!kod) return alert("Kodu giriniz!");
+            const btn = event.target; btn.innerHTML = '...'; btn.disabled = true;
             await supabaseClient.from('kazanilan_oduller').update({ durum: 'İletildi', teslim_edilen_kod: kod }).eq('id', id);
-            document.getElementById('odul-' + id).remove(); alert("Ödül kodu üyeye başarıyla iletildi!");
+            document.getElementById('odul-' + id).remove();
         }
 
-        // --- BLOG YÖNETİMİ ---
+        // --- BLOG ---
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); const sBtn = e.target.querySelector('button[type="submit"]'); sBtn.disabled = true; sBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Yükleniyor...';
-            const b = document.getElementById('blogBaslik').value, k = document.getElementById('blogKategori').value, r = document.getElementById('blogResim').value, i = document.getElementById('blogIcerik').value;
+            e.preventDefault(); const sBtn = e.target.querySelector('button[type="submit"]'); sBtn.disabled = true; sBtn.innerHTML = 'Yükleniyor...';
+            const b = document.getElementById('blogBaslik').value;
+            const k = document.getElementById('blogKategori').value;
+            const r = document.getElementById('blogResimBase64').value || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800"; 
+            const i = quill.root.innerHTML; // Editörden HTML içeriği al
+            
+            if(i === '<p><br></p>') { alert("Lütfen içerik girin!"); sBtn.disabled=false; sBtn.innerHTML='Blogu Yayımla'; return; }
+
             const { error } = await supabaseClient.from('blog_yazilari').insert([{ baslik: b, kategori: k, resim_url: r, icerik: i }]);
             if(error) { document.getElementById('blogSonuc').innerHTML = `<span class="text-red-600">Hata: ${error.message}</span>`; } 
-            else { document.getElementById('blogSonuc').innerHTML = `<span class="text-green-600">✅ Blog yayımlandı!</span>`; document.getElementById('blogForm').reset(); bloglariGetir(); }
+            else { 
+                document.getElementById('blogSonuc').innerHTML = `<span class="text-green-600">✅ Blog yayımlandı!</span>`; 
+                document.getElementById('blogForm').reset(); 
+                quill.root.innerHTML = '';
+                document.getElementById('blogResimBase64').value = '';
+                document.getElementById('imagePreview').classList.add('hidden');
+                bloglariGetir(); 
+            }
             sBtn.disabled = false; sBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Blogu Yayımla';
         });
 
         async function bloglariGetir() {
             const tbody = document.getElementById('blogTablosu');
             const { data, error } = await supabaseClient.from('blog_yazilari').select('id, baslik, olusturulma_tarihi').order('olusturulma_tarihi', { ascending: false });
-            if (error) { tbody.innerHTML = `<tr><td colspan="3" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
-            if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-gray-500">Henüz hiç blog yazısı eklenmemiş.</td></tr>`; return; }
-            tbody.innerHTML = data.map(b => `<tr class="border-b" id="blog-${b.id}"><td class="p-3 font-medium text-gray-800">${b.baslik}</td><td class="p-3 text-sm text-gray-500">${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3 text-center"><button onclick="blogSil(${b.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow text-xs"><i class="fas fa-trash"></i> Sil</button></td></tr>`).join('');
+            if (error || data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-gray-500">Henüz blog yazısı yok.</td></tr>`; return; }
+            tbody.innerHTML = data.map(b => `<tr class="border-b" id="blog-${b.id}"><td class="p-3 font-medium text-gray-800">${b.baslik}</td><td class="p-3 text-sm text-gray-500">${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3 text-center"><button onclick="blogSil(${b.id})" class="bg-red-500 text-white px-3 py-1.5 rounded font-bold shadow text-xs"><i class="fas fa-trash"></i> Sil</button></td></tr>`).join('');
         }
         async function blogSil(id) {
-            if(!confirm("Bu blog yazısını silmek istediğinize emin misiniz?")) return;
+            if(!confirm("Bu yazıyı silmek istediğinize emin misiniz?")) return;
             await supabaseClient.from('blog_yazilari').delete().eq('id', id); document.getElementById('blog-' + id).remove();
         }
     </script>

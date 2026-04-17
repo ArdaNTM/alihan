@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        tailwind.config = { theme: { extend: { colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], }, animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', 'ruhsat-zoom': 'ruhsatZoom 2.5s ease-in-out forwards', 'ruhsat-full': 'ruhsatFull 2.5s ease-in-out forwards' }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, }, ruhsatFull: { '0%': { opacity: '0', transform: 'scale(1)' }, '20%': { opacity: '1', transform: 'scale(1)' }, '40%': { opacity: '1', transform: 'scale(1)' }, '100%': { opacity: '0', transform: 'scale(1)' } }, ruhsatZoom: { '0%': { opacity: '0', transform: 'scale(1) translate(0, 0)' }, '40%': { opacity: '0', transform: 'scale(1) translate(0, 0)' }, '60%': { opacity: '1', transform: 'scale(1.8) translate(-10%, -20%)' }, '80%': { opacity: '1', transform: 'scale(1.8) translate(-10%, -20%)' }, '100%': { opacity: '1', transform: 'scale(1.8) translate(-10%, -20%)' } } } } } }
+        tailwind.config = { theme: { extend: { colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], }, animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, } } } } }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -41,25 +41,13 @@
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            gap: 1.5rem; /* 24px gap */
-            padding-bottom: 1rem;
-            -webkit-overflow-scrolling: none; /* Hide scrollbar in IE/Edge */
-            scrollbar-width: none; /* Hide scrollbar in Firefox */
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-top: 1rem;
+            -webkit-overflow-scrolling: none; 
+            scrollbar-width: none; 
         }
-        .blog-slider-container::-webkit-scrollbar {
-            display: none; /* Hide scrollbar in Chrome/Safari */
-        }
-        .blog-card {
-            scroll-snap-align: start;
-            flex-shrink: 0;
-            width: 100%; /* Full width on mobile */
-        }
-        @media (min-width: 768px) {
-            .blog-card {
-                /* 3 cards visible on md+ screens, accounting for gaps */
-                width: calc(33.333% - 1rem); 
-            }
-        }
+        .blog-slider-container::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
@@ -196,19 +184,19 @@
     </section>
 
     <section class="py-20 bg-gray-50 border-t border-gray-200" id="blog">
-        <div class="container mx-auto px-4 max-w-6xl relative group/carousel">
+        <div class="container mx-auto px-4 max-w-7xl relative group/carousel">
             <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark">Güncel Blog Yazılarımız</h2>
                 <p class="text-gray-500 mt-3 font-medium">Sigorta dünyasındaki son gelişmeler ve faydalı bilgiler.</p>
             </div>
             
-            <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute -left-2 md:-left-8 top-[60%] transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left text-lg"></i></button>
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute left-0 md:left-4 top-[55%] transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-20 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left text-lg"></i></button>
             
-            <div id="blogSlider" class="blog-slider-container md:justify-center px-2">
+            <div id="blogSlider" class="blog-slider-container px-2">
                 <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
             </div>
             
-            <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute -right-2 md:-right-8 top-[60%] transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right text-lg"></i></button>
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute right-0 md:right-4 top-[55%] transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-20 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right text-lg"></i></button>
         </div>
     </section>
 
@@ -220,11 +208,13 @@
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">1</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3>
                     <p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
+                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-5 text-3xl text-gray-300 transform -translate-y-1/2 translate-x-1/2 z-20"></i>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">2</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3>
                     <p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
+                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-5 text-3xl text-gray-300 transform -translate-y-1/2 translate-x-1/2 z-20"></i>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">3</div>
@@ -422,7 +412,7 @@
     </div>
 
     <script>
-        // --- TELEGRAM BOT BİLGİLERİ (GÜNCELLENDİ) ---
+        // --- TELEGRAM BOT BİLGİLERİ ---
         const TELEGRAM_BOT_TOKEN = '8695667817:AAH2l1gh_7UFiZQ7YFrPXxMYWFtV0qA6OtA'; 
         const TELEGRAM_CHAT_ID = '6416095981';
 
@@ -444,7 +434,7 @@
         const insuranceDetails = {
             trafik: { parentType: 'arac', formId: 'trafik', title: "Zorunlu Trafik Sigortası", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz.</p><p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz.</p><h3>Trafik Sigortası Nedir?</h3><p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p><h3>Trafik Sigortası Ne İşe Yarar?</h3><ul><li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li><li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altına alınır.</li><li><strong>Maddi Hasar Teminatı:</strong> Çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li></ul><h3>Yenilenmezse Ne Olur?</h3><ul><li>Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Aracınız trafikten men edilebilir.</li><li>İdari para cezasına neden olur.</li><li>Karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar size ait olur.</li></ul>`},
             kasko: { parentType: 'arac', formId: 'kasko', title: "Kasko Sigortası", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur.</p><h3>Kasko Sigortası Nedir?</h3><p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz.</p><h3>Kasko Sigortası Neleri Kapsar?</h3><ul><li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması veya devrilmesi sonucu oluşan hasarlar.</li><li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri ödenir.</li><li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar.</li><li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar.</li><li><strong>Yolda Yardım Hizmetleri:</strong> Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini.</li></ul>`},
-            tss: { parentType: 'saglik', formId: 'tss', title: "Tamamlayıcı Sağlık Sigortası (TSS)", image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Sağlık, hayatımızdaki en değerli varlıktır. Ancak beklenmedik sağlık sorunları ve ekonomik zorluklar, sağlığımızı koruma çabalarımızı zorlaştırabilir.</p><h3>Tamamlayıcı Sağlık Sigortası Nedir?</h3><p>SGK’nın karşılamadığı bazı özel hastane masraflarını üstlenir, sağlık harcamalarını daha ekonomik hale getirir.</p><h3>Hangi Hizmetleri Kapsar?</h3><ul><li><strong>Muayene ve Tedavi Masrafları:</strong> Doktor muayeneleri ve uzman ziyaretleri.</li><li><strong>Hastane Yatışı ve Ameliyatlar:</strong> Tedavi için hastanede yatış ve cerrahi işlemler.</li><li><strong>Laboratuvar ve Görüntüleme:</strong> Kan tahlilleri, röntgen, MR gibi testler.</li></ul>`},
+            tss: { parentType: 'saglik', formId: 'tss', title: "Tamamlayıcı Sağlık Sigortası (TSS)", image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Sağlık, hayatımızdaki en değerli varlıktır. Ancak beklenmedik sağlık sorunları ve ekonomik zorluklar, sağlığımızı koruma çabalarımızı zorlaştırabilir.</p><h3>Tamamlayıcı Sağlık Sigortası Nedir?</h3><p>SGK’nın karşılamadığı bazı özel hastane masraflarını üstlenir, sağlık harcamalarını daha ekonomik hale getirir.</p><h3>Hangi Hizmetleri Kapsar?</h3><ul><li><strong>Muayene ve Tedavi Masrafları:</strong> Doktor muayenements ve uzman ziyaretleri.</li><li><strong>Hastane Yatışı ve Ameliyatlar:</strong> Tedavi için hastanede yatış ve cerrahi işlemler.</li><li><strong>Laboratuvar ve Görüntüleme:</strong> Kan tahlilleri, röntgen, MR gibi testler.</li></ul>`},
             oss: { parentType: 'saglik', formId: 'oss', title: "Özel Sağlık Sigortası (ÖSS)", image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Özel Sağlık Sigortası, en geniş kapsamlı sağlık güvencesini sunar.</p><h3>ÖSS Neleri Kapsar?</h3><ul><li>Dünya genelinde veya Türkiye'nin en seçkin hastanelerinde beklemeden tedavi imkanı.</li><li>Yatarak tedavilerde (ameliyat, yoğun bakım vb.) yüksek veya sınırsız limit seçenekleri.</li><li>Geniş kapsamlı ayakta tedavi, fizik tedavi ve ileri tanı yöntemleri.</li></ul>`},
             dask: { parentType: 'konut', formId: 'dask', title: "DASK (Zorunlu Deprem Sigortası)", image: "https://images.unsplash.com/photo-1601594951477-80be4fb5d7c8?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Türkiye, deprem riski yüksek bir coğrafyada yer alıyor ve bu durum, konut sahiplerinin gerekli önlemleri almasını zorunlu hale getiriyor.</p><h3>DASK’ın Kapsadığı Hasarlar</h3><ul><li><strong>Deprem Sonrası Yapısal Hasarlar:</strong> Bina duvarlarında çatlaklar, kolon hasarları.</li><li><strong>Deprem Kaynaklı Yangın:</strong> Deprem nedeniyle meydana gelen yangınlar.</li><li><strong>Binanın Çökmesi:</strong> Binanın tamamen ya da kısmen çökmesi.</li></ul><p>DASK Türkiye’de zorunlu bir sigortadır. Bu sigorta, tapuya kayıtlı tüm konutlar için gereklidir.</p>`},
             konut: { parentType: 'konut', formId: 'konut_paket', title: "Konut Sigortası", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Evimiz, hem maddi hem de manevi anlamda en değerli varlıklarımızdan biridir.</p><h3>Konut Sigortası Teminatları</h3><ul><li><strong>Yangın, İnfilak, Yıldırım:</strong> Yangın nedeniyle zarar gören eşyalar.</li><li><strong>Deprem:</strong> DASK'ın limitini aşan kısımlar.</li><li><strong>Hırsızlık:</strong> Eşyaların çalınması veya zarar görmesi.</li><li><strong>Dahili Su:</strong> Su tesisatı kazaları.</li><li><strong>Komşuluk Mali Mesuliyet:</strong> Komşularınıza verebileceğiniz zararlar.</li></ul>`},
@@ -620,6 +610,7 @@
             }).join('');
         }
 
+        // --- ÇARKIFELEK KONTROLLERİ ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
         const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "iPhone 15", "Tekrar Deneyiniz"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
@@ -633,7 +624,6 @@
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right"; ctx.fillStyle = "#fff"; 
                 
-                // Tekrar Deneyiniz için daha küçük ve içeride
                 if(sectors[i] === "Tekrar Deneyiniz") {
                     ctx.font = "bold 14px Inter, sans-serif";
                     ctx.fillText(sectors[i], center - 40, 6); 
@@ -789,8 +779,8 @@
                             <i class="fas fa-question-circle text-primary ml-2"></i>
                             <div class="ruhsat-tooltip absolute bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-50 w-80">
                                 <div class="bg-gray-100 p-2 text-center text-xs font-bold text-gray-700 border-b">Ruhsatın sağ alt köşesindeki numara</div>
-                                <div class="p-2 bg-white flex justify-center">
-                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' fill='white'><rect width='400' height='300' fill='%23f3f4f6'/><rect x='20' y='20' width='360' height='260' fill='white' stroke='%23d1d5db' stroke-width='2'/><rect x='40' y='40' width='100' height='100' fill='%23e5e7eb'/><line x1='160' y1='60' x2='340' y2='60' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='90' x2='300' y2='90' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='120' x2='320' y2='120' stroke='%23e5e7eb' stroke-width='8'/><line x1='40' y1='180' x2='340' y2='180' stroke='%23e5e7eb' stroke-width='4'/><line x1='40' y1='210' x2='340' y2='210' stroke='%23e5e7eb' stroke-width='4'/><rect x='250' y='230' width='100' height='30' fill='none' stroke='red' stroke-width='3' rx='4'/><text x='300' y='250' font-family='Arial' font-size='14' fill='red' text-anchor='middle' font-weight='bold'>AB123456</text><text x='300' y='220' font-family='Arial' font-size='12' fill='%234b5563' text-anchor='middle'>Belge Seri No</text></svg>" alt="Belge Seri No" class="w-full h-auto">
+                                <div class="p-2 bg-white flex justify-center overflow-hidden">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' fill='white'><rect width='400' height='300' fill='%23f3f4f6'/><rect x='20' y='20' width='360' height='260' fill='white' stroke='%23d1d5db' stroke-width='2'/><rect x='40' y='40' width='100' height='100' fill='%23e5e7eb'/><line x1='160' y1='60' x2='340' y2='60' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='90' x2='300' y2='90' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='120' x2='320' y2='120' stroke='%23e5e7eb' stroke-width='8'/><line x1='40' y1='180' x2='340' y2='180' stroke='%23e5e7eb' stroke-width='4'/><line x1='40' y1='210' x2='340' y2='210' stroke='%23e5e7eb' stroke-width='4'/><rect x='250' y='230' width='100' height='30' fill='none' stroke='red' stroke-width='3' rx='4'/><text x='300' y='250' font-family='Arial' font-size='14' fill='red' text-anchor='middle' font-weight='bold'>AB123456</text><text x='300' y='220' font-family='Arial' font-size='12' fill='%234b5563' text-anchor='middle'>Belge Seri No</text></svg>" alt="Belge Seri No" class="w-full h-auto ruhsat-img">
                                 </div>
                             </div>
                         </label>

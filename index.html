@@ -690,7 +690,7 @@
         }
 
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
+        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "iPhone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; const sectorDeg = 360 / numSectors; const arc = (2 * Math.PI) / numSectors; let currentRotation = 0;
 
@@ -722,7 +722,7 @@
 
             setTimeout(async () => {
                 btn.disabled = false; let wonPrize = sectors[winningIndex];
-                if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
+                if (wonPrize !== "Tekrar Dene" && wonPrize !== "iPhone 15") wonPrize = wonPrize + " Çeki";
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
                 if(wonPrize !== "Tekrar Dene") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);

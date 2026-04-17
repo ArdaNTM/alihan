@@ -32,6 +32,12 @@
         .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; } .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; } .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; } .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; } .prose li { margin-bottom: 0.25rem; }
         .no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } .cursor-grabbing { cursor: grabbing !important; }
+        
+        /* RUHSAT ANİMASYON CSS */
+        .ruhsat-tooltip { visibility: hidden; opacity: 0; transition: all 0.3s ease; bottom: 100%; left: 0; }
+        .ruhsat-trigger:hover .ruhsat-tooltip { visibility: visible; opacity: 1; bottom: 120%; }
+        .ruhsat-img { transition: transform 2.5s ease-in-out; transform-origin: bottom right; }
+        .ruhsat-trigger:hover .ruhsat-img { transform: scale(2.2) translate(-5%, -5%); }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
@@ -39,7 +45,10 @@
     <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <a href="#ana-sayfa" class="text-3xl font-extrabold tracking-tighter z-50"><span class="text-primary">ARES</span> <span class="text-dark">SİGORTA</span></a>
+                <a href="#ana-sayfa" class="text-3xl font-extrabold tracking-tighter z-50 flex items-center">
+                    <i class="fas fa-shield-alt text-primary mr-2 text-2xl"></i>
+                    <span class="text-primary">ARES</span> <span class="text-dark ml-1">SİGORTA</span>
+                </a>
                 
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="#ana-sayfa" class="text-gray-600 hover:text-primary font-semibold transition">Ana Sayfa</a>
@@ -171,13 +180,13 @@
                 <p class="text-gray-500 mt-3 font-medium">Sigorta dünyasındaki son gelişmeler ve faydalı bilgiler.</p>
             </div>
             
-            <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute -left-2 md:-left-6 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute -left-4 md:-left-12 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
             
             <div id="blogSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-4 px-2">
                 <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
             </div>
             
-            <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute -right-2 md:-right-6 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute -right-4 md:-right-12 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
         </div>
     </section>
 
@@ -185,14 +194,22 @@
         <div class="container mx-auto px-4 text-center max-w-6xl">
             <h2 class="text-3xl md:text-4xl font-extrabold mb-16 text-dark">Sizin İçin Nasıl Çalışırız?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div><h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3><p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">1</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3>
+                    <p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
+                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-6 text-2xl text-gray-300 transform -translate-y-1/2"></i>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div><h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3><p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">2</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3>
+                    <p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
+                    <i class="hidden md:block fas fa-chevron-right absolute top-1/2 -right-6 text-2xl text-gray-300 transform -translate-y-1/2"></i>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div><h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3><p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold z-10 relative">3</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3>
+                    <p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
                 </div>
             </div>
         </div>
@@ -269,7 +286,7 @@
                     <div class="flex items-center text-sm text-gray-500 font-bold mb-4 uppercase tracking-widest">
                         <span id="blogModalKategori" class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
                         <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> <span id="blogModalTarih"></span></span>
-                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Editör</span>
+                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Yönetici</span>
                     </div>
                     <div id="blogModalContent" class="prose max-w-none text-gray-700 whitespace-pre-line"></div>
                     <div class="mt-12 pt-8 border-t border-gray-200">
@@ -583,6 +600,7 @@
             }).join('');
         }
 
+        // --- ÇARKIFELEK (DÜZELTİLMİŞ) ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
         const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "iPhone 15", "Tekrar Deneyiniz"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
@@ -595,14 +613,10 @@
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(center, center); ctx.arc(center, center, center, angle, angle + arc); ctx.fill();
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
                 ctx.textAlign = "right"; ctx.fillStyle = "#fff"; 
-                // Tekrar Deneyiniz yazısının sığması için fontu ve yerini küçülttük
+                // Yazı sığsın diye boyut küçültüldü ve içeri çekildi
                 ctx.font = sectors[i].length > 14 ? "bold 15px Inter, sans-serif" : "bold 20px Inter, sans-serif"; 
                 ctx.fillText(sectors[i], center - 35, 6); 
-                
-                // Eğer iPhone 15 ise altına elma ikonu
-                if(sectors[i] === "iPhone 15") {
-                    ctx.font = "14px 'Font Awesome 5 Free'"; ctx.fillText("\uf179", center - 15, 22);
-                }
+                if(sectors[i] === "iPhone 15") { ctx.font = "14px 'Font Awesome 5 Free'"; ctx.fillText("\uf179", center - 15, 22); }
                 ctx.restore();
             }
         }
@@ -615,7 +629,7 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            // GİZLİ ORANLAR
+            // GİZLİ ORANLAR (Toplam %100)
             const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 30 }, { index: 2, prob: 10 }, { index: 3, prob: 5 }, { index: 4, prob: 0 }, { index: 5, prob: 30 }];
             let rand = Math.random() * 100; let sum = 0; let winningIndex = 0;
             for(let p of probabilities) { sum += p.prob; if(rand <= sum) { winningIndex = p.index; break; } }
@@ -684,6 +698,7 @@
         function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
         document.getElementById('profileForm').addEventListener('submit', async (e) => { e.preventDefault(); const s = e.target.querySelector('button[type="submit"]'); s.disabled = true; s.innerText = "Kaydediliyor..."; const n = document.getElementById('profileName').value; await supabaseClient.auth.updateUser({ data: { full_name: n } }); userProfileData.full_name = n; document.getElementById('profileResult').innerHTML = '<span class="text-green-600">✅ Güncellendi!</span>'; setTimeout(() => { closeProfileModal(); s.disabled = false; s.innerText = "Değişiklikleri Kaydet"; }, 1000); });
 
+        // --- TAM VE EKSİKSİZ SİGORTA FORMU MANTIĞI ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('.insurance-card').forEach(card => {
                 card.classList.remove('active', 'border-primary', 'bg-blue-50'); card.querySelector('.icon-box').classList.remove('bg-primary', 'text-white'); card.querySelector('.icon-box').classList.add('bg-blue-50', 'text-primary');
@@ -741,7 +756,23 @@
 
             if (altTur === 'kasko' || altTur === 'trafik') {
                 formHTML += `<div><label for="plaka" class="form-label">Plaka No (Örn: 34ABC123)</label><input type="text" id="plaka" name="plaka" class="form-input" required></div>`;
-                if (altTur === 'kasko') formHTML += `<div><label for="belge_seri_no" class="form-label">Belge Seri No</label><input type="text" id="belge_seri_no" name="belge_seri_no" class="form-input" required></div>`;
+                if (altTur === 'kasko') {
+                    // RUHSAT ANİMASYONLU ETİKET EKLENDİ
+                    formHTML += `
+                    <div>
+                        <label for="belge_seri_no" class="form-label flex items-center relative ruhsat-trigger cursor-help w-max">
+                            Belge Seri No 
+                            <i class="fas fa-question-circle text-primary ml-2"></i>
+                            <div class="ruhsat-tooltip absolute bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-50 w-80">
+                                <div class="bg-gray-100 p-2 text-center text-xs font-bold text-gray-700 border-b">Ruhsatın sağ alt köşesindeki numara</div>
+                                <div class="overflow-hidden h-48 relative">
+                                    <img src="https://i.hizliresim.com/o7bxy8b.jpg" alt="Ruhsat Örneği" class="w-full h-full object-cover ruhsat-img">
+                                </div>
+                            </div>
+                        </label>
+                        <input type="text" id="belge_seri_no" name="belge_seri_no" class="form-input" required>
+                    </div>`;
+                }
             } else if (altTur === 'tss' || altTur === 'oss') {
                 formHTML += `<div class="md:col-span-2"><label for="kisi_sayisi" class="form-label">Sigortalanacak Kişi Sayısı</label><select id="kisi_sayisi" name="kisi_sayisi" class="form-input" required><option value="" disabled selected>Seçiniz...</option><option value="1">Bireysel (1 Kişi)</option><option value="2">Aile (2 Kişi)</option><option value="3+">Aile (3+ Kişi)</option></select></div>`;
             } else if (altTur === 'dask' || altTur === 'konut_paket') {
@@ -777,11 +808,6 @@
                 const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
 
                 try {
-                    const response = await fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                    if (response.ok) { 
-                        sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>'; formDiv.reset(); 
-                    } else { throw new Error('Sunucu hatası.'); }
-
                     // TELEGRAM GÖNDERİMİ
                     let tgMessage = `🚀 *YENİ SİGORTA TALEBİ* 🚀\n\n`;
                     for (const [key, value] of Object.entries(data)) {
@@ -794,6 +820,9 @@
                         body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgMessage, parse_mode: 'Markdown' })
                     });
 
+                    sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
+                    formDiv.reset();
+                    
                 } catch (error) { 
                     sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; 
                 } finally { 

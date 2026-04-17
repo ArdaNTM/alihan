@@ -49,8 +49,7 @@
         .modal-container { background-color: #fff; max-width: 650px; width: 100%; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; margin: auto; transform: translateY(-20px) scale(0.98); transition: all 0.3s ease-out; }
         .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
         
-        /* Büyük Bilgi Modalı İçin Özel Sınıf */
-        .info-modal-container { max-width: 800px; }
+        .info-modal-container, .blog-modal-container { max-width: 800px; }
         
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; line-height: 1; color: white;}
         .close-btn-dark { color: #6b7280; }
@@ -64,11 +63,10 @@
         .insurance-card.active { border-color: #0078D7; background-color: #eff6ff; }
         .insurance-card.active .icon-box { background-color: #0078D7; color: white; }
 
-        /* Dropdown Stilleri */
         .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; }
         .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         
-        /* Okuma Alanı İçeriği (Typography) */
+        /* Modal İçi Metin Düzeni (Prose) */
         .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; }
         .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
         .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
@@ -100,12 +98,13 @@
                             
                             <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Konut & Diğer</div>
                             <a href="#" onclick="showInsuranceInfo('dask')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">DASK (Zorunlu Deprem)</a>
-                            <a href="#" onclick="showInsuranceInfo('konut')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Konut Paket Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('konut')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Konut Sigortası</a>
                             <a href="#" onclick="showInsuranceInfo('seyahat')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Seyahat Sigortası</a>
                         </div>
                     </div>
 
                     <a href="#kampanyalar" class="text-gray-600 hover:text-primary font-semibold transition flex items-center">Kampanyalar <span class="ml-1 bg-accent text-dark text-[10px] px-2 py-0.5 rounded-full font-bold">YENİ</span></a>
+                    <a href="#blog" class="text-gray-600 hover:text-primary font-semibold transition">Blog</a>
                     <a href="#hizmetlerimiz" class="text-gray-600 hover:text-primary font-semibold transition">Nasıl Çalışırız?</a>
                 </div>
 
@@ -117,7 +116,6 @@
                         <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-5 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
                         <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif Al</button>
                     </div>
-
                     <button id="mobileMenuBtn" class="lg:hidden text-gray-800 text-2xl focus:outline-none p-2" onclick="toggleMobileMenu()">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -129,19 +127,22 @@
                     <a href="#ana-sayfa" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg">Ana Sayfa</a>
                     
                     <div class="border-t border-gray-100 pt-3">
-                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Sigortalarımız</p>
-                        <div class="grid grid-cols-2 gap-2 pl-2">
-                            <a href="#" onclick="showInsuranceInfo('trafik'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Trafik Sigortası</a>
-                            <a href="#" onclick="showInsuranceInfo('kasko'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Kasko Sigortası</a>
-                            <a href="#" onclick="showInsuranceInfo('tss'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Tamamlayıcı (TSS)</a>
-                            <a href="#" onclick="showInsuranceInfo('oss'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Özel Sağlık (ÖSS)</a>
-                            <a href="#" onclick="showInsuranceInfo('dask'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">DASK</a>
-                            <a href="#" onclick="showInsuranceInfo('konut'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Konut Sigortası</a>
-                            <a href="#" onclick="showInsuranceInfo('seyahat'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Seyahat Sigortası</a>
+                        <button onclick="toggleMobileDropdown()" class="w-full text-left text-gray-800 font-bold text-lg flex justify-between items-center outline-none">
+                            Sigortalar <i id="mobileDropIcon" class="fas fa-chevron-down text-sm transition-transform"></i>
+                        </button>
+                        <div id="mobileSigortalarMenu" class="hidden grid-cols-1 gap-2 pl-4 mt-3">
+                            <a href="#" onclick="showInsuranceInfo('trafik'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Trafik Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('kasko'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Kasko Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('tss'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Tamamlayıcı Sağlık (TSS)</a>
+                            <a href="#" onclick="showInsuranceInfo('oss'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Özel Sağlık (ÖSS)</a>
+                            <a href="#" onclick="showInsuranceInfo('dask'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">DASK</a>
+                            <a href="#" onclick="showInsuranceInfo('konut'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Konut Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('seyahat'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary">Seyahat Sigortası</a>
                         </div>
                     </div>
 
                     <a href="#kampanyalar" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Kampanyalar</a>
+                    <a href="#blog" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Blog</a>
                     <a href="#hizmetlerimiz" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Nasıl Çalışırız?</a>
 
                     <div class="border-t border-gray-100 pt-4 flex flex-col space-y-3" id="mobileAuthContainer">
@@ -223,24 +224,48 @@
         </div>
     </section>
 
-    <section class="py-20 bg-gray-50" id="hizmetlerimiz">
+    <section class="py-20 bg-gray-50 border-t border-gray-200" id="blog">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-dark">Güncel Blog Yazılarımız</h2>
+                <p class="text-gray-500 mt-3 font-medium">Sigorta dünyasındaki son gelişmeler ve faydalı bilgiler.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div onclick="openBlogModal()" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" alt="Sigorta Güvencesi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Şubat 11, 2025 • <i class="fas fa-user-edit ml-2 mr-1"></i> Editör</div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3>
+                        <p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p>
+                        <div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white border-t border-gray-100" id="hizmetlerimiz">
         <div class="container mx-auto px-4 text-center max-w-6xl">
             <h2 class="text-3xl md:text-4xl font-extrabold mb-16 text-dark">Sizin İçin Nasıl Çalışırız?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <div class="w-20 h-20 bg-blue-50 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3>
                     <p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
-                    <div class="w-20 h-20 bg-blue-50 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div>
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3>
                     <p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
-                    <div class="w-20 h-20 bg-blue-50 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div>
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div>
                     <h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3>
                     <p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
                 </div>
@@ -319,17 +344,84 @@
         </div>
     </footer>
 
+    <div id="blogModal" class="modal-overlay">
+        <div class="modal-container blog-modal-container w-full">
+            <span class="close-btn close-btn-dark" onclick="closeBlogModal()">×</span>
+            <div class="p-0 overflow-y-auto max-h-[90vh]">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200&h=500" alt="Sigorta Güvencesi" class="w-full h-64 md:h-80 object-cover">
+                <div class="p-8 md:p-12">
+                    <div class="flex items-center text-sm text-gray-500 font-bold mb-4 uppercase tracking-widest">
+                        <span class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
+                        <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> Şubat 11, 2025</span>
+                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Editör</span>
+                    </div>
+                    
+                    <div class="prose max-w-none text-gray-700">
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h2>
+                        <p>Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir. Sigorta, bu belirsizliğe karşı en güçlü kalkanımızdır. Hem bireysel hem de ticari anlamda sigorta, risklere karşı finansal güvence sağlayarak, yaşamı daha huzurlu ve güvenli hale getirir. Peki, sigorta nedir, neden bu kadar önemlidir ve doğru sigorta seçimi nasıl yapılır?</p>
+                        
+                        <h3>Sigorta Nedir?</h3>
+                        <p>Sigorta, risklerin mevcut olduğu tahmin edilerek, bu risklerin olumsuz etkilerinden korunmak için yapılan bir anlaşmadır. Sigorta şirketleri, poliçe sahibiyle yapılan sözleşme sözleşmesi, belirli bir ücret karşılığında olası bir zararın tazmini üstlenir. Sigorta, temel olarak, bir havuzda biriken primlerle, olası büyük kayıpların paylaşılmasını sağlar.</p>
+                        <p>Sigorta, hayatımızın birçok alanında yer alır ve onun birinin kendine özgü amacı vardır. Her bir sigorta türü, belirli bir riskten korunmanıza yardımcı olur.</p>
+
+                        <h3>Sigorta Türleri ve Faydaları</h3>
+                        <p>Sigorta dünyası oldukça çeşitlidir. İhtiyaçlarınıza göre doğru sigorta korumasını seçmenizi hem kendinizin hem de sevdiklerinizi büyük bir güvencenin eksiksiz olmasını sağlar.</p>
+                        <ul>
+                            <li><strong>Zorunlu Trafik Sigortası:</strong> Her araç sahibi tarafından yaptırılması zorunlu olan trafik sigortası, üçüncü kişilere verilen zararları karşılar.</li>
+                            <li><strong>Kasko Sigortası:</strong> Kasko, aracınızı olası kaza, hırsızlık, yangın ve doğal afetler gibi risklere karşı korur.</li>
+                            <li><strong>Sağlık Sigortası:</strong> Sağlık sigortası hem rutin sağlık kontrollerinizi hem de acil sağlık hizmetleri güvencesini sağlar.</li>
+                            <li><strong>Ev Sigortası:</strong> Ev sigortası, su baskını, hırsızlık, doğal afetler gibi durumlara karşı korunmanızı sağlar.</li>
+                            <li><strong>İş Yeri ve Ticari Sigortalar:</strong> Beklenmedik risklerle karşı karşıya kalabilen işletmelerin maddi kayıplarını önler.</li>
+                        </ul>
+
+                        <h3>Sigorta Seçerken Dikkat Edilmesi Gerekenler</h3>
+                        <p>Sigorta, sadece poliçe satın almakla bitmeyen bir şekilde sunulmaktadır. Doğru sigortayı seçmeyi, dikkatli analiz ve karşılaştırmayı gerektirir:</p>
+                        <ul>
+                            <li>İhtiyaçlarınıza Uygun Sigorta Seçimi</li>
+                            <li>Sigorta Teminatları ve Limitlerin İncelenmesi</li>
+                            <li>Sigorta Şirketinin Güvenilirliği ve Müşteri Hizmetleri</li>
+                            <li>Prim Miktarları ve Ödeme Seçenekleri</li>
+                        </ul>
+
+                        <h3>Neden Bizimle Sigorta Yapmalısınız?</h3>
+                        <p>Ares Sigorta, geçmişten gelen deneyimler ve çözümlerle, kalıcı ve uygun sigorta çözümlerini sunmaktadır. İnsanların bireysel ihtiyaçlarını ve işletmelerini anlayarak, bilgi birikimi güvencesi temelinde almak için özelleştirilmiş sigorta planları hazırlıyoruz. Bizimle iletişim geçin ve size özel sigorta çözümlerini finanse edin!</p>
+                    </div>
+
+                    <div class="mt-12 pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Yorum Yapın</h3>
+                        <form onsubmit="alert('Yorumunuz değerlendirilmek üzere yöneticiye iletildi.'); event.preventDefault();" class="space-y-5">
+                            <textarea rows="4" class="form-input" placeholder="Yorumunuzu buraya yazın..." required></textarea>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <input type="text" class="form-input" placeholder="İsim *" required>
+                                <input type="email" class="form-input" placeholder="E-posta *" required>
+                                <input type="text" class="form-input md:col-span-2" placeholder="İnternet Sitesi (Opsiyonel)">
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <input type="checkbox" id="saveInfo" class="mt-1 h-4 w-4 cursor-pointer accent-primary">
+                                <label for="saveInfo" class="text-sm text-gray-600 cursor-pointer">Daha sonraki yorumlarımda kullanılması için adım, e-posta adresim ve site adresim bu tarayıcıya kaydedilsin.</label>
+                            </div>
+                            <button type="submit" class="bg-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-primary transition shadow-md">Yorumu Gönder</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="infoModal" class="modal-overlay">
         <div class="modal-container info-modal-container w-full">
             <span class="close-btn close-btn-dark" onclick="closeInfoModal()">×</span>
-            <div class="p-8 md:p-12 overflow-y-auto max-h-[85vh]">
-                <div id="infoModalContent" class="prose max-w-none">
+            <div class="p-0 overflow-y-auto max-h-[85vh]">
+                <div id="infoModalImageContainer"></div>
+                <div class="p-8 md:p-12">
+                    <div id="infoModalContent" class="prose max-w-none">
+                        </div>
+                    <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                        <p class="text-gray-600 mb-4 font-medium">Bu sigorta türü için hemen size özel teklif hazırlayalım.</p>
+                        <button onclick="closeInfoModal(); document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'});" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md">
+                            Hızlı Teklif Al
+                        </button>
                     </div>
-                <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-                    <p class="text-gray-600 mb-4 font-medium">Bu sigorta türü için hemen size özel teklif hazırlayalım.</p>
-                    <button onclick="closeInfoModal(); document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'});" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md">
-                        Hızlı Teklif Al
-                    </button>
                 </div>
             </div>
         </div>
@@ -441,113 +533,190 @@
     </div>
 
     <script>
-        // --- SİGORTA BİLGİ METİNLERİ (YENİ EKLENDİ) ---
+        // --- SİGORTA BİLGİ METİNLERİ VE GÖRSELLERİ ---
         const insuranceDetails = {
             trafik: {
                 title: "Zorunlu Trafik Sigortası",
+                image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, yolculuklarınızı daha güvenli hale getiriyoruz.</p>
-                    <p>Trafikte meydana gelebilecek kazalarda hem sizi hem de diğer tarafları güvence altına alan çözümlerimizle yanınızdayız. Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan hizmetlerimizle hayatınızı kolaylaştırmayı hedefliyoruz.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz. Trafikte meydana gelebilecek kazalarda hem sizi hem de diğer tarafları güvence altına alan çözümlerimizle yanınızdayız.</p>
+                    <p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz. Şimdi aracınızı güvence altına alarak hem yasal yükümlülüklerinizi yerine getirin hem de beklenmedik durumlara karşı hazırlıklı olun.</p>
                     
                     <h3>Trafik Sigortası Nedir?</h3>
-                    <p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, kazalar sonucunda <strong>karşı tarafa verilen maddi zararları</strong> karşılamak amacıyla yapılır.</p>
+                    <p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p>
+                    <p>Trafik sigortası yalnızca üçüncü şahısları kapsar; yani sigortalı kişinin kendi aracı, kendisi veya aracındaki yolcular için herhangi bir teminat sağlamaz. Bu yönüyle, trafik sigortası hem yasal bir zorunluluk hem de maddi sorumluluklarınızı güvence altına alan önemli bir uygulamadır.</p>
                     
                     <h3>Trafik Sigortası Ne İşe Yarar?</h3>
+                    <p>Trafik sigortasının temel amacı, trafik kazaları sonucu ortaya çıkabilecek maddi zararları karşılayarak taraflar arasındaki hukuki sorunları en aza indirmektir. Bu sigorta, aşağıdaki durumlarda devreye girer:</p>
                     <ul>
-                        <li><strong>Maddi Zararların Karşılanması:</strong> Karşı tarafın aracında oluşan maddi hasarları limitler dahilinde öder.</li>
-                        <li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altındadır.</li>
-                        <li><strong>Kamuya Verilen Zararlar:</strong> Çevreye veya kamu mallarına verilen zararları da kapsayabilir.</li>
+                        <li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li>
+                        <li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları veya tazminat talepleri teminat altına alınır.</li>
+                        <li><strong>Maddi Hasar Teminatı:</strong> Trafik kazası sonucunda çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li>
+                    </ul>
+                    <p>Trafik sigortası, hem bireyler hem de toplumsal düzen açısından önemli bir koruma mekanizmasıdır. Yasal çerçevede sağladığı güvenceyle olası mağduriyetleri engeller ve maddi yükümlülüklerin paylaşılmasını sağlar.</p>
+
+                    <h3>Trafik Sigortası Bitiş Tarihinden Önce Yenilenmezse Ne Olur?</h3>
+                    <p>Trafik sigortanızın süresinin dolması ve yenilenmemesi durumunda hem yasal hem de maddi açıdan çeşitli sorunlarla karşılaşabilirsiniz. İşte bu durumlarda karşılaşabileceğiniz riskler:</p>
+                    <ul>
+                        <li><strong>Trafiğe Çıkışınız Engellenir:</strong> Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Polis kontrolünde sigortasız olduğunuz tespit edilirse, aracınız trafikten men edilebilir ve cezai işlem uygulanabilir.</li>
+                        <li><strong>Yasal Cezalara Maruz Kalabilirsiniz:</strong> Trafik sigortası olmadan araç kullanmak, idari para cezasına neden olur. Bu cezalar birikerek maddi yükünüzü artırabilir.</li>
+                        <li><strong>Kazalarda Zararlar Size Ait Olur:</strong> Trafik sigortanız yenilenmediği bir dönemde bir kaza yaşanırsa, karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar ve yasal yükümlülükler doğrudan araç sahibine aittir.</li>
+                        <li><strong>Prim Fiyatlarında Artış Olabilir:</strong> Trafik sigortası süresi dolduktan sonra poliçe yenilemesi yapmadığınız her gün, sigorta şirketleri risk primi ekleyebilir ve poliçe fiyatlarında artış yaşanabilir.</li>
                     </ul>
 
-                    <h3>Yenilemezseniz Ne Olur?</h3>
-                    <p>Poliçenizin süresinin dolması ve yenilenmemesi durumunda aracınız trafikten men edilebilir, yasal ve idari para cezaları ile karşılaşabilirsiniz. Ayrıca olası bir kazada tüm maddi hasar sorumluluğu tamamen sizin üzerinize kalır.</p>
+                    <h3>Neden Trafik Sigortanızı Zamanında Yenilemelisiniz?</h3>
+                    <p>Trafik sigortanızı zamanında yenilemek, hem yasal zorunluluklarınızı yerine getirmenizi sağlar hem de maddi ve manevi açıdan koruma altında olmanızı temin eder. Gecikmiş bir yenileme süreci, gereksiz masraflara ve hukuki sorunlara neden olabilir. Bu nedenle, sigorta sürenizi yakından takip etmeniz ve bitiş tarihinden önce yenileme işlemini gerçekleştirmeniz önemlidir.</p>
                 `
             },
             kasko: {
                 title: "Kasko Sigortası",
+                image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Kendi aracınızı, beklemediğiniz anlarda ortaya çıkabilecek büyük masraflara karşı güvence altına alın.</p>
-                    <p>Trafik sigortası karşı tarafın hasarını öderken, Kasko Sigortası <strong>sizin kendi aracınızdaki hasarları</strong> güvence altına alır.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur. Ares Sigorta olarak, sizi ve aracınızı bu risklere karşı koruma altına alıyor, güvenli bir sürüş deneyimi sunmayı amaçlıyoruz.</p>
+                    <p>Kasko sigortası, sadece bir poliçe değil, aynı zamanda olası zararları en aza indirerek huzurlu bir yolculuk sağlamanın anahtarıdır. Araç sahipleri için özel olarak hazırlanan kasko paketlerimizle, her ihtiyacınıza uygun çözümler üretiyoruz. Şimdi aracınızı ve geleceğinizi güvence altına almak için doğru bir adım atın!</p>
+                    
+                    <h3>Kasko Sigortası Nedir?</h3>
+                    <p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz. Kasko sigortası, hem kendi hatalarınızdan kaynaklanan hem de dış etkenlerden doğabilecek risklere karşı aracınızı güvence altına alır. Poliçenizin kapsamı, aracınızı hangi durumlarda koruma altına almak istediğinize göre şekillenir ve size özel bir güvenlik ağı oluşturur.</p>
                     
                     <h3>Kasko Sigortası Neleri Kapsar?</h3>
+                    <p>Kasko sigortasının kapsamı, seçtiğiniz poliçe detaylarına bağlı olarak değişiklik gösterir. Genel olarak şu teminatları içerir:</p>
                     <ul>
-                        <li>Çarpma, çarpışma ve devrilme hasarları.</li>
-                        <li>Aracın çalınması veya çalınmaya teşebbüs edilmesi.</li>
-                        <li>Yangın, sel, deprem ve dolu gibi doğal afetler.</li>
-                        <li>Anahtar kaybı, yanlış akaryakıt dolumu ve yolda kalma (çekici) gibi ek hizmetler.</li>
+                        <li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması, bir engele çarpması veya devrilmesi sonucu oluşan hasarlar ile tek taraflı kazalardan kaynaklanan maddi zararların tazmini.</li>
+                        <li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri sigorta poliçesi kapsamında ödenir. Eğer araç bulunursa, onarım masrafları karşılanabilir.</li>
+                        <li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar. Aracın tamamen kullanılamaz hale gelmesi durumunda, aracın sigorta kapsamındaki değeri ödenir.</li>
+                        <li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar. Bu tür olaylar ciddi riskler taşıdığı için, kasko sigortası bu durumlar için hayati bir öneme sahiptir.</li>
+                        <li><strong>Vandalizm:</strong> Aracınıza kasıtlı olarak zarar verilmesi (çizilme, cam kırılması gibi durumlar) sonucu oluşan hasarlar.</li>
+                        <li><strong>Yolda Yardım Hizmetleri:</strong> Arıza durumlarında yol yardım hizmeti. Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini gibi destekler.</li>
                     </ul>
-                    <p>Ares Sigorta olarak aracınızın marka, model ve kullanım tarzına en uygun, en geniş kapsamlı kasko poliçelerini en uygun fiyat garantisi ile sunuyoruz.</p>
+
+                    <h3>Kasko Sigortasının Faydaları</h3>
+                    <ul>
+                        <li><strong>Zor Durumlarda Maddi Destek:</strong> Beklenmedik durumlarda tam koruma sağlayarak masraflarınızı minimize eder.</li>
+                        <li><strong>Hızlı Onarım ve Yedek Araç Hizmeti:</strong> Kaza veya hasar durumunda, onarım sürecinin hızlı ve zahmetsiz bir şekilde tamamlanmasını sağlar.</li>
+                        <li><strong>Kapsamlı Teminat Seçenekleri:</strong> Poliçenizi ihtiyaçlarınıza göre genişletebilir, ekstra teminatlarla korumanızı artırabilirsiniz.</li>
+                    </ul>
+                    
+                    <h3>Kasko Sigortası İçin Neden Ares Sigorta?</h3>
+                    <p>Ares Sigorta olarak, aracınızın karşılaşabileceği tüm riskleri önceden değerlendiriyor ve size en uygun kasko paketlerini sunuyoruz. Hem bütçenize uygun hem de aracınızı kapsamlı bir şekilde koruyan poliçelerimizle, güvenliğinizi ve huzurunuzu ön planda tutuyoruz.</p>
                 `
             },
             tss: {
                 title: "Tamamlayıcı Sağlık Sigortası (TSS)",
+                image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Özel hastanelerin konforundan fark ücreti ödemeden faydalanmanın en akıllı yolu.</p>
-                    <p>SGK güvencesine sahipseniz, anlaşmalı özel hastanelerde muayene, tahlil ve tedavi işlemlerinizde cebinizden ekstra para çıkmasını engelleyen harika bir çözümdür.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Sağlık, hayatımızdaki en değerli varlıktır. Ancak beklenmedik sağlık sorunları ve ekonomik zorluklar, sağlığımızı koruma çabalarımızı zorlaştırabilir. Sağlık sigortası, bu tür durumlara karşı önemli bir güvence sağlar.</p>
                     
-                    <h3>TSS'nin Avantajları Nelerdir?</h3>
+                    <h3>Sağlık Sigortası Nedir?</h3>
+                    <p>Sağlık sigortası, sağlık hizmetlerine kolayca erişim sağlarken, bu hizmetlerin maliyetlerini karşılamak için yaptırılan bir sigorta türüdür. Sigorta şirketi, poliçe sahibi adına hastalık, kaza veya tedavi amaçlı sağlık harcamalarını üstlenir.</p>
+                    <p>Sigorta kapsamı, poliçe türüne ve sigorta şirketinin sunduğu hizmetlere göre değişiklik gösterebilir. Sağlık sigortası; tedavi, doktor muayenesi, hastanede yatış, ilaç masrafları gibi birçok hizmeti karşılayabilir.</p>
+
+                    <h3>Tamamlayıcı Sağlık Sigortası</h3>
+                    <p>SGK’nın karşılamadığı bazı özel hastane masraflarını üstlenir, sağlık harcamalarını daha ekonomik hale getirir.</p>
+
+                    <h3>Sağlık Sigortası Hangi Hizmetleri Kapsar?</h3>
                     <ul>
-                        <li><strong>Yatarak Tedavi:</strong> Ameliyat, oda-yemek ve yoğun bakım masrafları %100 ve limitsiz karşılanır.</li>
-                        <li><strong>Ayakta Tedavi:</strong> Yılda ortalama 10 defaya kadar doktor muayenesi, tahlil ve röntgen işlemleri ücretsizdir.</li>
-                        <li>Geniş hastane ağı sayesinde istediğiniz doktora beklemeden muayene olabilirsiniz.</li>
+                        <li><strong>Muayene ve Tedavi Masrafları:</strong> Doktor muayeneleri, uzman ziyaretleri ve teşhis süreçlerini kapsar.</li>
+                        <li><strong>Hastane Yatışı ve Ameliyatlar:</strong> Tedavi için hastanede yatış ve cerrahi işlemler sağlık sigortası kapsamında olabilir.</li>
+                        <li><strong>Laboratuvar Testleri ve Görüntüleme Hizmetleri:</strong> Kan tahlilleri, röntgen, MR gibi testler sigorta kapsamında olabilir.</li>
+                        <li><strong>İlaç ve Reçeteli Tedaviler:</strong> Bazı poliçeler ilaç masraflarını karşılar.</li>
+                        <li><strong>Acil Müdahale ve Ambulans Hizmetleri:</strong> Kaza veya acil durumlarda ambulans ve ilk yardım masraflarını karşılar.</li>
                     </ul>
-                    <p>Sağlığınızı şansa bırakmayın, bugün bütçenize uygun bir TSS poliçesi ile kendinizi ve ailenizi güvence altına alın.</p>
+
+                    <h3>Sağlık Sigortası Almanın Faydaları</h3>
+                    <ul>
+                        <li><strong>Finansal Güvence Sağlar:</strong> Beklenmedik sağlık harcamalarında sizi ekonomik olarak korur.</li>
+                        <li><strong>Hızlı Erişim ve Kolay Tedavi:</strong> Özel hastanelerde hızlı ve kaliteli sağlık hizmetine erişim sağlar.</li>
+                        <li><strong>Önleyici Sağlık Hizmetleri Sağlar:</strong> Düzenli sağlık taramaları ve erken teşhis ile ciddi hastalıkların önüne geçebilir.</li>
+                        <li><strong>Zihinsel Huzur Sağlar:</strong> Sağlık sorunlarında maddi endişe duymadan tedavi olma rahatlığı sunar.</li>
+                    </ul>
+                    <p>Sağlık sigortası, yalnızca bugünün değil, geleceğinizi de güvence altına alır. Sağlığınız için en doğru yatırımı yaparak hem kendinizi hem de sevdiklerinizi koruma altına alabilirsiniz.</p>
                 `
             },
             oss: {
                 title: "Özel Sağlık Sigortası (ÖSS)",
+                image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Sağlığınız için hiçbir sınır tanımayan, en kapsamlı güvence sistemi.</p>
-                    <p>Özel Sağlık Sigortası (ÖSS), SGK şartı aranmaksızın dilediğiniz A+ sınıfı hastanede ve doktorda en iyi sağlık hizmetini almanızı sağlar.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Sağlık, hayatımızdaki en değerli varlıktır. Özel Sağlık Sigortası, en geniş kapsamlı sağlık güvencesini sunar.</p>
+                    
+                    <h3>Bireysel ve Aile Sağlık Sigortası</h3>
+                    <p>Kişilerin yalnızca kendileri için yaptırdığı veya ailesini de kapsayan sigorta türüdür. Eş, çocuklar ve bazı durumlarda diğer aile bireyleri poliçeye dahil edilebilir.</p>
                     
                     <h3>ÖSS Neleri Kapsar?</h3>
                     <ul>
-                        <li>Dünya genelinde veya Türkiye'nin en seçkin hastanelerinde tedavi imkanı.</li>
-                        <li>Yatarak tedavilerde (ameliyat vb.) %100 sınırsız limit seçenekleri.</li>
+                        <li>Dünya genelinde veya Türkiye'nin en seçkin hastanelerinde beklemeden tedavi imkanı.</li>
+                        <li>Yatarak tedavilerde (ameliyat, yoğun bakım vb.) yüksek veya sınırsız limit seçenekleri.</li>
                         <li>Geniş kapsamlı ayakta tedavi, fizik tedavi, ileri tanı yöntemleri ve check-up imkanları.</li>
-                        <li>Doğum ve hamilelik rutin kontrollerini kapsayan ek teminat seçenekleri.</li>
+                        <li>Diş tedavisi, psikolojik danışmanlık ve estetik müdahaleler (Poliçe şartlarına göre ek teminatlarla).</li>
+                    </ul>
+
+                    <h3>Sağlık Sigortası Almanın Faydaları</h3>
+                    <ul>
+                        <li><strong>Kapsamlı Sağlık Hizmetleri Sunar:</strong> Rutin kontrollerden acil durumlara kadar birçok hizmet sigorta kapsamındadır.</li>
+                        <li><strong>Ailenizi Korumaya Alabilirsiniz:</strong> Aile sigortası ile tüm aile bireylerini güvence altına alabilirsiniz.</li>
+                        <li><strong>Hızlı Erişim:</strong> Özel hastanelerde sıraya girmeden, en üst düzey konforda hizmet almanızı sağlar.</li>
                     </ul>
                 `
             },
             dask: {
                 title: "DASK (Zorunlu Deprem Sigortası)",
+                image: "https://images.unsplash.com/photo-1601594951477-80be4fb5d7c8?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Evinizi depremin yıkıcı etkilerine karşı devlet güvencesiyle koruyun.</p>
-                    <p>Doğal Afet Sigortaları Kurumu (DASK) tarafından sunulan bu sigorta, depremin ve deprem sonucu meydana gelen yangın, infilak, devrilme gibi afetlerin binanızda bırakacağı maddi hasarları karşılar.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Türkiye, deprem riski yüksek bir coğrafyada yer alıyor ve bu durum, konut sahiplerinin gerekli önlemleri almasını zorunlu hale getiriyor. Ares Sigorta olarak, konutunuzu deprem kaynaklı zararlara karşı güvence altına almanızı sağlıyoruz.</p>
+                    <p>Zorunlu deprem sigortası (DASK), yalnızca bir sigorta değil; aynı zamanda geleceğinize yaptığınız bir yatırımdır.</p>
+
+                    <h3>DASK Nedir ve Neleri Kapsar?</h3>
+                    <p>DASK (Doğal Afet Sigortaları Kurumu) tarafından sağlanan zorunlu deprem sigortası, deprem ve deprem kaynaklı zararları teminat altına alarak konut sahiplerine güvence sunar. Yalnızca deprem ve onun yol açtığı maddi zararları kapsar. Sel, fırtına, yıldırım gibi diğer doğal afetler ya da kaza sonucu meydana gelen zararlar DASK teminatına dahil değildir.</p>
                     
-                    <h3>Neden DASK Yaptırmalısınız?</h3>
+                    <h3>DASK’ın Kapsadığı Hasarlar</h3>
                     <ul>
-                        <li>Yasal olarak her konut için <strong>zorunludur.</strong> Elektrik, su, doğalgaz abonelikleri DASK olmadan açılamaz.</li>
-                        <li>Binanın tamamen yıkılması veya kısmi hasar görmesi durumunda poliçe limitleri dahilinde nakit ödeme sağlar.</li>
+                        <li><strong>Deprem Sonrası Yapısal Hasarlar:</strong> Bina duvarlarında oluşan çatlaklar, kolon ve kirişlerde meydana gelen hasarlar, binanın temeline yönelik zararlar.</li>
+                        <li><strong>Deprem Kaynaklı Yangın ve Patlama:</strong> Deprem nedeniyle meydana gelen yangınlar, patlamalar ve bina infilakları.</li>
+                        <li><strong>Binanın Çökmesi:</strong> Deprem sırasında veya sonrasında binanın tamamen ya da kısmen çökmesi.</li>
+                        <li><strong>Zemin Hasarları:</strong> Deprem sonucu oluşan zemin hareketleri, toprak kaymaları ya da zemin çökmeleri.</li>
                     </ul>
-                    <p>DASK sadece binanın yapısal hasarlarını karşılar. Evinizin içindeki eşyalar için <strong>Konut Paket Sigortası</strong> yaptırmanız tavsiye edilir.</p>
+
+                    <h3>DASK Zorunlu mu?</h3>
+                    <p>Evet, DASK Türkiye’de zorunlu bir sigortadır. Bu sigorta, tapuya kayıtlı tüm konutlar için gereklidir. DASK poliçesi yaptırılmamış bir konut, elektrik, su, doğalgaz gibi altyapı hizmetlerinden faydalanamaz ve hukuki işlemlerde ciddi sorunlar yaşayabilir.</p>
+
+                    <h3>DASK Poliçesi Alırken Nelere Dikkat Edilmeli?</h3>
+                    <p>Binanın Yaşı ve Yapı Türü poliçe fiyatı üzerinde belirleyici rol oynar. Türkiye’deki her bölgenin deprem riski farklıdır. Konutun metrekare alanı poliçe teminatını belirler. Ares Sigorta olarak, size en uygun DASK poliçesini sunmak için buradayız!</p>
                 `
             },
             konut: {
-                title: "Konut Paket Sigortası",
+                title: "Konut Sigortası",
+                image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
-                    <p class="text-lg font-medium text-gray-800 mb-4">Eviniz ve içindeki eşyalarınız hayatınızın en değerli yatırımlarıdır. Onları koruma altına alın.</p>
-                    <p>Zorunlu deprem sigortasının (DASK) kapsamadığı tüm diğer riskler ve eşya zararları Konut Paket Sigortası ile güvence altındadır.</p>
+                    <p class="text-lg font-medium text-gray-800 mb-4">Evimiz, hem maddi hem de manevi anlamda en değerli varlıklarımızdan biridir. Ancak yangın, deprem, su baskını gibi doğal afetler ve hırsızlık gibi beklenmedik riskler, evimizde ciddi hasarlara yol açabilir.</p>
+                    <p>Ares Sigorta olarak, evinizi ve eşyalarınızı koruma altına alarak sizi olası risklere karşı güvenceye alıyoruz.</p>
                     
-                    <h3>Neleri Teminat Altına Alır?</h3>
+                    <h3>Konut Sigortası Nedir?</h3>
+                    <p>Konut sigortası, evi ve içinde bulunan eşyaları çeşitli risklere karşı güvence altına alan kapsamlı bir sigorta türüdür. Yangın, deprem, su baskını gibi doğal afetlerin yanı sıra hırsızlık gibi maddi kayıplara yol açabilecek durumlarda sigortalının zararını karşılayan bu poliçe, beklenmedik durumlarda büyük maliyetlerden korunmanıza yardımcı olur.</p>
+                    
+                    <h3>Konut Sigortası Teminatları</h3>
                     <ul>
-                        <li>Yangın, yıldırım, infilak.</li>
-                        <li>Hırsızlık (Elektronik eşya, ziynet eşyası, mobilyalar).</li>
-                        <li>Su baskını (Dahili su, sel veya su basması).</li>
-                        <li>Komşularınıza veya alt kata verebileceğiniz maddi zararlar (Sorumluluk teminatı).</li>
-                        <li>Ücretsiz çilingir, camcı ve su tesisatçısı gibi asistans hizmetleri.</li>
+                        <li><strong>Yangın, İnfilak, Yıldırım:</strong> Yangın nedeniyle zarar gören eşyalar ve konut yapısı karşılanır.</li>
+                        <li><strong>Deprem:</strong> DASK'ın limitini aşan kısımlar konut poliçesiyle güvence altına alınabilir.</li>
+                        <li><strong>Hırsızlık:</strong> Evde bulunan eşyaların zarar görmesi ya da çalınması durumunda kayıplar karşılanır.</li>
+                        <li><strong>Dahili Su:</strong> Bina içindeki su tesisatı veya kalorifer borularında meydana gelen kazalar sonucu oluşan hasarlar.</li>
+                        <li><strong>Cam Kırılması ve Taşıt Çarpması:</strong> Kırılan camlar ve eve çarpan taşıtların oluşturduğu zararlar.</li>
+                        <li><strong>Toplumsal Olaylar:</strong> Terör, halk hareketleri gibi durumlarda oluşan hasarlar (muafiyet oranları ile).</li>
+                        <li><strong>Enkaz Kaldırma:</strong> Hasar sonrası oluşan enkazın temizlenme masrafları.</li>
                     </ul>
+
+                    <h3>Konut Sigortasının Avantajları</h3>
+                    <p>Acil durumlarda yüksek maliyetlerle karşılaşma riskini azaltır, hem evinizi hem de içindeki değerli eşyalarınızı güvence altına alır. Ares Sigorta ile evinizi ve sevdiklerinizi korumak sizin elinizde!</p>
                 `
             },
             seyahat: {
-                title: "Seyahat Sağlık Sigortası",
+                title: "Seyahat Sigortası",
+                image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800&h=400",
                 content: `
                     <p class="text-lg font-medium text-gray-800 mb-4">Yurt içi veya yurt dışı seyahatlerinizde başınıza gelebilecek sürprizlere karşı önleminizi alın.</p>
                     <p>Özellikle Schengen vizeleri için zorunlu olan bu sigorta, seyahatiniz boyunca karşılaşabileceğiniz sağlık sorunlarını ve lojistik problemleri çözer.</p>
                     
                     <h3>Neden Önemlidir?</h3>
                     <ul>
-                        <li>Yurt dışında yaşanacak ani rahatsızlıklar ve kazalarda çok yüksek olabilen hastane masraflarını 30.000 Euro'ya kadar karşılar.</li>
+                        <li>Yurt dışında yaşanacak ani rahatsızlıklar ve kazalarda çok yüksek olabilen hastane masraflarını karşılar.</li>
                         <li>Bagaj kaybı, gecikmesi veya uçuş iptalleri gibi durumlarda tazminat öder.</li>
                         <li>Acil durumlarda tıbbi nakil ve ülkeye geri dönüş (repatriasyon) masraflarını üstlenir.</li>
                     </ul>
@@ -555,10 +724,11 @@
             }
         };
 
-        // --- BİLGİ MODALI KONTROLLERİ ---
+        // --- BİLGİ VE BLOG MODALLARI ---
         function showInsuranceInfo(type) {
             const info = insuranceDetails[type];
             if(info) {
+                document.getElementById('infoModalImageContainer').innerHTML = `<img src="${info.image}" alt="${info.title}" class="w-full h-48 md:h-64 object-cover">`;
                 document.getElementById('infoModalContent').innerHTML = `
                     <h2 class="text-3xl font-extrabold text-primary mb-6 border-b border-gray-200 pb-4">${info.title}</h2>
                     ${info.content}
@@ -566,26 +736,24 @@
                 document.getElementById('infoModal').classList.add('active');
             }
         }
-        function closeInfoModal() {
-            document.getElementById('infoModal').classList.remove('active');
-        }
+        function closeInfoModal() { document.getElementById('infoModal').classList.remove('active'); }
+        
+        function openBlogModal() { document.getElementById('blogModal').classList.add('active'); }
+        function closeBlogModal() { document.getElementById('blogModal').classList.remove('active'); }
 
-        // --- MOBİL MENÜ KONTROLÜ ---
+        // --- MOBİL MENÜ ---
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             const icon = document.querySelector('#mobileMenuBtn i');
             
             if (menu.classList.contains('hidden')) {
                 menu.classList.remove('hidden');
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
             } else {
                 menu.classList.add('hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
             }
             
-            // Mobil menü açıkken auth durumunu güncelle (Butonu gizle/göster)
             const mobileAuthContainer = document.getElementById('mobileAuthContainer');
             if(currentUser) {
                 mobileAuthContainer.innerHTML = `
@@ -598,36 +766,34 @@
             }
         }
 
+        // Yeni Mobil Sigortalar Dropdown Mantığı
+        function toggleMobileDropdown() {
+            const dropMenu = document.getElementById('mobileSigortalarMenu');
+            const dropIcon = document.getElementById('mobileDropIcon');
+            if (dropMenu.classList.contains('hidden')) {
+                dropMenu.classList.remove('hidden'); dropMenu.classList.add('grid');
+                dropIcon.style.transform = 'rotate(180deg)';
+            } else {
+                dropMenu.classList.add('hidden'); dropMenu.classList.remove('grid');
+                dropIcon.style.transform = 'rotate(0deg)';
+            }
+        }
 
-        // --- SUPABASE VE OTURUM ---
+        // --- SUPABASE VE SİSTEM MANTIĞI (Aynı Bırakıldı) ---
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
+        let currentUser = null; let userProfileData = null; let spinRights = 0;
 
-        let currentUser = null;
-        let userProfileData = null;
-        let spinRights = 0;
-
-        const gorevListesi = [
-            "Aylık 3 adet Konut poliçesi tanzim et",
-            "Aylık 3 adet TSS poliçesi tanzim et",
-            "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Konut poliçesi",
-            "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Kasko poliçesi",
-            "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"
-        ];
+        const gorevListesi = ["Aylık 3 adet Konut poliçesi tanzim et", "Aylık 3 adet TSS poliçesi tanzim et", "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Konut poliçesi", "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Kasko poliçesi", "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"];
 
         async function checkSession() {
             try {
                 const { data: { session }, error } = await supabaseClient.auth.getSession();
-                if (session) {
-                    currentUser = session.user;
-                    userProfileData = currentUser.user_metadata;
-                    await fetchUserRights();
-                } else {
-                    currentUser = null; userProfileData = null; spinRights = 0;
-                }
+                if (session) { currentUser = session.user; userProfileData = currentUser.user_metadata; await fetchUserRights(); } 
+                else { currentUser = null; userProfileData = null; spinRights = 0; }
                 updateUIBasedOnAuth();
             } catch (err) { console.error("Oturum hatası:", err); }
         }
@@ -642,36 +808,25 @@
 
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'INITIAL_SESSION') return; 
-            if (session) {
-                currentUser = session.user; userProfileData = currentUser.user_metadata; fetchUserRights();
-            } else {
-                currentUser = null; userProfileData = null; spinRights = 0;
-            }
+            if (session) { currentUser = session.user; userProfileData = currentUser.user_metadata; fetchUserRights(); } 
+            else { currentUser = null; userProfileData = null; spinRights = 0; }
             updateUIBasedOnAuth();
         });
 
         async function fetchUserRights() {
             if(!currentUser) return;
             const { data, error } = await supabaseClient.from('kullanici_haklari').select('kalan_hak').eq('email', currentUser.email).single();
-            if(data) {
-                spinRights = data.kalan_hak; document.getElementById('spinRightsText').innerText = spinRights;
-            } else if (error && error.code === 'PGRST116') {
-                await supabaseClient.from('kullanici_haklari').insert([{ email: currentUser.email, kalan_hak: 0 }]);
-                spinRights = 0;
+            if(data) { spinRights = data.kalan_hak; document.getElementById('spinRightsText').innerText = spinRights; } 
+            else if (error && error.code === 'PGRST116') {
+                await supabaseClient.from('kullanici_haklari').insert([{ email: currentUser.email, kalan_hak: 0 }]); spinRights = 0;
             }
         }
 
         function updateUIBasedOnAuth() {
-            const elements = {
-                auth: document.getElementById('authNavBtn'), profile: document.getElementById('profileNavBtn'),
-                user: document.getElementById('userNavBtn'), unauthV: document.getElementById('unauthCampaignView'),
-                authV: document.getElementById('authCampaignView'), adminBtn: document.getElementById('adminNavBtn')
-            };
-
+            const elements = { auth: document.getElementById('authNavBtn'), profile: document.getElementById('profileNavBtn'), user: document.getElementById('userNavBtn'), unauthV: document.getElementById('unauthCampaignView'), authV: document.getElementById('authCampaignView'), adminBtn: document.getElementById('adminNavBtn') };
             if(currentUser) {
                 if(elements.auth) elements.auth.classList.add('hidden');
                 if(elements.user) elements.user.classList.remove('hidden');
-                
                 if(currentUser.email === ADMIN_EMAIL) {
                     if(elements.adminBtn) elements.adminBtn.classList.remove('hidden');
                     if(elements.profile) elements.profile.classList.add('hidden'); 
@@ -679,7 +834,6 @@
                     if(elements.adminBtn) elements.adminBtn.classList.add('hidden');
                     if(elements.profile) elements.profile.classList.remove('hidden');
                 }
-
                 if(elements.unauthV) elements.unauthV.classList.replace('block', 'hidden');
                 if(elements.authV) elements.authV.classList.replace('hidden', 'block');
                 renderTasks(); renderPrizes(); 
@@ -691,33 +845,20 @@
                 if(elements.unauthV) elements.unauthV.classList.replace('hidden', 'block');
                 if(elements.authV) elements.authV.classList.replace('block', 'hidden');
             }
-            
-            // Eğer mobil menü açıksa içeriğini yenile
-            if(!document.getElementById('mobileMenu').classList.contains('hidden')) {
-                toggleMobileMenu(); // kapa
-                toggleMobileMenu(); // aç
-            }
         }
 
         async function goreviOnayaGonder(gorevAdi, btnElement) {
             btnElement.disabled = true; btnElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
-            const { error } = await supabaseClient.from('gorev_talepleri').insert([{
-                kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz Üye', gorev_adi: gorevAdi, durum: 'Bekliyor'
-            }]);
-            if(!error) {
-                btnElement.outerHTML = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`;
-            } else {
-                alert("Sistemsel bir hata oluştu."); btnElement.disabled = false; btnElement.innerHTML = "✓ Görevi Tamamladım";
-            }
+            const { error } = await supabaseClient.from('gorev_talepleri').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz Üye', gorev_adi: gorevAdi, durum: 'Bekliyor' }]);
+            if(!error) { btnElement.outerHTML = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`; } 
+            else { alert("Sistemsel bir hata oluştu."); btnElement.disabled = false; btnElement.innerHTML = "✓ Görevi Tamamladım"; }
         }
 
         async function renderTasks() {
             const container = document.getElementById('tasksContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Görevler yükleniyor...</div>';
             const { data: userTasks } = await supabaseClient.from('gorev_talepleri').select('gorev_adi, durum').eq('kullanici_email', currentUser.email);
-            const taskStatusMap = {};
-            if (userTasks) userTasks.forEach(t => taskStatusMap[t.gorev_adi] = t.durum);
-
+            const taskStatusMap = {}; if (userTasks) userTasks.forEach(t => taskStatusMap[t.gorev_adi] = t.durum);
             container.innerHTML = gorevListesi.map(g => {
                 const durum = taskStatusMap[g]; let btn = '';
                 if (durum === 'Bekliyor') btn = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`;
@@ -731,33 +872,22 @@
             const container = document.getElementById('prizesContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Ödüller yükleniyor...</div>';
             const { data: prizes } = await supabaseClient.from('kazanilan_oduller').select('*').eq('kullanici_email', currentUser.email).order('kazanma_tarihi', { ascending: false });
-            if (!prizes || prizes.length === 0) {
-                container.innerHTML = `<div class="text-center p-8 text-gray-500 bg-white rounded-xl border border-gray-200 font-medium"><i class="fas fa-box-open text-4xl text-gray-300 mb-3"></i><br>Henüz bir ödül kazanmadınız.</div>`; return;
-            }
+            if (!prizes || prizes.length === 0) { container.innerHTML = `<div class="text-center p-8 text-gray-500 bg-white rounded-xl border border-gray-200 font-medium"><i class="fas fa-box-open text-4xl text-gray-300 mb-3"></i><br>Henüz bir ödül kazanmadınız.</div>`; return; }
             container.innerHTML = prizes.map(p => {
                 const isDelivered = p.durum === 'İletildi'; const date = new Date(p.kazanma_tarihi).toLocaleDateString('tr-TR');
                 return `
                 <div class="bg-white p-5 rounded-xl shadow-sm border ${isDelivered ? 'border-green-200 bg-green-50/50' : 'border-yellow-200 bg-yellow-50/50'} relative">
-                    <div class="absolute top-4 right-4 text-xs font-bold px-2.5 py-1 rounded-md ${isDelivered ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
-                        ${isDelivered ? '<i class="fas fa-check mr-1"></i> İletildi' : '<i class="fas fa-clock mr-1"></i> Bekleniyor'}
-                    </div>
-                    <div class="flex items-center space-x-4 mb-2">
-                        <div class="text-4xl">🎁</div>
-                        <div><h4 class="font-extrabold text-gray-800 text-lg">${p.odul_adi}</h4><p class="text-xs text-gray-500 font-medium">Kazanma Tarihi: ${date}</p></div>
-                    </div>
+                    <div class="absolute top-4 right-4 text-xs font-bold px-2.5 py-1 rounded-md ${isDelivered ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${isDelivered ? '<i class="fas fa-check mr-1"></i> İletildi' : '<i class="fas fa-clock mr-1"></i> Bekleniyor'}</div>
+                    <div class="flex items-center space-x-4 mb-2"><div class="text-4xl">🎁</div><div><h4 class="font-extrabold text-gray-800 text-lg">${p.odul_adi}</h4><p class="text-xs text-gray-500 font-medium">Kazanma Tarihi: ${date}</p></div></div>
                     ${isDelivered && p.teslim_edilen_kod ? `<div class="mt-4 bg-white p-4 rounded-lg border border-gray-100 shadow-sm text-center"><p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">A101 Hediye Kodunuz</p><p class="font-black text-xl text-primary tracking-widest">${p.teslim_edilen_kod}</p></div>` : `<p class="text-sm text-gray-600 font-medium mt-3 border-t border-yellow-200/50 pt-3">Tebrikler! Yöneticimiz en kısa sürede A101 ödül kodunuzu tanımlayacaktır.</p>`}
                 </div>`;
             }).join('');
         }
 
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        
         const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
-        const numSectors = sectors.length; 
-        const sectorDeg = 360 / numSectors; 
-        const arc = (2 * Math.PI) / numSectors; 
-        let currentRotation = 0;
+        const numSectors = sectors.length; const sectorDeg = 360 / numSectors; const arc = (2 * Math.PI) / numSectors; let currentRotation = 0;
 
         function drawWheel() {
             const center = 200; 
@@ -772,51 +902,27 @@
 
         document.getElementById('spinBtn').addEventListener('click', async () => {
             if (spinRights <= 0) return alert("Çarkı çevirmek için Görevlerim sekmesinden görev tamamlayıp hak kazanmalısınız!");
-            
             const btn = document.getElementById('spinBtn'); btn.disabled = true; document.getElementById('wheelResult').innerText = "Şansın Dönüyor...";
-            
             const yeniHak = spinRights - 1;
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            const probabilities = [
-                { index: 0, prob: 25 }, // 100 TL
-                { index: 1, prob: 20 }, // 250 TL
-                { index: 2, prob: 30 }, // Tekrar Dene
-                { index: 3, prob: 15 }, // 500 TL
-                { index: 4, prob: 10 }, // 1000 TL
-                { index: 5, prob: 0  }  // Iphone 15
-            ];
-
-            let rand = Math.random() * 100;
-            let sum = 0;
-            let winningIndex = 0;
-            for(let p of probabilities) {
-                sum += p.prob;
-                if(rand <= sum) { winningIndex = p.index; break; }
-            }
+            const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 20 }, { index: 2, prob: 30 }, { index: 3, prob: 15 }, { index: 4, prob: 10 }, { index: 5, prob: 0 }];
+            let rand = Math.random() * 100; let sum = 0; let winningIndex = 0;
+            for(let p of probabilities) { sum += p.prob; if(rand <= sum) { winningIndex = p.index; break; } }
 
             const targetRotation = 270 - (winningIndex * sectorDeg + sectorDeg / 2);
-            const currentMod = currentRotation % 360;
-            let rotationNeeded = targetRotation - currentMod;
-            if (rotationNeeded < 0) rotationNeeded += 360;
-            
-            const finalRotation = currentRotation + 3600 + rotationNeeded;
-            currentRotation = finalRotation; 
-            canvas.style.transform = `rotate(${currentRotation}deg)`;
+            const currentMod = currentRotation % 360; let rotationNeeded = targetRotation - currentMod; if (rotationNeeded < 0) rotationNeeded += 360;
+            const finalRotation = currentRotation + 3600 + rotationNeeded; currentRotation = finalRotation; canvas.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(async () => {
-                btn.disabled = false; 
-                let wonPrize = sectors[winningIndex];
+                btn.disabled = false; let wonPrize = sectors[winningIndex];
                 if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
-                
                 if(wonPrize !== "Tekrar Dene") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);
                     alert(`Tebrikler! ${wonPrize} kazandınız. Ödülünüz "Ödüllerim" sekmesine eklendi.`); renderPrizes(); 
-                } else {
-                    alert("Tüh, Tekrar Dene geldi! Görevleri tamamlayarak yeni hak kazanabilirsiniz.");
-                }
+                } else { alert("Tüh, Tekrar Dene geldi! Görevleri tamamlayarak yeni hak kazanabilirsiniz."); }
             }, 4000);
         });
 
@@ -834,10 +940,7 @@
 
         function openAuthModal() { document.getElementById('authModal').classList.add('active'); document.getElementById('authResult').innerHTML = ''; }
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
-        function closeCampaignModal() { 
-            if(document.getElementById('dontShowAgain') && document.getElementById('dontShowAgain').checked) localStorage.setItem('hideCampaignModal', 'true');
-            document.getElementById('campaignModal').classList.remove('active'); 
-        }
+        function closeCampaignModal() { if(document.getElementById('dontShowAgain') && document.getElementById('dontShowAgain').checked) localStorage.setItem('hideCampaignModal', 'true'); document.getElementById('campaignModal').classList.remove('active'); }
         function switchAuthTab(t) {
             const isLogin = t === 'login';
             document.getElementById('loginForm').classList[isLogin ? 'remove' : 'add']('hidden'); document.getElementById('registerForm').classList[isLogin ? 'add' : 'remove']('hidden');
@@ -852,12 +955,8 @@
             try {
                 const mail = document.getElementById('loginEmail').value;
                 const { error } = await supabaseClient.auth.signInWithPassword({ email: mail, password: document.getElementById('loginPassword').value });
-                if (error) throw error;
-                document.getElementById('authResult').innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı!</span>';
-                setTimeout(() => { 
-                    closeAuthModal(); document.getElementById('loginForm').reset(); s.disabled = false; s.innerText = o; document.getElementById('authResult').innerHTML = ''; 
-                    if (mail === ADMIN_EMAIL) window.location.href = '/admin.html';
-                }, 1000);
+                if (error) throw error; document.getElementById('authResult').innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı!</span>';
+                setTimeout(() => { closeAuthModal(); document.getElementById('loginForm').reset(); s.disabled = false; s.innerText = o; document.getElementById('authResult').innerHTML = ''; if (mail === ADMIN_EMAIL) window.location.href = '/admin.html'; }, 1000);
             } catch (error) { document.getElementById('authResult').innerHTML = `<span class="text-red-500 font-semibold">❌ Giriş başarısız.</span>`; s.disabled = false; s.innerText = o; }
         });
 
@@ -866,8 +965,7 @@
             try {
                 await supabaseClient.auth.signOut();
                 const { error } = await supabaseClient.auth.signUp({ email: document.getElementById('regEmail').value, password: document.getElementById('regPassword').value, options: { data: { full_name: document.getElementById('regName').value }, emailRedirectTo: window.location.origin } });
-                if (error) throw error;
-                document.getElementById('authResult').innerHTML = '<span class="text-green-600">✅ Kayıt başarılı! Lütfen e-postanızı onaylayın.</span>';
+                if (error) throw error; document.getElementById('authResult').innerHTML = '<span class="text-green-600">✅ Kayıt başarılı! Lütfen e-postanızı onaylayın.</span>';
                 setTimeout(() => { closeAuthModal(); document.getElementById('registerForm').reset(); s.disabled = false; s.innerText = o; switchAuthTab('login'); }, 3000);
             } catch (error) { document.getElementById('authResult').innerHTML = `<span class="text-red-500 font-semibold">❌ Hata oluştu.</span>`; s.disabled = false; s.innerText = o; }
         });
@@ -876,7 +974,7 @@
         function openProfileModal() { if(currentUser) { document.getElementById('profileEmail').value = currentUser.email; document.getElementById('profileName').value = userProfileData?.full_name || ''; document.getElementById('profileResult').innerHTML = ''; document.getElementById('profileModal').classList.add('active'); } }
         function closeProfileModal() { document.getElementById('profileModal').classList.remove('active'); }
         document.getElementById('profileForm').addEventListener('submit', async (e) => { e.preventDefault(); const s = e.target.querySelector('button[type="submit"]'); s.disabled = true; s.innerText = "Kaydediliyor..."; const n = document.getElementById('profileName').value; await supabaseClient.auth.updateUser({ data: { full_name: n } }); userProfileData.full_name = n; document.getElementById('profileResult').innerHTML = '<span class="text-green-600">✅ Güncellendi!</span>'; setTimeout(() => { closeProfileModal(); s.disabled = false; s.innerText = "Değişiklikleri Kaydet"; }, 1000); });
-
+        
         function sigortaTuruSec(tur) {
             document.querySelectorAll('.insurance-card').forEach(card => {
                 card.classList.remove('active', 'border-primary', 'bg-blue-50');
@@ -896,8 +994,7 @@
             const formBaslik = document.getElementById('formBaslik');
 
             altTurVeFormDiv.classList.remove('hidden', 'animate-fade-in');
-            void altTurVeFormDiv.offsetWidth; 
-            altTurVeFormDiv.classList.add('animate-fade-in');
+            void altTurVeFormDiv.offsetWidth; altTurVeFormDiv.classList.add('animate-fade-in');
 
             altTurButonlariDiv.innerHTML = ''; formDiv.innerHTML = ''; formBaslik.textContent = '';
             
@@ -921,28 +1018,18 @@
         }
 
         function createAltTurButton(anaTur, altTurId, altTurAd) {
-            const btn = document.createElement('button');
-            btn.type = 'button'; btn.textContent = altTurAd;
+            const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = altTurAd;
             btn.className = 'alt-tur-btn bg-white border border-gray-200 text-gray-700 px-6 py-2.5 rounded-full font-bold hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm';
-            btn.onclick = () => teklifFormuOlustur(anaTur, altTurId, altTurAd);
-            return btn;
+            btn.onclick = () => teklifFormuOlustur(anaTur, altTurId, altTurAd); return btn;
         }
 
         function teklifFormuOlustur(anaTur, altTur, altTurAdi = '') {
-            const formDiv = document.getElementById('teklifFormu');
-            const formBaslik = document.getElementById('formBaslik');
-            
-            formDiv.classList.remove('animate-fade-in'); void formDiv.offsetWidth; formDiv.classList.add('animate-fade-in');
-            formDiv.innerHTML = ''; 
-            
+            const formDiv = document.getElementById('teklifFormu'); const formBaslik = document.getElementById('formBaslik');
+            formDiv.classList.remove('animate-fade-in'); void formDiv.offsetWidth; formDiv.classList.add('animate-fade-in'); formDiv.innerHTML = ''; 
             if (altTurAdi) {
-                document.querySelectorAll('.alt-tur-btn').forEach(btn => {
-                    btn.classList.remove('bg-primary', 'text-white', 'border-primary'); btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
-                });
+                document.querySelectorAll('.alt-tur-btn').forEach(btn => { btn.classList.remove('bg-primary', 'text-white', 'border-primary'); btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200'); });
                 const activeButton = Array.from(document.querySelectorAll('.alt-tur-btn')).find(btn => btn.textContent === altTurAdi);
-                if (activeButton) {
-                    activeButton.classList.remove('bg-white', 'text-gray-700', 'border-gray-200'); activeButton.classList.add('bg-primary', 'text-white', 'border-primary');
-                }
+                if (activeButton) { activeButton.classList.remove('bg-white', 'text-gray-700', 'border-gray-200'); activeButton.classList.add('bg-primary', 'text-white', 'border-primary'); }
             }
 
             let formHTML = `
@@ -990,38 +1077,15 @@
             IMask(document.getElementById('cep_telefonu'), { mask: '0 (500) 000 00 00' });
 
             formDiv.addEventListener('submit', async function(e) {
-                e.preventDefault(); 
-                const submitButton = formDiv.querySelector('button[type="submit"]');
-                const sonucMesaji = document.getElementById('formSonuc');
-                
-                submitButton.disabled = true; 
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; 
-                submitButton.classList.add('opacity-70', 'cursor-not-allowed');
-                sonucMesaji.innerHTML = '';
-
-                const formData = new FormData(formDiv);
-                const data = Object.fromEntries(formData.entries());
-
+                e.preventDefault(); const submitButton = formDiv.querySelector('button[type="submit"]'); const sonucMesaji = document.getElementById('formSonuc');
+                submitButton.disabled = true; submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; submitButton.classList.add('opacity-70', 'cursor-not-allowed'); sonucMesaji.innerHTML = '';
+                const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
                 try {
-                    const response = await fetch('/api/send', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (response.ok) {
-                        sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
-                        formDiv.reset();
-                    } else {
-                        throw new Error('Sunucu hatası veya bağlantı problemi.');
-                    }
-                } catch (error) {
-                    sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`;
-                } finally {
-                    submitButton.disabled = false; 
-                    submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; 
-                    submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
-                }
+                    const response = await fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    if (response.ok) { sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>'; formDiv.reset(); } 
+                    else { throw new Error('Sunucu hatası.'); }
+                } catch (error) { sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; } 
+                finally { submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed'); }
             });
         }
     </script>

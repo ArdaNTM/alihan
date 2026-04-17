@@ -48,6 +48,10 @@
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-container { background-color: #fff; max-width: 650px; width: 100%; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; margin: auto; transform: translateY(-20px) scale(0.98); transition: all 0.3s ease-out; }
         .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
+        
+        /* Büyük Bilgi Modalı İçin Özel Sınıf */
+        .info-modal-container { max-width: 800px; }
+        
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; line-height: 1; color: white;}
         .close-btn-dark { color: #6b7280; }
         .close-btn-dark:hover { color: #111827; }
@@ -59,27 +63,91 @@
         .insurance-card { border: 2px solid transparent; }
         .insurance-card.active { border-color: #0078D7; background-color: #eff6ff; }
         .insurance-card.active .icon-box { background-color: #0078D7; color: white; }
+
+        /* Dropdown Stilleri */
+        .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; }
+        .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        /* Okuma Alanı İçeriği (Typography) */
+        .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; }
+        .prose li { margin-bottom: 0.25rem; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
     
     <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
-        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-8">
-                <a href="#ana-sayfa" class="text-3xl font-extrabold tracking-tighter"><span class="text-primary">ARES</span> <span class="text-dark">SİGORTA</span></a>
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#ana-sayfa" class="text-3xl font-extrabold tracking-tighter z-50"><span class="text-primary">ARES</span> <span class="text-dark">SİGORTA</span></a>
+                
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="#ana-sayfa" class="text-gray-600 hover:text-primary font-semibold transition">Ana Sayfa</a>
-                    <a href="#sigorta-turleri" class="text-gray-600 hover:text-primary font-semibold transition">Sigorta Türleri</a>
+                    
+                    <div class="relative group py-2">
+                        <button class="text-gray-600 hover:text-primary font-semibold transition flex items-center outline-none">
+                            Sigortalar <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="dropdown-menu absolute top-full left-0 mt-0 w-64 bg-white border border-gray-100 shadow-xl rounded-xl z-50 overflow-hidden">
+                            <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Araç Sigortaları</div>
+                            <a href="#" onclick="showInsuranceInfo('trafik')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Trafik Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('kasko')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition border-b border-gray-50">Kasko Sigortası</a>
+                            
+                            <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Sağlık Sigortaları</div>
+                            <a href="#" onclick="showInsuranceInfo('tss')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Tamamlayıcı Sağlık (TSS)</a>
+                            <a href="#" onclick="showInsuranceInfo('oss')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition border-b border-gray-50">Özel Sağlık (ÖSS)</a>
+                            
+                            <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Konut & Diğer</div>
+                            <a href="#" onclick="showInsuranceInfo('dask')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">DASK (Zorunlu Deprem)</a>
+                            <a href="#" onclick="showInsuranceInfo('konut')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Konut Paket Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('seyahat')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Seyahat Sigortası</a>
+                        </div>
+                    </div>
+
                     <a href="#kampanyalar" class="text-gray-600 hover:text-primary font-semibold transition flex items-center">Kampanyalar <span class="ml-1 bg-accent text-dark text-[10px] px-2 py-0.5 rounded-full font-bold">YENİ</span></a>
-                    <a href="#hizmetlerimiz" class="text-gray-600 hover:text-primary font-semibold transition">Hizmetlerimiz</a>
+                    <a href="#hizmetlerimiz" class="text-gray-600 hover:text-primary font-semibold transition">Nasıl Çalışırız?</a>
+                </div>
+
+                <div class="flex items-center space-x-3 z-50">
+                    <div class="hidden md:flex items-center space-x-3">
+                        <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border-2 border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-bold transition">Giriş Yap</button>
+                        <button id="adminNavBtn" onclick="window.location.href='/admin.html'" class="bg-red-600 text-white hover:bg-red-700 px-5 py-2 rounded-lg font-bold transition shadow-md hidden"><i class="fas fa-user-shield mr-1"></i> Admin Paneli</button>
+                        <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
+                        <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-5 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
+                        <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif Al</button>
+                    </div>
+
+                    <button id="mobileMenuBtn" class="lg:hidden text-gray-800 text-2xl focus:outline-none p-2" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
-            <div class="flex items-center space-x-3">
-                <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border-2 border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-bold transition">Giriş Yap</button>
-                <button id="adminNavBtn" onclick="window.location.href='/admin.html'" class="bg-red-600 text-white hover:bg-red-700 px-5 py-2 rounded-lg font-bold transition shadow-md hidden"><i class="fas fa-user-shield mr-1"></i> Admin Paneli</button>
-                <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
-                <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-5 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
-                <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md hidden md:block">Hızlı Teklif Al</button>
+
+            <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-6 border-t border-gray-100 mt-4 animate-fade-in">
+                <div class="flex flex-col space-y-4">
+                    <a href="#ana-sayfa" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg">Ana Sayfa</a>
+                    
+                    <div class="border-t border-gray-100 pt-3">
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-3">Sigortalarımız</p>
+                        <div class="grid grid-cols-2 gap-2 pl-2">
+                            <a href="#" onclick="showInsuranceInfo('trafik'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Trafik Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('kasko'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Kasko Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('tss'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Tamamlayıcı (TSS)</a>
+                            <a href="#" onclick="showInsuranceInfo('oss'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Özel Sağlık (ÖSS)</a>
+                            <a href="#" onclick="showInsuranceInfo('dask'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">DASK</a>
+                            <a href="#" onclick="showInsuranceInfo('konut'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Konut Sigortası</a>
+                            <a href="#" onclick="showInsuranceInfo('seyahat'); toggleMobileMenu()" class="text-gray-600 font-medium hover:text-primary">Seyahat Sigortası</a>
+                        </div>
+                    </div>
+
+                    <a href="#kampanyalar" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Kampanyalar</a>
+                    <a href="#hizmetlerimiz" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Nasıl Çalışırız?</a>
+
+                    <div class="border-t border-gray-100 pt-4 flex flex-col space-y-3" id="mobileAuthContainer">
+                        <button onclick="openAuthModal(); toggleMobileMenu()" class="bg-primary text-white w-full py-3 rounded-lg font-bold">Giriş Yap / Kayıt Ol</button>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -251,6 +319,22 @@
         </div>
     </footer>
 
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-container info-modal-container w-full">
+            <span class="close-btn close-btn-dark" onclick="closeInfoModal()">×</span>
+            <div class="p-8 md:p-12 overflow-y-auto max-h-[85vh]">
+                <div id="infoModalContent" class="prose max-w-none">
+                    </div>
+                <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-gray-600 mb-4 font-medium">Bu sigorta türü için hemen size özel teklif hazırlayalım.</p>
+                    <button onclick="closeInfoModal(); document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'});" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md">
+                        Hızlı Teklif Al
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="campaignModal" class="modal-overlay">
         <div class="modal-container">
             <span class="close-btn" onclick="closeCampaignModal()">×</span>
@@ -357,6 +441,165 @@
     </div>
 
     <script>
+        // --- SİGORTA BİLGİ METİNLERİ (YENİ EKLENDİ) ---
+        const insuranceDetails = {
+            trafik: {
+                title: "Zorunlu Trafik Sigortası",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, yolculuklarınızı daha güvenli hale getiriyoruz.</p>
+                    <p>Trafikte meydana gelebilecek kazalarda hem sizi hem de diğer tarafları güvence altına alan çözümlerimizle yanınızdayız. Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan hizmetlerimizle hayatınızı kolaylaştırmayı hedefliyoruz.</p>
+                    
+                    <h3>Trafik Sigortası Nedir?</h3>
+                    <p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, kazalar sonucunda <strong>karşı tarafa verilen maddi zararları</strong> karşılamak amacıyla yapılır.</p>
+                    
+                    <h3>Trafik Sigortası Ne İşe Yarar?</h3>
+                    <ul>
+                        <li><strong>Maddi Zararların Karşılanması:</strong> Karşı tarafın aracında oluşan maddi hasarları limitler dahilinde öder.</li>
+                        <li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altındadır.</li>
+                        <li><strong>Kamuya Verilen Zararlar:</strong> Çevreye veya kamu mallarına verilen zararları da kapsayabilir.</li>
+                    </ul>
+
+                    <h3>Yenilemezseniz Ne Olur?</h3>
+                    <p>Poliçenizin süresinin dolması ve yenilenmemesi durumunda aracınız trafikten men edilebilir, yasal ve idari para cezaları ile karşılaşabilirsiniz. Ayrıca olası bir kazada tüm maddi hasar sorumluluğu tamamen sizin üzerinize kalır.</p>
+                `
+            },
+            kasko: {
+                title: "Kasko Sigortası",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Kendi aracınızı, beklemediğiniz anlarda ortaya çıkabilecek büyük masraflara karşı güvence altına alın.</p>
+                    <p>Trafik sigortası karşı tarafın hasarını öderken, Kasko Sigortası <strong>sizin kendi aracınızdaki hasarları</strong> güvence altına alır.</p>
+                    
+                    <h3>Kasko Sigortası Neleri Kapsar?</h3>
+                    <ul>
+                        <li>Çarpma, çarpışma ve devrilme hasarları.</li>
+                        <li>Aracın çalınması veya çalınmaya teşebbüs edilmesi.</li>
+                        <li>Yangın, sel, deprem ve dolu gibi doğal afetler.</li>
+                        <li>Anahtar kaybı, yanlış akaryakıt dolumu ve yolda kalma (çekici) gibi ek hizmetler.</li>
+                    </ul>
+                    <p>Ares Sigorta olarak aracınızın marka, model ve kullanım tarzına en uygun, en geniş kapsamlı kasko poliçelerini en uygun fiyat garantisi ile sunuyoruz.</p>
+                `
+            },
+            tss: {
+                title: "Tamamlayıcı Sağlık Sigortası (TSS)",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Özel hastanelerin konforundan fark ücreti ödemeden faydalanmanın en akıllı yolu.</p>
+                    <p>SGK güvencesine sahipseniz, anlaşmalı özel hastanelerde muayene, tahlil ve tedavi işlemlerinizde cebinizden ekstra para çıkmasını engelleyen harika bir çözümdür.</p>
+                    
+                    <h3>TSS'nin Avantajları Nelerdir?</h3>
+                    <ul>
+                        <li><strong>Yatarak Tedavi:</strong> Ameliyat, oda-yemek ve yoğun bakım masrafları %100 ve limitsiz karşılanır.</li>
+                        <li><strong>Ayakta Tedavi:</strong> Yılda ortalama 10 defaya kadar doktor muayenesi, tahlil ve röntgen işlemleri ücretsizdir.</li>
+                        <li>Geniş hastane ağı sayesinde istediğiniz doktora beklemeden muayene olabilirsiniz.</li>
+                    </ul>
+                    <p>Sağlığınızı şansa bırakmayın, bugün bütçenize uygun bir TSS poliçesi ile kendinizi ve ailenizi güvence altına alın.</p>
+                `
+            },
+            oss: {
+                title: "Özel Sağlık Sigortası (ÖSS)",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Sağlığınız için hiçbir sınır tanımayan, en kapsamlı güvence sistemi.</p>
+                    <p>Özel Sağlık Sigortası (ÖSS), SGK şartı aranmaksızın dilediğiniz A+ sınıfı hastanede ve doktorda en iyi sağlık hizmetini almanızı sağlar.</p>
+                    
+                    <h3>ÖSS Neleri Kapsar?</h3>
+                    <ul>
+                        <li>Dünya genelinde veya Türkiye'nin en seçkin hastanelerinde tedavi imkanı.</li>
+                        <li>Yatarak tedavilerde (ameliyat vb.) %100 sınırsız limit seçenekleri.</li>
+                        <li>Geniş kapsamlı ayakta tedavi, fizik tedavi, ileri tanı yöntemleri ve check-up imkanları.</li>
+                        <li>Doğum ve hamilelik rutin kontrollerini kapsayan ek teminat seçenekleri.</li>
+                    </ul>
+                `
+            },
+            dask: {
+                title: "DASK (Zorunlu Deprem Sigortası)",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Evinizi depremin yıkıcı etkilerine karşı devlet güvencesiyle koruyun.</p>
+                    <p>Doğal Afet Sigortaları Kurumu (DASK) tarafından sunulan bu sigorta, depremin ve deprem sonucu meydana gelen yangın, infilak, devrilme gibi afetlerin binanızda bırakacağı maddi hasarları karşılar.</p>
+                    
+                    <h3>Neden DASK Yaptırmalısınız?</h3>
+                    <ul>
+                        <li>Yasal olarak her konut için <strong>zorunludur.</strong> Elektrik, su, doğalgaz abonelikleri DASK olmadan açılamaz.</li>
+                        <li>Binanın tamamen yıkılması veya kısmi hasar görmesi durumunda poliçe limitleri dahilinde nakit ödeme sağlar.</li>
+                    </ul>
+                    <p>DASK sadece binanın yapısal hasarlarını karşılar. Evinizin içindeki eşyalar için <strong>Konut Paket Sigortası</strong> yaptırmanız tavsiye edilir.</p>
+                `
+            },
+            konut: {
+                title: "Konut Paket Sigortası",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Eviniz ve içindeki eşyalarınız hayatınızın en değerli yatırımlarıdır. Onları koruma altına alın.</p>
+                    <p>Zorunlu deprem sigortasının (DASK) kapsamadığı tüm diğer riskler ve eşya zararları Konut Paket Sigortası ile güvence altındadır.</p>
+                    
+                    <h3>Neleri Teminat Altına Alır?</h3>
+                    <ul>
+                        <li>Yangın, yıldırım, infilak.</li>
+                        <li>Hırsızlık (Elektronik eşya, ziynet eşyası, mobilyalar).</li>
+                        <li>Su baskını (Dahili su, sel veya su basması).</li>
+                        <li>Komşularınıza veya alt kata verebileceğiniz maddi zararlar (Sorumluluk teminatı).</li>
+                        <li>Ücretsiz çilingir, camcı ve su tesisatçısı gibi asistans hizmetleri.</li>
+                    </ul>
+                `
+            },
+            seyahat: {
+                title: "Seyahat Sağlık Sigortası",
+                content: `
+                    <p class="text-lg font-medium text-gray-800 mb-4">Yurt içi veya yurt dışı seyahatlerinizde başınıza gelebilecek sürprizlere karşı önleminizi alın.</p>
+                    <p>Özellikle Schengen vizeleri için zorunlu olan bu sigorta, seyahatiniz boyunca karşılaşabileceğiniz sağlık sorunlarını ve lojistik problemleri çözer.</p>
+                    
+                    <h3>Neden Önemlidir?</h3>
+                    <ul>
+                        <li>Yurt dışında yaşanacak ani rahatsızlıklar ve kazalarda çok yüksek olabilen hastane masraflarını 30.000 Euro'ya kadar karşılar.</li>
+                        <li>Bagaj kaybı, gecikmesi veya uçuş iptalleri gibi durumlarda tazminat öder.</li>
+                        <li>Acil durumlarda tıbbi nakil ve ülkeye geri dönüş (repatriasyon) masraflarını üstlenir.</li>
+                    </ul>
+                `
+            }
+        };
+
+        // --- BİLGİ MODALI KONTROLLERİ ---
+        function showInsuranceInfo(type) {
+            const info = insuranceDetails[type];
+            if(info) {
+                document.getElementById('infoModalContent').innerHTML = `
+                    <h2 class="text-3xl font-extrabold text-primary mb-6 border-b border-gray-200 pb-4">${info.title}</h2>
+                    ${info.content}
+                `;
+                document.getElementById('infoModal').classList.add('active');
+            }
+        }
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        // --- MOBİL MENÜ KONTROLÜ ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.querySelector('#mobileMenuBtn i');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+            
+            // Mobil menü açıkken auth durumunu güncelle (Butonu gizle/göster)
+            const mobileAuthContainer = document.getElementById('mobileAuthContainer');
+            if(currentUser) {
+                mobileAuthContainer.innerHTML = `
+                    <button onclick="openProfileModal(); toggleMobileMenu()" class="bg-blue-100 text-primary w-full py-3 rounded-lg font-bold mb-2">Profilim</button>
+                    ${currentUser.email === ADMIN_EMAIL ? `<button onclick="window.location.href='/admin.html'" class="bg-red-600 text-white w-full py-3 rounded-lg font-bold mb-2">Admin Paneli</button>` : ''}
+                    <button onclick="handleLogout()" class="bg-gray-200 text-gray-700 w-full py-3 rounded-lg font-bold">Çıkış Yap</button>
+                `;
+            } else {
+                mobileAuthContainer.innerHTML = `<button onclick="openAuthModal(); toggleMobileMenu()" class="bg-primary text-white w-full py-3 rounded-lg font-bold">Giriş Yap / Kayıt Ol</button>`;
+            }
+        }
+
+
+        // --- SUPABASE VE OTURUM ---
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -448,6 +691,12 @@
                 if(elements.unauthV) elements.unauthV.classList.replace('hidden', 'block');
                 if(elements.authV) elements.authV.classList.replace('block', 'hidden');
             }
+            
+            // Eğer mobil menü açıksa içeriğini yenile
+            if(!document.getElementById('mobileMenu').classList.contains('hidden')) {
+                toggleMobileMenu(); // kapa
+                toggleMobileMenu(); // aç
+            }
         }
 
         async function goreviOnayaGonder(gorevAdi, btnElement) {
@@ -501,10 +750,8 @@
             }).join('');
         }
 
-        // --- HİLELİ YÜKSEK ÇÖZÜNÜRLÜKLÜ ÇARKIFELEK (A101 Güncellemesi) ---
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
         
-        // Yeni A101 Dilimleri (6 adet)
         const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; 
@@ -532,14 +779,13 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            // Gizli Olasılık Algoritması
             const probabilities = [
-                { index: 0, prob: 25 }, // 100 TL A101 (%25)
-                { index: 1, prob: 20 }, // 250 TL A101 (%20)
-                { index: 2, prob: 30 }, // Tekrar Dene (%30)
-                { index: 3, prob: 15 }, // 500 TL A101 (%15)
-                { index: 4, prob: 10 }, // 1000 TL A101 (%10)
-                { index: 5, prob: 0  }  // Iphone 15 (%0)
+                { index: 0, prob: 25 }, // 100 TL
+                { index: 1, prob: 20 }, // 250 TL
+                { index: 2, prob: 30 }, // Tekrar Dene
+                { index: 3, prob: 15 }, // 500 TL
+                { index: 4, prob: 10 }, // 1000 TL
+                { index: 5, prob: 0  }  // Iphone 15
             ];
 
             let rand = Math.random() * 100;
@@ -562,10 +808,7 @@
             setTimeout(async () => {
                 btn.disabled = false; 
                 let wonPrize = sectors[winningIndex];
-                
-                // Gösterimde A101 Çeki olarak belirt
                 if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
-
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
                 
                 if(wonPrize !== "Tekrar Dene") {
@@ -611,7 +854,6 @@
                 const { error } = await supabaseClient.auth.signInWithPassword({ email: mail, password: document.getElementById('loginPassword').value });
                 if (error) throw error;
                 document.getElementById('authResult').innerHTML = '<span class="text-green-600 font-bold">✅ Başarıyla giriş yapıldı!</span>';
-                
                 setTimeout(() => { 
                     closeAuthModal(); document.getElementById('loginForm').reset(); s.disabled = false; s.innerText = o; document.getElementById('authResult').innerHTML = ''; 
                     if (mail === ADMIN_EMAIL) window.location.href = '/admin.html';

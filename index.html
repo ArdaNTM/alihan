@@ -165,19 +165,19 @@
     </section>
 
     <section class="py-20 bg-gray-50 border-t border-gray-200" id="blog">
-        <div class="container mx-auto px-4 max-w-6xl">
+        <div class="container mx-auto px-4 max-w-6xl relative group/carousel">
             <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark">Güncel Blog Yazılarımız</h2>
                 <p class="text-gray-500 mt-3 font-medium">Sigorta dünyasındaki son gelişmeler ve faydalı bilgiler.</p>
             </div>
             
-            <div class="relative group/carousel">
-                <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
-                <div id="blogSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-4 px-2">
-                    <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
-                </div>
-                <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute -left-2 md:-left-6 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
+            
+            <div id="blogSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-4 px-2">
+                <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
             </div>
+            
+            <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute -right-2 md:-right-6 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
         </div>
     </section>
 
@@ -188,12 +188,10 @@
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div><h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3><p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
-                    <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div><h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3><p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
-                    <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
                     <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div><h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3><p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
                 </div>
             </div>
@@ -278,13 +276,8 @@
                         <h3 class="text-2xl font-bold text-gray-900 mb-6">Yorum Yapın</h3>
                         <form onsubmit="alert('Yorumunuz değerlendirilmek üzere yöneticiye iletildi.'); event.preventDefault();" class="space-y-5">
                             <textarea rows="4" class="form-input" placeholder="Yorumunuzu buraya yazın..." required></textarea>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <input type="text" class="form-input" placeholder="İsim *" required><input type="email" class="form-input" placeholder="E-posta *" required><input type="text" class="form-input md:col-span-2" placeholder="İnternet Sitesi (Opsiyonel)">
-                            </div>
-                            <div class="flex items-start space-x-3">
-                                <input type="checkbox" id="saveInfo" class="mt-1 h-4 w-4 cursor-pointer accent-primary">
-                                <label for="saveInfo" class="text-sm text-gray-600 cursor-pointer">Daha sonraki yorumlarımda kullanılması için adım, e-posta adresim ve site adresim bu tarayıcıya kaydedilsin.</label>
-                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5"><input type="text" class="form-input" placeholder="İsim *" required><input type="email" class="form-input" placeholder="E-posta *" required><input type="text" class="form-input md:col-span-2" placeholder="İnternet Sitesi (Opsiyonel)"></div>
+                            <div class="flex items-start space-x-3"><input type="checkbox" id="saveInfo" class="mt-1 h-4 w-4 cursor-pointer accent-primary"><label for="saveInfo" class="text-sm text-gray-600 cursor-pointer">Daha sonraki yorumlarımda kullanılması için adım, e-posta adresim ve site adresim bu tarayıcıya kaydedilsin.</label></div>
                             <button type="submit" class="bg-dark text-white px-8 py-3 rounded-lg font-bold hover:bg-primary transition shadow-md">Yorumu Gönder</button>
                         </form>
                     </div>
@@ -392,8 +385,7 @@
     </div>
 
     <script>
-        // --- TELEGRAM BOT AYARLARI ---
-        // LÜTFEN AŞAĞIYA KENDİ BOT TOKENİNİ YAZ (Örn: '1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ')
+        // --- TELEGRAM BOT BİLGİLERİ (GÜNCELLENDİ) ---
         const TELEGRAM_BOT_TOKEN = '8695667817:AAH2l1gh_7UFiZQ7YFrPXxMYWFtV0qA6OtA'; 
         const TELEGRAM_CHAT_ID = '6416095981';
 
@@ -411,7 +403,7 @@
         slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('cursor-grabbing'); });
         slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
 
-        // --- SİGORTA BİLGİ METİNLERİ ---
+        // --- SİGORTA BİLGİ METİNLERİ VE AKILLI YÖNLENDİRME ---
         const insuranceDetails = {
             trafik: { parentType: 'arac', formId: 'trafik', title: "Zorunlu Trafik Sigortası", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz.</p><p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz.</p><h3>Trafik Sigortası Nedir?</h3><p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p><h3>Trafik Sigortası Ne İşe Yarar?</h3><ul><li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li><li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altına alınır.</li><li><strong>Maddi Hasar Teminatı:</strong> Çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li></ul><h3>Yenilenmezse Ne Olur?</h3><ul><li>Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Aracınız trafikten men edilebilir.</li><li>İdari para cezasına neden olur.</li><li>Karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar size ait olur.</li></ul>`},
             kasko: { parentType: 'arac', formId: 'kasko', title: "Kasko Sigortası", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur.</p><h3>Kasko Sigortası Nedir?</h3><p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz.</p><h3>Kasko Sigortası Neleri Kapsar?</h3><ul><li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması veya devrilmesi sonucu oluşan hasarlar.</li><li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri ödenir.</li><li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar.</li><li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar.</li><li><strong>Yolda Yardım Hizmetleri:</strong> Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini.</li></ul>`},
@@ -486,13 +478,13 @@
             const slider = document.getElementById('blogSlider');
             if(!data || data.length === 0) {
                 slider.innerHTML = `
-                <div onclick="openBlogModalDefault()" class="w-[320px] md:w-[350px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                <div onclick="openBlogModalDefault()" class="w-full md:w-[calc(33.333%-1rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
                     <div class="h-48 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div></div>
                     <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Bugün</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p></div>
                 </div>`;
             } else {
                 slider.innerHTML = data.map(b => `
-                <div onclick="openBlogModalDynamic('${b.id}')" class="w-[320px] md:w-[350px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                <div onclick="openBlogModalDynamic('${b.id}')" class="w-full md:w-[calc(33.333%-1rem)] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
                     <div class="h-48 overflow-hidden relative"><img src="${b.resim_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">${b.kategori}</div></div>
                     <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> ${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">${b.baslik}</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">${b.icerik.replace(/<[^>]*>?/gm, '')}</p></div>
                 </div>`).join('');
@@ -511,8 +503,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            checkSession();
-            setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
+            checkSession(); setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
         });
 
         supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -555,6 +546,7 @@
             const container = document.getElementById('tasksContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Görevler yükleniyor...</div>';
             const { data: userTasks } = await supabaseClient.from('gorev_talepleri').select('gorev_adi, durum, olusturulma_tarihi').eq('kullanici_email', currentUser.email).order('olusturulma_tarihi', { ascending: false });
+            
             container.innerHTML = gorevListesi.map(g => {
                 const taskData = userTasks?.find(t => t.gorev_adi === g); const isMonthly = g.startsWith('Aylık'); let btn = '';
                 if (taskData) {
@@ -592,7 +584,7 @@
         }
 
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "Iphone 15", "Tekrar Deneyiniz"];
+        const sectors = ["250 TL Opet", "Tekrar Deneyiniz", "500 TL Opet", "1000 TL Opet", "iPhone 15", "Tekrar Deneyiniz"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; const sectorDeg = 360 / numSectors; const arc = (2 * Math.PI) / numSectors; let currentRotation = 0;
 
@@ -602,7 +594,16 @@
                 const angle = i * arc;
                 ctx.beginPath(); ctx.fillStyle = colors[i]; ctx.moveTo(center, center); ctx.arc(center, center, center, angle, angle + arc); ctx.fill();
                 ctx.save(); ctx.translate(center, center); ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; ctx.font = "bold 20px Inter, sans-serif"; ctx.fillText(sectors[i], center - 30, 8); ctx.restore();
+                ctx.textAlign = "right"; ctx.fillStyle = "#fff"; 
+                // Tekrar Deneyiniz yazısının sığması için fontu ve yerini küçülttük
+                ctx.font = sectors[i].length > 14 ? "bold 15px Inter, sans-serif" : "bold 20px Inter, sans-serif"; 
+                ctx.fillText(sectors[i], center - 35, 6); 
+                
+                // Eğer iPhone 15 ise altına elma ikonu
+                if(sectors[i] === "iPhone 15") {
+                    ctx.font = "14px 'Font Awesome 5 Free'"; ctx.fillText("\uf179", center - 15, 22);
+                }
+                ctx.restore();
             }
         }
         drawWheel();
@@ -614,7 +615,7 @@
             await supabaseClient.from('kullanici_haklari').update({ kalan_hak: yeniHak }).eq('email', currentUser.email);
             spinRights = yeniHak; document.getElementById('spinRightsText').innerText = spinRights;
 
-            // Gizli Oranlar (Toplam 100)
+            // GİZLİ ORANLAR
             const probabilities = [{ index: 0, prob: 25 }, { index: 1, prob: 30 }, { index: 2, prob: 10 }, { index: 3, prob: 5 }, { index: 4, prob: 0 }, { index: 5, prob: 30 }];
             let rand = Math.random() * 100; let sum = 0; let winningIndex = 0;
             for(let p of probabilities) { sum += p.prob; if(rand <= sum) { winningIndex = p.index; break; } }
@@ -625,7 +626,7 @@
 
             setTimeout(async () => {
                 btn.disabled = false; let wonPrize = sectors[winningIndex];
-                if (wonPrize !== "Tekrar Deneyiniz" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
+                if (wonPrize !== "Tekrar Deneyiniz" && wonPrize !== "iPhone 15") wonPrize = wonPrize + " Çeki";
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
                 if(wonPrize !== "Tekrar Deneyiniz") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);
@@ -773,40 +774,30 @@
                 e.preventDefault(); const submitButton = formDiv.querySelector('button[type="submit"]'); const sonucMesaji = document.getElementById('formSonuc');
                 submitButton.disabled = true; submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; submitButton.classList.add('opacity-70', 'cursor-not-allowed'); sonucMesaji.innerHTML = '';
                 
-                const formData = new FormData(formDiv); 
-                const data = Object.fromEntries(formData.entries());
+                const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
 
                 try {
-                    // YENİ: TELEGRAM MESAJ GÖNDERİMİ (Backend'e İhtiyaç Duymadan Anında İletim)
-                    const botToken = TELEGRAM_BOT_TOKEN; 
-                    const chatId = TELEGRAM_CHAT_ID;
-                    
+                    const response = await fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    if (response.ok) { 
+                        sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>'; formDiv.reset(); 
+                    } else { throw new Error('Sunucu hatası.'); }
+
+                    // TELEGRAM GÖNDERİMİ
                     let tgMessage = `🚀 *YENİ SİGORTA TALEBİ* 🚀\n\n`;
                     for (const [key, value] of Object.entries(data)) {
-                        if(key === 'kvkk') continue; // kvkk ibaresini göndermeye gerek yok
+                        if(key === 'kvkk') continue;
                         const cleanKey = key.replace(/_/g, ' ').toUpperCase();
                         tgMessage += `▪️ *${cleanKey}:* ${value}\n`;
                     }
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgMessage, parse_mode: 'Markdown' })
+                    });
 
-                    if(botToken && botToken !== 'BURAYA_BOT_TOKEN_YAZIN') {
-                        const tgResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                            method: 'POST', headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: chatId, text: tgMessage, parse_mode: 'Markdown' })
-                        });
-                        if (!tgResponse.ok) throw new Error('Telegram Hatası');
-                    } else {
-                        // Eğer token ayarlanmamışsa log at (test amaçlı)
-                        console.log("Gönderilen Veri:", data);
-                        console.warn("Telegram Bot Token eksik olduğu için mesaj atılamadı.");
-                    }
-
-                    sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
-                    formDiv.reset();
-                    
-                } catch (error) {
-                    sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`;
-                } finally {
-                    submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+                } catch (error) { 
+                    sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; 
+                } finally { 
+                    submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed'); 
                 }
             });
         }

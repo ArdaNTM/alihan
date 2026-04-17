@@ -23,7 +23,7 @@
         <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 text-white flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold"><i class="fas fa-user-shield mr-2"></i> Yönetim Paneli</h1>
-                <p class="text-blue-200 text-sm mt-1">Görev onaylarını ve ödül teslimatlarını yönetin.</p>
+                <p class="text-blue-200 text-sm mt-1">Görev onayları, ödüller ve blog içeriklerini yönetin.</p>
             </div>
             <div class="flex space-x-3">
                 <button onclick="window.location.href='/index.html'" class="bg-blue-600 text-white border border-blue-500 px-4 py-2 rounded font-bold hover:bg-blue-500 transition shadow">
@@ -38,41 +38,53 @@
             </div>
         </div>
         
-        <div class="flex border-b border-gray-200 bg-gray-50">
-            <button id="tabGorev" onclick="switchAdminTab('gorev')" class="tab-btn active flex-1 py-4 text-gray-600 transition outline-none">
+        <div class="flex border-b border-gray-200 bg-gray-50 overflow-x-auto">
+            <button id="tabGorev" onclick="switchAdminTab('gorev')" class="tab-btn active flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
                 <i class="fas fa-tasks mr-2"></i> Görev Onayları
             </button>
-            <button id="tabOdul" onclick="switchAdminTab('odul')" class="tab-btn flex-1 py-4 text-gray-600 transition outline-none">
+            <button id="tabOdul" onclick="switchAdminTab('odul')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
                 <i class="fas fa-gift mr-2"></i> Ödül Teslimatı
+            </button>
+            <button id="tabBlog" onclick="switchAdminTab('blog')" class="tab-btn flex-1 py-4 px-4 whitespace-nowrap text-gray-600 transition outline-none">
+                <i class="fas fa-blog mr-2"></i> Blog Yönetimi
             </button>
         </div>
 
         <div id="gorevSection" class="p-6 overflow-x-auto block">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200">
-                        <th class="p-3">Tarih</th>
-                        <th class="p-3">Kullanıcı</th>
-                        <th class="p-3">Görev Adı</th>
-                        <th class="p-3 text-center">İşlem (Çark Hakkı Ver)</th>
-                    </tr>
-                </thead>
+                <thead><tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200"><th class="p-3">Tarih</th><th class="p-3">Kullanıcı</th><th class="p-3">Görev Adı</th><th class="p-3 text-center">İşlem</th></tr></thead>
                 <tbody id="onayTablosu"><tr><td colspan="4" class="p-8 text-center text-gray-500">Yükleniyor...</td></tr></tbody>
             </table>
         </div>
 
         <div id="odulSection" class="p-6 overflow-x-auto hidden">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200">
-                        <th class="p-3">Kazanma Tarihi</th>
-                        <th class="p-3">Kullanıcı</th>
-                        <th class="p-3">Kazanılan Ödül</th>
-                        <th class="p-3">Kod / Teslimat İşlemi</th>
-                    </tr>
-                </thead>
+                <thead><tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200"><th class="p-3">Kazanma Tarihi</th><th class="p-3">Kullanıcı</th><th class="p-3">Kazanılan Ödül</th><th class="p-3">Kod / Teslimat İşlemi</th></tr></thead>
                 <tbody id="odulTablosu"><tr><td colspan="4" class="p-8 text-center text-gray-500">Yükleniyor...</td></tr></tbody>
             </table>
+        </div>
+
+        <div id="blogSection" class="p-6 hidden">
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"><i class="fas fa-plus-circle text-blue-600 mr-2"></i>Yeni Blog Yazısı Ekle</h3>
+                <form id="blogForm" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Başlık</label><input type="text" id="blogBaslik" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
+                        <div><label class="block text-sm font-bold text-gray-700 mb-1">Kategori (Örn: Genel, Kasko)</label><input type="text" id="blogKategori" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
+                        <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-1">Kapak Fotoğrafı URL (Link)</label><input type="url" id="blogResim" placeholder="https://images.unsplash.com/..." required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></div>
+                        <div class="md:col-span-2"><label class="block text-sm font-bold text-gray-700 mb-1">İçerik (Paragraflar halinde yazabilirsiniz)</label><textarea id="blogIcerik" rows="6" required class="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"></textarea></div>
+                    </div>
+                    <button type="submit" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 shadow transition"><i class="fas fa-paper-plane mr-2"></i>Blogu Yayımla</button>
+                    <div id="blogSonuc" class="mt-2 text-sm font-bold"></div>
+                </form>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-list text-blue-600 mr-2"></i>Mevcut Blog Yazıları</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead><tr class="bg-gray-100 text-gray-700 uppercase text-xs border-b-2 border-gray-200"><th class="p-3 w-2/3">Başlık</th><th class="p-3">Tarih</th><th class="p-3 text-center">İşlem</th></tr></thead>
+                    <tbody id="blogTablosu"><tr><td colspan="3" class="p-8 text-center text-gray-500">Yükleniyor...</td></tr></tbody>
+                </table>
+            </div>
         </div>
 
     </div>
@@ -82,17 +94,15 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
+        // ADMIN MAİLİNİ BURAYA YAZ
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
         async function checkAdminAuth() {
-            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session || session.user.email !== ADMIN_EMAIL) {
-                alert("Bu sayfayı görüntüleme yetkiniz yok! Ana sayfaya yönlendiriliyorsunuz.");
-                window.location.href = '/index.html';
+                alert("Bu sayfayı görüntüleme yetkiniz yok!"); window.location.href = '/index.html';
             } else {
-                document.getElementById('loadingScreen').style.display = 'none';
-                document.getElementById('adminApp').style.display = 'block';
-                verileriYenile();
+                document.getElementById('loadingScreen').style.display = 'none'; document.getElementById('adminApp').style.display = 'block'; verileriYenile();
             }
         }
         window.addEventListener('DOMContentLoaded', checkAdminAuth);
@@ -101,103 +111,69 @@
         function switchAdminTab(tab) {
             document.getElementById('gorevSection').classList[tab === 'gorev' ? 'replace' : 'replace'](tab === 'gorev' ? 'hidden' : 'block', tab === 'gorev' ? 'block' : 'hidden');
             document.getElementById('odulSection').classList[tab === 'odul' ? 'replace' : 'replace'](tab === 'odul' ? 'hidden' : 'block', tab === 'odul' ? 'block' : 'hidden');
-            document.getElementById('tabGorev').classList.toggle('active', tab === 'gorev'); document.getElementById('tabOdul').classList.toggle('active', tab === 'odul');
+            document.getElementById('blogSection').classList[tab === 'blog' ? 'replace' : 'replace'](tab === 'blog' ? 'hidden' : 'block', tab === 'blog' ? 'block' : 'hidden');
+            document.getElementById('tabGorev').classList.toggle('active', tab === 'gorev'); document.getElementById('tabOdul').classList.toggle('active', tab === 'odul'); document.getElementById('tabBlog').classList.toggle('active', tab === 'blog');
         }
-        function verileriYenile() { talepleriGetir(); odulleriGetir(); }
+        function verileriYenile() { talepleriGetir(); odulleriGetir(); bloglariGetir(); }
 
-        // --- GÖREV ONAY MANTIĞI ---
+        // --- GÖREVLER ---
         async function talepleriGetir() {
             const tbody = document.getElementById('onayTablosu');
             const { data, error } = await supabaseClient.from('gorev_talepleri').select('*').eq('durum', 'Bekliyor').order('olusturulma_tarihi', { ascending: false });
-            
             if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
             if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Bekleyen görev yok.</td></tr>`; return; }
-            
             tbody.innerHTML = data.map(t => {
                 const isMonthly = t.gorev_adi.startsWith('Aylık');
-                let actionBtns = '';
-                
-                // Eğer görev "Aylık" kelimesi ile başlıyorsa iki seçenek çıkar
-                if(isMonthly) {
-                    actionBtns = `
-                        <div class="flex flex-col space-y-2">
-                            <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Tek')" class="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 text-xs font-bold shadow"><i class="fas fa-check mr-1"></i> Tek Seferlik Onayla (1 Ay Bekler)</button>
-                            <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Otomatik')" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-xs font-bold shadow"><i class="fas fa-sync-alt mr-1"></i> Otomatik (Her Ay) Seç</button>
-                            <button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-xs font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>
-                        </div>
-                    `;
-                } else {
-                    actionBtns = `
-                        <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı')" class="bg-green-500 text-white px-3 py-1.5 rounded hover:bg-green-600 mr-2 font-bold shadow"><i class="fas fa-check mr-1"></i> Onayla</button>
-                        <button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>
-                    `;
-                }
-
-                return `
-                <tr class="border-b hover:bg-gray-50" id="talep-${t.id}">
-                    <td class="p-3 text-sm">${new Date(t.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td>
-                    <td class="p-3"><b>${t.ad_soyad}</b><br><span class="text-xs text-gray-500">${t.kullanici_email}</span></td>
-                    <td class="p-3 font-medium text-blue-700">${t.gorev_adi}</td>
-                    <td class="p-3 text-center align-middle">${actionBtns}</td>
-                </tr>
-                `;
+                let actionBtns = isMonthly 
+                    ? `<div class="flex flex-col space-y-2"><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Tek')" class="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 text-xs font-bold shadow"><i class="fas fa-check mr-1"></i> Tek Seferlik (1 Ay Bekler)</button><button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Otomatik')" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-xs font-bold shadow"><i class="fas fa-sync-alt mr-1"></i> Otomatik (Her Ay)</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-xs font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button></div>`
+                    : `<button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı')" class="bg-green-500 text-white px-3 py-1.5 rounded hover:bg-green-600 mr-2 font-bold shadow"><i class="fas fa-check mr-1"></i> Onayla</button><button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>`;
+                return `<tr class="border-b hover:bg-gray-50" id="talep-${t.id}"><td class="p-3 text-sm">${new Date(t.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3"><b>${t.ad_soyad}</b><br><span class="text-xs text-gray-500">${t.kullanici_email}</span></td><td class="p-3 font-medium text-blue-700">${t.gorev_adi}</td><td class="p-3 text-center align-middle">${actionBtns}</td></tr>`;
             }).join('');
         }
-
         async function goreviOnayla(id, email, newDurum) {
-            const btnDiv = event.target.closest('td');
-            btnDiv.innerHTML = '<span class="text-green-600 font-bold"><i class="fas fa-spinner fa-spin"></i> İşleniyor...</span>';
-
-            // Onaylandığı anın tarihini güncelliyoruz ki geri sayım tam o saniyeden başlasın
-            await supabaseClient.from('gorev_talepleri').update({ 
-                durum: newDurum, 
-                olusturulma_tarihi: new Date().toISOString() 
-            }).eq('id', id);
-            
+            const btnDiv = event.target.closest('td'); btnDiv.innerHTML = '<span class="text-green-600 font-bold"><i class="fas fa-spinner fa-spin"></i> İşleniyor...</span>';
+            await supabaseClient.from('gorev_talepleri').update({ durum: newDurum, olusturulma_tarihi: new Date().toISOString() }).eq('id', id);
             const { data: h } = await supabaseClient.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
             await supabaseClient.from('kullanici_haklari').upsert({ email: email, kalan_hak: (h ? h.kalan_hak : 0) + 1 });
-            
             document.getElementById('talep-' + id).remove();
         }
+        async function goreviReddet(id) { await supabaseClient.from('gorev_talepleri').update({ durum: 'Reddedildi' }).eq('id', id); document.getElementById('talep-' + id).remove(); }
 
-        async function goreviReddet(id) {
-            await supabaseClient.from('gorev_talepleri').update({ durum: 'Reddedildi' }).eq('id', id);
-            document.getElementById('talep-' + id).remove();
-        }
-
-        // --- ÖDÜLLER MANTIĞI ---
+        // --- ÖDÜLLER ---
         async function odulleriGetir() {
             const tbody = document.getElementById('odulTablosu');
             const { data, error } = await supabaseClient.from('kazanilan_oduller').select('*').eq('durum', 'Bekliyor').order('kazanma_tarihi', { ascending: false });
-            
             if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
             if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Teslimat bekleyen ödül yok.</td></tr>`; return; }
-            
-            tbody.innerHTML = data.map(o => `
-                <tr class="border-b hover:bg-yellow-50 bg-yellow-50/30" id="odul-${o.id}">
-                    <td class="p-3 text-sm">${new Date(o.kazanma_tarihi).toLocaleDateString('tr-TR')}</td>
-                    <td class="p-3"><b>${o.ad_soyad}</b><br><span class="text-xs text-gray-500">${o.kullanici_email}</span></td>
-                    <td class="p-3 font-bold text-orange-600 text-lg">🎁 ${o.odul_adi}</td>
-                    <td class="p-3">
-                        <div class="flex items-center space-x-2">
-                            <input type="text" id="kodInput-${o.id}" placeholder="Hediye Kodunu Girin" class="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500 w-full">
-                            <button onclick="odulTeslimEt(${o.id})" class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 whitespace-nowrap">Teslim Et</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = data.map(o => `<tr class="border-b hover:bg-yellow-50 bg-yellow-50/30" id="odul-${o.id}"><td class="p-3 text-sm">${new Date(o.kazanma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3"><b>${o.ad_soyad}</b><br><span class="text-xs text-gray-500">${o.kullanici_email}</span></td><td class="p-3 font-bold text-orange-600 text-lg">🎁 ${o.odul_adi}</td><td class="p-3"><div class="flex items-center space-x-2"><input type="text" id="kodInput-${o.id}" placeholder="Hediye Kodunu Girin" class="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500 w-full"><button onclick="odulTeslimEt(${o.id})" class="bg-blue-600 text-white px-4 py-2 rounded font-bold hover:bg-blue-700 whitespace-nowrap">Teslim Et</button></div></td></tr>`).join('');
+        }
+        async function odulTeslimEt(id) {
+            const kod = document.getElementById(`kodInput-${id}`).value; if(!kod) return alert("Lütfen üyeye iletilecek hediye çekinin kodunu giriniz!");
+            const btn = event.target; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
+            await supabaseClient.from('kazanilan_oduller').update({ durum: 'İletildi', teslim_edilen_kod: kod }).eq('id', id);
+            document.getElementById('odul-' + id).remove(); alert("Ödül kodu üyeye başarıyla iletildi!");
         }
 
-        async function odulTeslimEt(id) {
-            const kod = document.getElementById(`kodInput-${id}`).value;
-            if(!kod) return alert("Lütfen üyeye iletilecek hediye çekinin kodunu giriniz!");
-            
-            const btn = event.target;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
+        // --- BLOG YÖNETİMİ ---
+        document.getElementById('blogForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); const sBtn = e.target.querySelector('button[type="submit"]'); sBtn.disabled = true; sBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Yükleniyor...';
+            const b = document.getElementById('blogBaslik').value, k = document.getElementById('blogKategori').value, r = document.getElementById('blogResim').value, i = document.getElementById('blogIcerik').value;
+            const { error } = await supabaseClient.from('blog_yazilari').insert([{ baslik: b, kategori: k, resim_url: r, icerik: i }]);
+            if(error) { document.getElementById('blogSonuc').innerHTML = `<span class="text-red-600">Hata: ${error.message}</span>`; } 
+            else { document.getElementById('blogSonuc').innerHTML = `<span class="text-green-600">✅ Blog yayımlandı!</span>`; document.getElementById('blogForm').reset(); bloglariGetir(); }
+            sBtn.disabled = false; sBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Blogu Yayımla';
+        });
 
-            await supabaseClient.from('kazanilan_oduller').update({ durum: 'İletildi', teslim_edilen_kod: kod }).eq('id', id);
-            document.getElementById('odul-' + id).remove();
-            alert("Ödül kodu üyeye başarıyla iletildi!");
+        async function bloglariGetir() {
+            const tbody = document.getElementById('blogTablosu');
+            const { data, error } = await supabaseClient.from('blog_yazilari').select('id, baslik, olusturulma_tarihi').order('olusturulma_tarihi', { ascending: false });
+            if (error) { tbody.innerHTML = `<tr><td colspan="3" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
+            if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-gray-500">Henüz hiç blog yazısı eklenmemiş.</td></tr>`; return; }
+            tbody.innerHTML = data.map(b => `<tr class="border-b" id="blog-${b.id}"><td class="p-3 font-medium text-gray-800">${b.baslik}</td><td class="p-3 text-sm text-gray-500">${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td><td class="p-3 text-center"><button onclick="blogSil(${b.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow text-xs"><i class="fas fa-trash"></i> Sil</button></td></tr>`).join('');
+        }
+        async function blogSil(id) {
+            if(!confirm("Bu blog yazısını silmek istediğinize emin misiniz?")) return;
+            await supabaseClient.from('blog_yazilari').delete().eq('id', id); document.getElementById('blog-' + id).remove();
         }
     </script>
 </body>

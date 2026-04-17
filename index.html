@@ -13,16 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], },
-                    animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', },
-                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, } }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { colors: { primary: "#0078D7", secondary: "#005A9E", accent: "#ffc107", dark: "#2d3748", light: "#f8fafc" }, fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], }, animation: { 'fade-in': 'fadeIn 0.5s ease-out forwards', }, keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' }, } } } } }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -31,27 +22,20 @@
         .form-input { width: 100%; padding: 0.875rem; border: 1px solid #d1d5db; border-radius: 0.5rem; color: #111827; transition: all 0.3s ease; background-color: #f9fafb; }
         .form-input:focus { border-color: #0078D7; box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.15); outline: none; background-color: #ffffff; }
         html { scroll-behavior: smooth; } section, footer { scroll-margin-top: 80px; } #sigortaSecimiAlani { scroll-margin-top: 100px; }
-        @keyframes marquee-right { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        .marquee-wrapper { overflow: hidden; width: 100%; position: relative; }
-        .marquee-wrapper::before, .marquee-wrapper::after { content: ''; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2; }
-        .marquee-wrapper::before { left: 0; background: linear-gradient(to right, white, transparent); }
-        .marquee-wrapper::after { right: 0; background: linear-gradient(to left, white, transparent); }
-        .marquee-content { display: flex; width: 200%; animation: marquee-right 25s linear infinite; } .marquee-content:hover { animation-play-state: paused; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; z-index: 99999; opacity: 0; transition: opacity 0.3s ease; overflow-y: auto; padding: 40px 15px; }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-container { background-color: #fff; max-width: 650px; width: 100%; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; margin: auto; transform: translateY(-20px) scale(0.98); transition: all 0.3s ease-out; }
-        .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
+        @keyframes marquee-right { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } } .marquee-wrapper { overflow: hidden; width: 100%; position: relative; } .marquee-wrapper::before, .marquee-wrapper::after { content: ''; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2; } .marquee-wrapper::before { left: 0; background: linear-gradient(to right, white, transparent); } .marquee-wrapper::after { right: 0; background: linear-gradient(to left, white, transparent); } .marquee-content { display: flex; width: 200%; animation: marquee-right 25s linear infinite; } .marquee-content:hover { animation-play-state: paused; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.7); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: flex-start; z-index: 99999; opacity: 0; transition: opacity 0.3s ease; overflow-y: auto; padding: 40px 15px; } .modal-overlay.active { display: flex; opacity: 1; } .modal-container { background-color: #fff; max-width: 650px; width: 100%; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; margin: auto; transform: translateY(-20px) scale(0.98); transition: all 0.3s ease-out; } .modal-overlay.active .modal-container { transform: translateY(0) scale(1); }
         .info-modal-container, .blog-modal-container { max-width: 800px; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; line-height: 1; color: white;}
-        .close-btn-dark { color: #6b7280; } .close-btn-dark:hover { color: #111827; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10; line-height: 1; color: white;} .close-btn-dark { color: #6b7280; } .close-btn-dark:hover { color: #111827; }
         .modal-header-kampanya { background: linear-gradient(135deg, #0078D7, #005A9E); color: white; text-align: center; padding: 30px 20px 20px; }
-        .floating-campaign-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #ffc107, #f59e0b); color: #111827; padding: 14px 28px; border-radius: 50px; font-weight: 800; cursor: pointer; z-index: 9998; border: 2px solid #fff; box-shadow: 0 10px 25px rgba(245,158,11,0.4); transition: transform 0.2s; }
-        .floating-campaign-btn:hover { transform: scale(1.05); }
+        .floating-campaign-btn { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #ffc107, #f59e0b); color: #111827; padding: 14px 28px; border-radius: 50px; font-weight: 800; cursor: pointer; z-index: 9998; border: 2px solid #fff; box-shadow: 0 10px 25px rgba(245,158,11,0.4); transition: transform 0.2s; } .floating-campaign-btn:hover { transform: scale(1.05); }
         .insurance-card { border: 2px solid transparent; } .insurance-card.active { border-color: #0078D7; background-color: #eff6ff; } .insurance-card.active .icon-box { background-color: #0078D7; color: white; }
         .dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; } .group:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-        .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; } .prose li { margin-bottom: 0.25rem; }
+        .prose h3 { font-size: 1.25rem; font-weight: 800; color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; } .prose p { margin-bottom: 1rem; color: #4b5563; line-height: 1.6; } .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #4b5563; } .prose li { margin-bottom: 0.25rem; }
+        
+        /* Kaydırmalı Blog İçin Scrollbar Gizleme */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .cursor-grabbing { cursor: grabbing !important; }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50 font-sans relative" id="ana-sayfa">
@@ -63,54 +47,48 @@
                 
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="#ana-sayfa" class="text-gray-600 hover:text-primary font-semibold transition">Ana Sayfa</a>
-                    
                     <div class="relative group py-2">
-                        <button class="text-gray-600 hover:text-primary font-semibold transition flex items-center outline-none">
-                            Sigortalar <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
+                        <button class="text-gray-600 hover:text-primary font-semibold transition flex items-center outline-none">Sigortalar <i class="fas fa-chevron-down ml-1 text-xs"></i></button>
                         <div class="dropdown-menu absolute top-full left-0 mt-0 w-64 bg-white border border-gray-100 shadow-xl rounded-xl z-50 overflow-hidden">
                             <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Araç Sigortaları</div>
                             <a href="#" onclick="showInsuranceInfo('trafik')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Trafik Sigortası</a>
                             <a href="#" onclick="showInsuranceInfo('kasko')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition border-b border-gray-50">Kasko Sigortası</a>
-                            
                             <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Sağlık Sigortaları</div>
                             <a href="#" onclick="showInsuranceInfo('tss')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Tamamlayıcı Sağlık (TSS)</a>
                             <a href="#" onclick="showInsuranceInfo('oss')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition border-b border-gray-50">Özel Sağlık (ÖSS)</a>
-                            
                             <div class="bg-gray-50 px-4 py-2 border-b border-gray-100 font-bold text-xs text-gray-500 uppercase tracking-wider">Konut & Diğer</div>
                             <a href="#" onclick="showInsuranceInfo('dask')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">DASK (Zorunlu Deprem)</a>
                             <a href="#" onclick="showInsuranceInfo('konut')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Konut Sigortası</a>
                             <a href="#" onclick="showInsuranceInfo('seyahat')" class="block px-5 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-primary font-medium transition">Seyahat Sigortası</a>
                         </div>
                     </div>
-
                     <a href="#kampanyalar" class="text-gray-600 hover:text-primary font-semibold transition flex items-center">Kampanyalar <span class="ml-1 bg-accent text-dark text-[10px] px-2 py-0.5 rounded-full font-bold">YENİ</span></a>
                     <a href="#blog" class="text-gray-600 hover:text-primary font-semibold transition">Blog</a>
                     <a href="#hizmetlerimiz" class="text-gray-600 hover:text-primary font-semibold transition">Nasıl Çalışırız?</a>
                 </div>
 
-                <div class="flex items-center space-x-3 z-50">
+                <div class="flex items-center space-x-2 z-50">
                     <div class="hidden md:flex items-center space-x-3">
-                        <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border-2 border-primary hover:bg-primary hover:text-white px-5 py-2 rounded-lg font-bold transition">Giriş Yap</button>
-                        <button id="adminNavBtn" onclick="window.location.href='/admin.html'" class="bg-red-600 text-white hover:bg-red-700 px-5 py-2 rounded-lg font-bold transition shadow-md hidden"><i class="fas fa-user-shield mr-1"></i> Admin Paneli</button>
-                        <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-5 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
-                        <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-5 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
-                        <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-6 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif Al</button>
+                        <button id="authNavBtn" onclick="openAuthModal()" class="text-primary border-2 border-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg font-bold transition">Giriş Yap</button>
+                        <button id="adminNavBtn" onclick="window.location.href='/admin.html'" class="bg-red-600 text-white hover:bg-red-700 px-4 py-2 rounded-lg font-bold transition shadow-md hidden"><i class="fas fa-user-shield mr-1"></i> Admin Paneli</button>
+                        <button id="profileNavBtn" onclick="openProfileModal()" class="text-secondary border-2 border-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-lg font-bold transition hidden"><i class="fas fa-user mr-1"></i> Profilim</button>
+                        <button id="userNavBtn" onclick="handleLogout()" class="text-gray-500 border-2 border-gray-300 hover:bg-gray-100 hover:text-gray-800 px-4 py-2 rounded-lg font-bold transition hidden">Çıkış</button>
+                        
+                        <a href="https://wa.me/905367074329" target="_blank" class="bg-green-500 text-white px-4 py-2 border-2 border-green-500 rounded-lg font-bold hover:bg-green-600 transition shadow-md flex items-center">
+                            <i class="fab fa-whatsapp mr-1 text-lg"></i> Destek
+                        </a>
+                        
+                        <button onclick="document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'})" class="bg-primary text-white px-5 py-2 border-2 border-primary rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif</button>
                     </div>
-                    <button id="mobileMenuBtn" class="lg:hidden text-gray-800 text-2xl focus:outline-none p-2" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <button id="mobileMenuBtn" class="lg:hidden text-gray-800 text-2xl focus:outline-none p-2" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
 
             <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-6 border-t border-gray-100 mt-4 animate-fade-in">
                 <div class="flex flex-col space-y-4">
                     <a href="#ana-sayfa" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg">Ana Sayfa</a>
-                    
                     <div class="border-t border-gray-100 pt-3">
-                        <button onclick="toggleMobileDropdown()" class="w-full text-left text-gray-800 font-bold text-lg flex justify-between items-center outline-none">
-                            Sigortalar <i id="mobileDropIcon" class="fas fa-chevron-down text-sm transition-transform"></i>
-                        </button>
+                        <button onclick="toggleMobileDropdown()" class="w-full text-left text-gray-800 font-bold text-lg flex justify-between items-center outline-none">Sigortalar <i id="mobileDropIcon" class="fas fa-chevron-down text-sm transition-transform"></i></button>
                         <div id="mobileSigortalarMenu" class="hidden grid-cols-1 gap-2 pl-4 mt-3">
                             <a href="#" onclick="showInsuranceInfo('trafik'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Trafik Sigortası</a>
                             <a href="#" onclick="showInsuranceInfo('kasko'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary border-b border-gray-50">Kasko Sigortası</a>
@@ -121,11 +99,9 @@
                             <a href="#" onclick="showInsuranceInfo('seyahat'); toggleMobileMenu()" class="text-gray-600 font-medium py-1 hover:text-primary">Seyahat Sigortası</a>
                         </div>
                     </div>
-
                     <a href="#kampanyalar" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Kampanyalar</a>
                     <a href="#blog" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Blog</a>
                     <a href="#hizmetlerimiz" onclick="toggleMobileMenu()" class="text-gray-800 font-bold text-lg border-t border-gray-100 pt-3">Nasıl Çalışırız?</a>
-
                     <div class="border-t border-gray-100 pt-4 flex flex-col space-y-3" id="mobileAuthContainer">
                         <button onclick="openAuthModal(); toggleMobileMenu()" class="bg-primary text-white w-full py-3 rounded-lg font-bold">Giriş Yap / Kayıt Ol</button>
                     </div>
@@ -135,37 +111,29 @@
     </header>
 
     <section class="bg-gradient-to-b from-primary to-secondary text-white relative pb-24 pt-16" id="sigorta-turleri">
-        <div class="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
-            <svg class="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,100 C30,50 70,50 100,0 L100,100 Z" fill="#ffffff"/></svg>
-        </div>
-        
+        <div class="absolute inset-0 overflow-hidden opacity-10 pointer-events-none"><svg class="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,100 C30,50 70,50 100,0 L100,100 Z" fill="#ffffff"/></svg></div>
         <div class="container mx-auto px-4 text-center max-w-5xl relative z-10">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">İhtiyacınıza En Uygun <br/><span class="text-accent">Sigorta Teklifini</span> Hazırlayalım</h1>
             <p class="text-xl md:text-2xl mb-12 text-blue-100 font-light">Tüm şirketleri karşılaştırarak size özel en iyi fiyat garantisini sunuyoruz.</p>
             
             <div id="sigortaSecimiAlani" class="bg-white rounded-2xl p-6 md:p-10 shadow-2xl text-left text-dark">
                 <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Hangi sigorta türü ile ilgileniyorsunuz?</h2>
-                
                 <div id="sigortaTuruSecim" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div onclick="sigortaTuruSec('arac')" class="insurance-card bg-white p-5 rounded-xl cursor-pointer transition-all border border-gray-200 flex flex-col items-center text-center group shadow-sm hover:shadow-lg" data-tur="arac">
                         <div class="icon-box w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center text-2xl mb-3 transition-colors"><i class="fas fa-car"></i></div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-1">Araç Sigortası</h3>
-                        <p class="text-xs text-gray-500 font-medium">Kasko ve Trafik poliçesi ile yola güvenle çıkın.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">Araç Sigortası</h3><p class="text-xs text-gray-500 font-medium">Kasko ve Trafik poliçesi ile yola güvenle çıkın.</p>
                     </div>
                     <div onclick="sigortaTuruSec('saglik')" class="insurance-card bg-white p-5 rounded-xl cursor-pointer transition-all border border-gray-200 flex flex-col items-center text-center group shadow-sm hover:shadow-lg" data-tur="saglik">
                         <div class="icon-box w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center text-2xl mb-3 transition-colors"><i class="fas fa-heartbeat"></i></div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-1">Sağlık Sigortası</h3>
-                        <p class="text-xs text-gray-500 font-medium">TSS ve Özel Sağlık ile her an güvende olun.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">Sağlık Sigortası</h3><p class="text-xs text-gray-500 font-medium">TSS ve Özel Sağlık ile her an güvende olun.</p>
                     </div>
                     <div onclick="sigortaTuruSec('konut')" class="insurance-card bg-white p-5 rounded-xl cursor-pointer transition-all border border-gray-200 flex flex-col items-center text-center group shadow-sm hover:shadow-lg" data-tur="konut">
                         <div class="icon-box w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center text-2xl mb-3 transition-colors"><i class="fas fa-home"></i></div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-1">Konut Sigortası</h3>
-                        <p class="text-xs text-gray-500 font-medium">DASK ve Konut paketleri ile evinizi koruyun.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">Konut Sigortası</h3><p class="text-xs text-gray-500 font-medium">DASK ve Konut paketleri ile evinizi koruyun.</p>
                     </div>
                     <div onclick="sigortaTuruSec('seyahat')" class="insurance-card bg-white p-5 rounded-xl cursor-pointer transition-all border border-gray-200 flex flex-col items-center text-center group shadow-sm hover:shadow-lg" data-tur="seyahat">
                         <div class="icon-box w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center text-2xl mb-3 transition-colors"><i class="fas fa-plane-departure"></i></div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-1">Seyahat Sigortası</h3>
-                        <p class="text-xs text-gray-500 font-medium">Yurt içi ve dışı seyahatlerinizde rahat edin.</p>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1">Seyahat Sigortası</h3><p class="text-xs text-gray-500 font-medium">Yurt içi ve dışı seyahatlerinizde rahat edin.</p>
                     </div>
                 </div>
 
@@ -191,9 +159,7 @@
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Anında kazanılan dijital A101 hediye çekleri</li>
                     <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3 text-lg"></i> Ödüllerim sekmesinden kolay takip</li>
                 </ul>
-                <button onclick="document.getElementById('campaignModal').classList.add('active')" class="bg-gradient-to-r from-accent to-yellow-500 text-dark font-extrabold text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">
-                    🎁 Hemen Çarkı Çevir
-                </button>
+                <button onclick="document.getElementById('campaignModal').classList.add('active')" class="bg-gradient-to-r from-accent to-yellow-500 text-dark font-extrabold text-lg px-8 py-4 rounded-xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">🎁 Hemen Çarkı Çevir</button>
             </div>
             <div class="lg:w-1/2 flex justify-center">
                 <div class="w-72 h-72 bg-gradient-to-tr from-blue-100 to-blue-50 rounded-full flex items-center justify-center border-8 border-white shadow-2xl relative">
@@ -207,24 +173,19 @@
 
     <section class="py-20 bg-gray-50 border-t border-gray-200" id="blog">
         <div class="container mx-auto px-4 max-w-6xl">
-            <div class="text-center mb-12">
+            <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-dark">Güncel Blog Yazılarımız</h2>
                 <p class="text-gray-500 mt-3 font-medium">Sigorta dünyasındaki son gelişmeler ve faydalı bilgiler.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div onclick="openBlogModal()" class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" alt="Sigorta Güvencesi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div>
-                    </div>
-                    <div class="p-6">
-                        <div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Şubat 11, 2025 • <i class="fas fa-user-edit ml-2 mr-1"></i> Editör</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3>
-                        <p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p>
-                        <div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div>
-                    </div>
+            <div class="relative group/carousel">
+                <button onclick="document.getElementById('blogSlider').scrollBy({left: -350, behavior: 'smooth'})" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-left"></i></button>
+                
+                <div id="blogSlider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-4 px-2">
+                    <div class="text-center w-full py-10 text-gray-500 font-bold"><i class="fas fa-spinner fa-spin mr-2"></i> Bloglar yükleniyor...</div>
                 </div>
+                
+                <button onclick="document.getElementById('blogSlider').scrollBy({left: 350, behavior: 'smooth'})" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-primary border border-gray-200 w-12 h-12 rounded-full shadow-lg z-10 hidden md:flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-primary hover:text-white"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
@@ -234,21 +195,15 @@
             <h2 class="text-3xl md:text-4xl font-extrabold mb-16 text-dark">Sizin İçin Nasıl Çalışırız?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3>
-                    <p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div><h3 class="text-xl font-bold mb-3 text-gray-800">Bilgileri Gönderin</h3><p class="text-gray-600 font-medium">İhtiyacınız olan sigorta türünü seçerek formdaki gerekli bilgileri bize güvenle iletin.</p>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3>
-                    <p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div><h3 class="text-xl font-bold mb-3 text-gray-800">Özel Teklif Hazırlayalım</h3><p class="text-gray-600 font-medium">Uzman ekibimiz tüm firmaları karşılaştırıp size özel en uygun teklifi detaylıca hazırlar.</p>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100 relative">
                     <div class="hidden md:block absolute top-1/2 -left-6 w-12 h-1 bg-gray-200"></div>
-                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3>
-                    <p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
+                    <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div><h3 class="text-xl font-bold mb-3 text-gray-800">Size Ulaşalım</h3><p class="text-gray-600 font-medium">Hazırlanan teklifi size ulaştırır, onayınızla birlikte poliçenizi saniyeler içinde düzenleriz.</p>
                 </div>
             </div>
         </div>
@@ -267,7 +222,6 @@
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Mapfre</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Anadolu Sigorta</div></div>
                     <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Axa Sigorta</div></div>
-                    <div class="w-1/6 min-w-[160px] px-4"><div class="bg-gray-50 h-16 rounded-xl flex items-center justify-center shadow-sm font-bold text-gray-700 border border-gray-100">Allianz</div></div>
                 </div>
             </div>
         </div>
@@ -300,22 +254,10 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-gray-100">İletişim Bilgileri</h4>
                     <ul class="space-y-4 text-gray-400 font-medium">
-                        <li class="flex items-center">
-                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-phone text-primary"></i></div>
-                            <a href="tel:+905367074329" class="hover:text-white transition-colors">0 (536) 707 43 29</a>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fab fa-whatsapp text-green-500"></i></div>
-                            <a href="https://wa.me/905367074329" target="_blank" class="hover:text-white transition-colors">WhatsApp Destek Hattı</a>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-envelope text-primary"></i></div>
-                            <a href="mailto:info@aressigorta.com" class="hover:text-white transition-colors">info@aressigorta.com</a>
-                        </li>
-                        <li class="flex items-start">
-                            <div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3 mt-1"><i class="fas fa-map-marker-alt text-primary"></i></div>
-                            <a href="https://maps.app.goo.gl/8yQLhEUqW89rrr4Z7" target="_blank" class="hover:text-white transition-colors text-left leading-tight">Mareşal Çakmak, Civelek Sk. NO: 5 A,<br>34000 Güngören/İstanbul, Türkiye</a>
-                        </li>
+                        <li class="flex items-center"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-phone text-primary"></i></div><a href="tel:+905367074329" class="hover:text-white transition-colors">0 (536) 707 43 29</a></li>
+                        <li class="flex items-center"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fab fa-whatsapp text-green-500"></i></div><a href="https://wa.me/905367074329" target="_blank" class="hover:text-white transition-colors">WhatsApp Destek Hattı</a></li>
+                        <li class="flex items-center"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3"><i class="fas fa-envelope text-primary"></i></div><a href="mailto:info@aressigorta.com" class="hover:text-white transition-colors">info@aressigorta.com</a></li>
+                        <li class="flex items-start"><div class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center mr-3 mt-1"><i class="fas fa-map-marker-alt text-primary"></i></div><a href="https://maps.app.goo.gl/8yQLhEUqW89rrr4Z7" target="_blank" class="hover:text-white transition-colors text-left leading-tight">Mareşal Çakmak, Civelek Sk. NO: 5 A,<br>34000 Güngören/İstanbul, Türkiye</a></li>
                     </ul>
                 </div>
             </div>
@@ -326,60 +268,24 @@
     </footer>
 
     <div class="fixed bottom-6 left-6 z-[9997] flex space-x-3">
-        <a href="tel:+905367074329" class="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-secondary transition-all hover:-translate-y-1">
-            <i class="fas fa-phone-alt text-xl"></i>
-        </a>
-        <a href="https://wa.me/905367074329" target="_blank" class="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:-translate-y-1">
-            <i class="fab fa-whatsapp text-2xl"></i>
-        </a>
-        <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-12 h-12 bg-gray-500 text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-gray-600 transition-all hover:-translate-y-1 opacity-0 pointer-events-none">
-            <i class="fas fa-chevron-up text-xl"></i>
-        </button>
+        <a href="tel:+905367074329" class="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-secondary transition-all hover:-translate-y-1"><i class="fas fa-phone-alt text-xl"></i></a>
+        <a href="https://wa.me/905367074329" target="_blank" class="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:-translate-y-1"><i class="fab fa-whatsapp text-2xl"></i></a>
+        <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-12 h-12 bg-gray-500 text-white rounded-xl flex items-center justify-center shadow-lg hover:bg-gray-600 transition-all hover:-translate-y-1 opacity-0 pointer-events-none"><i class="fas fa-chevron-up text-xl"></i></button>
     </div>
 
     <div id="blogModal" class="modal-overlay">
         <div class="modal-container blog-modal-container w-full">
             <span class="close-btn close-btn-dark" onclick="closeBlogModal()">×</span>
             <div class="p-0 overflow-y-auto max-h-[90vh]">
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200&h=500" alt="Sigorta Güvencesi" class="w-full h-64 md:h-80 object-cover">
+                <img id="blogModalImage" src="" class="w-full h-64 md:h-80 object-cover">
                 <div class="p-8 md:p-12">
                     <div class="flex items-center text-sm text-gray-500 font-bold mb-4 uppercase tracking-widest">
-                        <span class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
-                        <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> Şubat 11, 2025</span>
-                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Editör</span>
+                        <span id="blogModalKategori" class="bg-blue-100 text-primary px-3 py-1 rounded">Genel</span>
+                        <span class="ml-4"><i class="far fa-calendar-alt mr-1"></i> <span id="blogModalTarih"></span></span>
+                        <span class="ml-4"><i class="fas fa-user-edit mr-1"></i> Yönetici</span>
                     </div>
+                    <div id="blogModalContent" class="prose max-w-none text-gray-700 whitespace-pre-line"></div>
                     
-                    <div class="prose max-w-none text-gray-700">
-                        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h2>
-                        <p>Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir. Sigorta, bu belirsizliğe karşı en güçlü kalkanımızdır. Hem bireysel hem de ticari anlamda sigorta, risklere karşı finansal güvence sağlayarak, yaşamı daha huzurlu ve güvenli hale getirir. Peki, sigorta nedir, neden bu kadar önemlidir ve doğru sigorta seçimi nasıl yapılır?</p>
-                        
-                        <h3>Sigorta Nedir?</h3>
-                        <p>Sigorta, risklerin mevcut olduğu tahmin edilerek, bu risklerin olumsuz etkilerinden korunmak için yapılan bir anlaşmadır. Sigorta şirketleri, poliçe sahibiyle yapılan sözleşme sözleşmesi, belirli bir ücret karşılığında olası bir zararın tazmini üstlenir. Sigorta, temel olarak, bir havuzda biriken primlerle, olası büyük kayıpların paylaşılmasını sağlar.</p>
-                        <p>Sigorta, hayatımızın birçok alanında yer alır ve onun birinin kendine özgü amacı vardır. Her bir sigorta türü, belirli bir riskten korunmanıza yardımcı olur.</p>
-
-                        <h3>Sigorta Türleri ve Faydaları</h3>
-                        <p>Sigorta dünyası oldukça çeşitlidir. İhtiyaçlarınıza göre doğru sigorta korumasını seçmenizi hem kendinizin hem de sevdiklerinizi büyük bir güvencenin eksiksiz olmasını sağlar.</p>
-                        <ul>
-                            <li><strong>Zorunlu Trafik Sigortası:</strong> Her araç sahibi tarafından yaptırılması zorunlu olan trafik sigortası, üçüncü kişilere verilen zararları karşılar.</li>
-                            <li><strong>Kasko Sigortası:</strong> Kasko, aracınızı olası kaza, hırsızlık, yangın ve doğal afetler gibi risklere karşı korur.</li>
-                            <li><strong>Sağlık Sigortası:</strong> Sağlık sigortası hem rutin sağlık kontrollerinizi hem de acil sağlık hizmetleri güvencesini sağlar.</li>
-                            <li><strong>Ev Sigortası:</strong> Ev sigortası, su baskını, hırsızlık, doğal afetler gibi durumlara karşı korunmanızı sağlar.</li>
-                            <li><strong>İş Yeri ve Ticari Sigortalar:</strong> Beklenmedik risklerle karşı karşıya kalabilen işletmelerin maddi kayıplarını önler.</li>
-                        </ul>
-
-                        <h3>Sigorta Seçerken Dikkat Edilmesi Gerekenler</h3>
-                        <p>Sigorta, sadece poliçe satın almakla bitmeyen bir şekilde sunulmaktadır. Doğru sigortayı seçmeyi, dikkatli analiz ve karşılaştırmayı gerektirir:</p>
-                        <ul>
-                            <li>İhtiyaçlarınıza Uygun Sigorta Seçimi</li>
-                            <li>Sigorta Teminatları ve Limitlerin İncelenmesi</li>
-                            <li>Sigorta Şirketinin Güvenilirliği ve Müşteri Hizmetleri</li>
-                            <li>Prim Miktarları ve Ödeme Seçenekleri</li>
-                        </ul>
-
-                        <h3>Neden Bizimle Sigorta Yapmalısınız?</h3>
-                        <p>Ares Sigorta, geçmişten gelen deneyimler ve çözümlerle, kalıcı ve uygun sigorta çözümlerini sunmaktadır. İnsanların bireysel ihtiyaçlarını ve işletmelerini anlayarak, bilgi birikimi güvencesi temelinde almak için özelleştirilmiş sigorta planları hazırlıyoruz. Bizimle iletişim geçin ve size özel sigorta çözümlerini finanse edin!</p>
-                    </div>
-
                     <div class="mt-12 pt-8 border-t border-gray-200">
                         <h3 class="text-2xl font-bold text-gray-900 mb-6">Yorum Yapın</h3>
                         <form onsubmit="alert('Yorumunuz değerlendirilmek üzere yöneticiye iletildi.'); event.preventDefault();" class="space-y-5">
@@ -509,21 +415,28 @@
     </div>
 
     <script>
-        // --- SABİT BUTON KONTROLLERİ ---
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('scrollTopBtn');
             if (window.scrollY > 300) { btn.classList.remove('opacity-0', 'pointer-events-none'); btn.classList.add('opacity-100', 'pointer-events-auto'); } 
             else { btn.classList.add('opacity-0', 'pointer-events-none'); btn.classList.remove('opacity-100', 'pointer-events-auto'); }
         });
 
-        // --- SİGORTA BİLGİ METİNLERİ VE AKILLI YÖNLENDİRME ---
+        // --- BLOG SÜRÜKLE KONTROLÜ (SNAP SCROLL + MOUSE DRAG) ---
+        const slider = document.getElementById('blogSlider');
+        let isDown = false; let startX; let scrollLeft;
+        slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('cursor-grabbing'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
+        slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('cursor-grabbing'); });
+        slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('cursor-grabbing'); });
+        slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
+
+        // --- SİGORTA METİNLERİ ---
         const insuranceDetails = {
             trafik: { parentType: 'arac', formId: 'trafik', title: "Zorunlu Trafik Sigortası", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Motorlu taşıt sahipleri için güvenli bir gelecek planlamak, olası risklere karşı hazırlıklı olmakla başlar. Ares Sigorta olarak, müşterilerimizin karşılaşabileceği her türlü maddi ve hukuki sorumluluğu üstlenerek, yolculuklarınızı daha güvenli hale getiriyoruz.</p><p>Sadece yasal bir zorunluluk değil, aynı zamanda sizin ve sevdiklerinizin huzuruna katkı sağlayan trafik sigortası hizmetlerimizle, hayatınızı kolaylaştırmayı hedefliyoruz.</p><h3>Trafik Sigortası Nedir?</h3><p>Trafik sigortası, motorlu taşıt sahiplerinin karayolunda seyahat edebilmeleri için yaptırmak zorunda oldukları bir sigorta türüdür. Türkiye’de 2918 sayılı Karayolları Trafik Kanunu gereğince zorunlu olan bu sigorta, trafik kazaları sonucunda karşı tarafa verilen maddi zararları karşılamak amacıyla yapılır.</p><h3>Trafik Sigortası Ne İşe Yarar?</h3><ul><li><strong>Karşı Tarafın Maddi Zararlarının Karşılanması:</strong> Kaza durumunda karşı tarafın aracında oluşan maddi hasarlar trafik sigortası kapsamında karşılanır.</li><li><strong>Yaralanma Teminatı:</strong> Kazada üçüncü şahısların tedavi masrafları teminat altına alınır.</li><li><strong>Maddi Hasar Teminatı:</strong> Çevreye veya kamuya verilen zararlar da sigorta kapsamında değerlendirilebilir.</li></ul><h3>Yenilenmezse Ne Olur?</h3><ul><li>Yenilenmemiş bir trafik sigortası ile aracınızı kullanmanız yasaktır. Aracınız trafikten men edilebilir.</li><li>İdari para cezasına neden olur.</li><li>Karşı tarafın maddi zararları sigorta tarafından karşılanmaz. Tüm masraflar size ait olur.</li></ul>`},
             kasko: { parentType: 'arac', formId: 'kasko', title: "Kasko Sigortası", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Hayatta her an beklenmedik durumlarla karşılaşmak mümkün. Özellikle trafikte, araç sahiplerinin hem maddi hem de manevi olarak zorlanabileceği pek çok risk bulunur.</p><h3>Kasko Sigortası Nedir?</h3><p>Araç sahipleri için kasko sigortası, trafikte veya park halinde karşılaşılabilecek beklenmedik durumlara karşı kapsamlı bir koruma sunar. Ares Sigorta olarak, yalnızca yasal zorunlulukları değil, aynı zamanda aracınızın değerini ve sizin konforunuzu koruyacak çözümleri sunuyoruz.</p><h3>Kasko Sigortası Neleri Kapsar?</h3><ul><li><strong>Kaza Sonrası Hasarlar:</strong> Aracınızın başka bir araçla çarpışması veya devrilmesi sonucu oluşan hasarlar.</li><li><strong>Hırsızlık:</strong> Aracınızın çalınması durumunda aracınızın değeri ödenir.</li><li><strong>Yangın ve Patlama:</strong> Yangın, patlama veya arıza sonucu meydana gelen hasarlar.</li><li><strong>Doğal Afetler:</strong> Sel, deprem, dolu, fırtına gibi doğal afetlerden kaynaklanan hasarlar.</li><li><strong>Yolda Yardım Hizmetleri:</strong> Çekici hizmeti, küçük onarımlar ve gerektiğinde yedek araç temini.</li></ul>`},
             tss: { parentType: 'saglik', formId: 'tss', title: "Tamamlayıcı Sağlık Sigortası (TSS)", image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Sağlık, hayatımızdaki en değerli varlıktır. Ancak beklenmedik sağlık sorunları ve ekonomik zorluklar, sağlığımızı koruma çabalarımızı zorlaştırabilir.</p><h3>Tamamlayıcı Sağlık Sigortası Nedir?</h3><p>SGK’nın karşılamadığı bazı özel hastane masraflarını üstlenir, sağlık harcamalarını daha ekonomik hale getirir.</p><h3>Hangi Hizmetleri Kapsar?</h3><ul><li><strong>Muayene ve Tedavi Masrafları:</strong> Doktor muayeneleri ve uzman ziyaretleri.</li><li><strong>Hastane Yatışı ve Ameliyatlar:</strong> Tedavi için hastanede yatış ve cerrahi işlemler.</li><li><strong>Laboratuvar ve Görüntüleme:</strong> Kan tahlilleri, röntgen, MR gibi testler.</li></ul>`},
             oss: { parentType: 'saglik', formId: 'oss', title: "Özel Sağlık Sigortası (ÖSS)", image: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Özel Sağlık Sigortası, en geniş kapsamlı sağlık güvencesini sunar.</p><h3>ÖSS Neleri Kapsar?</h3><ul><li>Dünya genelinde veya Türkiye'nin en seçkin hastanelerinde beklemeden tedavi imkanı.</li><li>Yatarak tedavilerde (ameliyat, yoğun bakım vb.) yüksek veya sınırsız limit seçenekleri.</li><li>Geniş kapsamlı ayakta tedavi, fizik tedavi ve ileri tanı yöntemleri.</li></ul>`},
             dask: { parentType: 'konut', formId: 'dask', title: "DASK (Zorunlu Deprem Sigortası)", image: "https://images.unsplash.com/photo-1601594951477-80be4fb5d7c8?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Türkiye, deprem riski yüksek bir coğrafyada yer alıyor ve bu durum, konut sahiplerinin gerekli önlemleri almasını zorunlu hale getiriyor.</p><h3>DASK’ın Kapsadığı Hasarlar</h3><ul><li><strong>Deprem Sonrası Yapısal Hasarlar:</strong> Bina duvarlarında çatlaklar, kolon hasarları.</li><li><strong>Deprem Kaynaklı Yangın:</strong> Deprem nedeniyle meydana gelen yangınlar.</li><li><strong>Binanın Çökmesi:</strong> Binanın tamamen ya da kısmen çökmesi.</li></ul><p>DASK Türkiye’de zorunlu bir sigortadır. Bu sigorta, tapuya kayıtlı tüm konutlar için gereklidir.</p>`},
-            konut: { parentType: 'konut', formId: 'konut_paket', title: "Konut Sigortası", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Evimiz, hem maddi hem de manevi anlamda en değerli varlıklarımızdan biridir.</p><h3>Konut Sigortası Teminatları</h3><ul><li><strong>Yangın, İnfilak, Yıldırım:</strong> Yangın nedeniyle zarar gören eşyalar.</li><li><strong>Deprem:</strong> DASK'ın limitini aşan kısımlar.</li><li><strong>Hırsızlık:</strong> Eşyaların çalınması veya zarar görmesi.</li><li><strong>Dahili Su:</strong> Su tesisatı kazaları.</li></ul>`},
+            konut: { parentType: 'konut', formId: 'konut_paket', title: "Konut Sigortası", image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Evimiz, hem maddi hem de manevi anlamda en değerli varlıklarımızdan biridir.</p><h3>Konut Sigortası Teminatları</h3><ul><li><strong>Yangın, İnfilak, Yıldırım:</strong> Yangın nedeniyle zarar gören eşyalar.</li><li><strong>Deprem:</strong> DASK'ın limitini aşan kısımlar.</li><li><strong>Hırsızlık:</strong> Eşyaların çalınması veya zarar görmesi.</li><li><strong>Dahili Su:</strong> Su tesisatı kazaları.</li><li><strong>Komşuluk Mali Mesuliyet:</strong> Komşularınıza verebileceğiniz zararlar.</li></ul>`},
             seyahat: { parentType: 'seyahat', formId: '', title: "Seyahat Sigortası", image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800&h=400", content: `<p class="text-lg font-medium text-gray-800 mb-4">Yurt içi veya yurt dışı seyahatlerinizde başınıza gelebilecek sürprizlere karşı önleminizi alın.</p><h3>Neden Önemlidir?</h3><ul><li>Yurt dışında yaşanacak ani rahatsızlıklar ve kazalarda çok yüksek olabilen hastane masraflarını karşılar.</li><li>Bagaj kaybı veya uçuş iptalleri gibi durumlarda tazminat öder.</li><li>Acil durumlarda tıbbi nakil ve ülkeye geri dönüş masraflarını üstlenir.</li></ul>`}
         };
 
@@ -532,6 +445,7 @@
             if(info) {
                 document.getElementById('infoModalImageContainer').innerHTML = `<img src="${info.image}" alt="${info.title}" class="w-full h-48 md:h-64 object-cover">`;
                 document.getElementById('infoModalContent').innerHTML = `<h2 class="text-3xl font-extrabold text-primary mb-6 border-b border-gray-200 pb-4">${info.title}</h2>${info.content}`;
+                // Seyahat sigortası formId si boş, bu yüzden alt menüyü açıp formu bekletiyoruz.
                 document.getElementById('infoModalButtonContainer').innerHTML = `<button onclick="goToForm('${info.parentType}', '${info.formId}', '${info.title}')" class="bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-secondary transition shadow-md">Hızlı Teklif Al</button>`;
                 document.getElementById('infoModal').classList.add('active');
             }
@@ -540,46 +454,74 @@
         
         function goToForm(parentType, formId, title) {
             closeInfoModal(); document.getElementById('sigortaSecimiAlani').scrollIntoView({behavior:'smooth'});
-            setTimeout(() => {
-                sigortaTuruSec(parentType);
-                if(formId) teklifFormuOlustur(parentType, formId, title);
-            }, 300); 
+            setTimeout(() => { sigortaTuruSec(parentType); if(formId) teklifFormuOlustur(parentType, formId, title); }, 300); 
         }
 
-        function openBlogModal() { document.getElementById('blogModal').classList.add('active'); }
-        function closeBlogModal() { document.getElementById('blogModal').classList.remove('active'); }
-
-        // --- MOBİL MENÜ ---
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu'); const icon = document.querySelector('#mobileMenuBtn i');
-            if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); icon.classList.remove('fa-bars'); icon.classList.add('fa-times'); } 
-            else { menu.classList.add('hidden'); icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
-            
-            const mobileAuthContainer = document.getElementById('mobileAuthContainer');
-            if(currentUser) {
-                mobileAuthContainer.innerHTML = `<button onclick="openProfileModal(); toggleMobileMenu()" class="bg-blue-100 text-primary w-full py-3 rounded-lg font-bold mb-2">Profilim</button>${currentUser.email === ADMIN_EMAIL ? `<button onclick="window.location.href='/admin.html'" class="bg-red-600 text-white w-full py-3 rounded-lg font-bold mb-2">Admin Paneli</button>` : ''}<button onclick="handleLogout()" class="bg-gray-200 text-gray-700 w-full py-3 rounded-lg font-bold">Çıkış Yap</button>`;
-            } else { mobileAuthContainer.innerHTML = `<button onclick="openAuthModal(); toggleMobileMenu()" class="bg-primary text-white w-full py-3 rounded-lg font-bold">Giriş Yap / Kayıt Ol</button>`; }
-        }
-
-        function toggleMobileDropdown() {
-            const dropMenu = document.getElementById('mobileSigortalarMenu'); const dropIcon = document.getElementById('mobileDropIcon');
-            if (dropMenu.classList.contains('hidden')) { dropMenu.classList.remove('hidden'); dropMenu.classList.add('grid'); dropIcon.style.transform = 'rotate(180deg)'; } 
-            else { dropMenu.classList.add('hidden'); dropMenu.classList.remove('grid'); dropIcon.style.transform = 'rotate(0deg)'; }
-        }
-
-        // --- SUPABASE VE OTURUM KONTROLÜ ---
+        // --- SUPABASE VE BLOG / SİSTEM ---
         const SUPABASE_URL = 'https://kruafohztdgemqyaamyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
+        // ADMIN MAİLİNİ BURAYA YAZ
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
         let currentUser = null; let userProfileData = null; let spinRights = 0;
-        const gorevListesi = ["Aylık 3 adet Konut poliçesi tanzim et", "Aylık 3 adet TSS poliçesi tanzim et", "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Konut poliçesi", "1 Adet Genişletilmiş Hukuksal Koruma teminatlı Kasko poliçesi", "1 Adet Genişletilmiş Ferdi Kaza teminatlı TSS poliçesi"];
+        
+        // YENİ GÖREVLER
+        const gorevListesi = [
+            "Aylık Trafik Sigortası poliçesi tanzim et",
+            "Aylık Kasko Sigortası poliçesi tanzim et",
+            "Aylık Tamamlayıcı Sağlık (TSS) poliçesi tanzim et",
+            "Aylık Özel Sağlık (ÖSS) poliçesi tanzim et",
+            "Aylık DASK poliçesi tanzim et",
+            "Aylık Konut Sigortası poliçesi tanzim et",
+            "Aylık Seyahat Sigortası poliçesi tanzim et"
+        ];
+
+        async function fetchBlogs() {
+            const { data } = await supabaseClient.from('blog_yazilari').select('*').order('olusturulma_tarihi', { ascending: false });
+            const slider = document.getElementById('blogSlider');
+            if(!data || data.length === 0) {
+                slider.innerHTML = `
+                <div onclick="openBlogModalDefault()" class="min-w-[300px] md:min-w-[400px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                    <div class="h-48 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">Genel</div></div>
+                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> Bugün • <i class="fas fa-user-edit ml-2 mr-1"></i> Editör</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p><div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div></div>
+                </div>`;
+            } else {
+                slider.innerHTML = data.map(b => `
+                <div onclick="openBlogModalDynamic('${b.id}')" class="min-w-[300px] md:min-w-[400px] snap-center flex-shrink-0 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100 overflow-hidden cursor-pointer group">
+                    <div class="h-48 overflow-hidden relative"><img src="${b.resim_url}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"><div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow">${b.kategori}</div></div>
+                    <div class="p-6"><div class="text-sm text-gray-400 font-semibold mb-2"><i class="far fa-calendar-alt mr-1"></i> ${new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR')}</div><h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-primary transition-colors">${b.baslik}</h3><p class="text-gray-600 text-sm line-clamp-3 leading-relaxed">${b.icerik}</p><div class="mt-4 font-bold text-primary text-sm flex items-center">Devamını Oku <i class="fas fa-arrow-right ml-2 text-xs"></i></div></div>
+                </div>
+                `).join('');
+                // Data objesini globalde tut ki modalda açabilelim
+                window.blogData = data;
+            }
+        }
+
+        function openBlogModalDefault() {
+            document.getElementById('blogModalImage').src = "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1200&h=500";
+            document.getElementById('blogModalKategori').innerText = "Genel";
+            document.getElementById('blogModalTarih').innerText = "Şubat 11, 2025";
+            document.getElementById('blogModalContent').innerHTML = `<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">Sigorta: Geleceğinizi Güvence Altına Almanın Yolu</h2><p>Hayat sürprizlerle doludur. Karşımızda ortaya çıkan beklenmedik olaylar hem maddi hem de manevi açıdan büyük zorluklar yaşanabilir...</p>`;
+            document.getElementById('blogModal').classList.add('active');
+        }
+
+        function openBlogModalDynamic(id) {
+            const b = window.blogData.find(x => x.id == id);
+            if(b) {
+                document.getElementById('blogModalImage').src = b.resim_url;
+                document.getElementById('blogModalKategori').innerText = b.kategori;
+                document.getElementById('blogModalTarih').innerText = new Date(b.olusturulma_tarihi).toLocaleDateString('tr-TR');
+                document.getElementById('blogModalContent').innerHTML = `<h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">${b.baslik}</h2>${b.icerik}`;
+                document.getElementById('blogModal').classList.add('active');
+            }
+        }
 
         async function checkSession() {
+            fetchBlogs(); // Sayfa açılırken blogları yükle
             try {
-                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await supabaseClient.auth.getSession();
                 if (session) { currentUser = session.user; userProfileData = currentUser.user_metadata; await fetchUserRights(); } 
                 else { currentUser = null; userProfileData = null; spinRights = 0; }
                 updateUIBasedOnAuth();
@@ -587,8 +529,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            checkSession();
-            setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
+            checkSession(); setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(!dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
         });
 
         supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -620,7 +561,6 @@
             if(!document.getElementById('mobileMenu').classList.contains('hidden')) { toggleMobileMenu(); toggleMobileMenu(); }
         }
 
-        // --- GELİŞMİŞ AYLIK GÖREV KONTROL SİSTEMİ ---
         async function goreviOnayaGonder(gorevAdi, btnElement) {
             btnElement.disabled = true; btnElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
             const { error } = await supabaseClient.from('gorev_talepleri').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz Üye', gorev_adi: gorevAdi, durum: 'Bekliyor' }]);
@@ -631,44 +571,28 @@
         async function renderTasks() {
             const container = document.getElementById('tasksContainer');
             container.innerHTML = '<div class="text-center py-8 text-gray-400 font-medium"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>Görevler yükleniyor...</div>';
+            const { data: userTasks } = await supabaseClient.from('gorev_talepleri').select('gorev_adi, durum, olusturulma_tarihi').eq('kullanici_email', currentUser.email).order('olusturulma_tarihi', { ascending: false });
             
-            // Veritabanından en güncel talepleri çek (Yeniden eskiye)
-            const { data: userTasks } = await supabaseClient.from('gorev_talepleri')
-                .select('gorev_adi, durum, olusturulma_tarihi')
-                .eq('kullanici_email', currentUser.email)
-                .order('olusturulma_tarihi', { ascending: false });
-
             container.innerHTML = gorevListesi.map(g => {
                 const taskData = userTasks?.find(t => t.gorev_adi === g);
                 const isMonthly = g.startsWith('Aylık');
                 let btn = '';
-
+                
                 if (taskData) {
-                    const durum = taskData.durum;
-                    const taskDate = new Date(taskData.olusturulma_tarihi);
+                    const durum = taskData.durum; const taskDate = new Date(taskData.olusturulma_tarihi);
                     const diffDays = Math.ceil(Math.abs(new Date() - taskDate) / (1000 * 60 * 60 * 24));
-
-                    if (durum === 'Bekliyor') {
-                        btn = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`;
-                    } else if (durum === 'Onaylandı_Otomatik') {
-                        btn = `<button disabled class="mt-3 w-full bg-blue-50 text-blue-600 border border-blue-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-sync-alt mr-2"></i> Her Ay Otomatik Yenileniyor</button>`;
-                    } else if (durum === 'Onaylandı_Tek' || durum === 'Onaylandı') {
+                    
+                    if (durum === 'Bekliyor') btn = `<button disabled class="mt-3 w-full bg-yellow-50 text-yellow-600 border border-yellow-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-hourglass-half mr-2"></i> Onay Bekleniyor</button>`;
+                    else if (durum === 'Onaylandı_Otomatik') btn = `<button disabled class="mt-3 w-full bg-blue-50 text-blue-600 border border-blue-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-sync-alt mr-2"></i> Her Ay Otomatik Yenileniyor</button>`;
+                    else if (durum === 'Onaylandı_Tek' || durum === 'Onaylandı') {
                         if (isMonthly) {
-                            if (diffDays <= 30) {
-                                const left = 30 - diffDays;
-                                btn = `<button disabled class="mt-3 w-full bg-gray-100 text-gray-500 border border-gray-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-clock mr-2"></i> Yenilenmesine ${left} Gün Kaldı</button>`;
-                            } else {
-                                btn = `<button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-white border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-white transition shadow-sm">✓ Görevi Tamamladım (Yeniden)</button>`;
-                            }
-                        } else {
-                            btn = `<button disabled class="mt-3 w-full bg-green-50 text-green-600 border border-green-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-check-circle mr-2"></i> Görev Tamamlandı</button>`;
-                        }
+                            if (diffDays <= 30) { const left = 30 - diffDays; btn = `<button disabled class="mt-3 w-full bg-gray-100 text-gray-500 border border-gray-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-clock mr-2"></i> Yenilenmesine ${left} Gün Kaldı</button>`; }
+                            else { btn = `<button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-white border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-white transition shadow-sm">✓ Görevi Tamamladım (Yeniden)</button>`; }
+                        } else { btn = `<button disabled class="mt-3 w-full bg-green-50 text-green-600 border border-green-200 font-bold py-2.5 rounded-lg cursor-not-allowed shadow-inner"><i class="fas fa-check-circle mr-2"></i> Görev Tamamlandı</button>`; }
                     } else if (durum === 'Reddedildi') {
                         btn = `<span class="text-red-500 text-xs font-bold block mb-2 mt-2"><i class="fas fa-exclamation-circle"></i> Önceki talebiniz reddedildi.</span><button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-white border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-white transition shadow-sm">✓ Görevi Tamamladım</button>`;
                     }
-                } else {
-                    btn = `<button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-white border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-white transition shadow-sm">✓ Görevi Tamamladım</button>`;
-                }
+                } else { btn = `<button onclick="goreviOnayaGonder('${g}', this)" class="mt-3 w-full bg-white border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-white transition shadow-sm">✓ Görevi Tamamladım</button>`; }
                 return `<div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition"><p class="font-semibold text-gray-800">${g}</p>${btn}</div>`;
             }).join('');
         }
@@ -690,7 +614,7 @@
         }
 
         const canvas = document.getElementById('wheel'); const ctx = canvas.getContext('2d');
-        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "iPhone 15"];
+        const sectors = ["100 TL A101", "250 TL A101", "Tekrar Dene", "500 TL A101", "1000 TL A101", "Iphone 15"];
         const colors = ["#e67e22", "#3498db", "#9b59b6", "#2ecc71", "#f1c40f", "#34495e"];
         const numSectors = sectors.length; const sectorDeg = 360 / numSectors; const arc = (2 * Math.PI) / numSectors; let currentRotation = 0;
 
@@ -722,7 +646,7 @@
 
             setTimeout(async () => {
                 btn.disabled = false; let wonPrize = sectors[winningIndex];
-                if (wonPrize !== "Tekrar Dene" && wonPrize !== "iPhone 15") wonPrize = wonPrize + " Çeki";
+                if (wonPrize !== "Tekrar Dene" && wonPrize !== "Iphone 15") wonPrize = wonPrize + " Çeki";
                 document.getElementById('wheelResult').innerText = "🎁 " + wonPrize;
                 if(wonPrize !== "Tekrar Dene") {
                     await supabaseClient.from('kazanilan_oduller').insert([{ kullanici_email: currentUser.email, ad_soyad: userProfileData?.full_name || 'İsimsiz', odul_adi: wonPrize }]);
@@ -783,50 +707,32 @@
         // --- TAM VE EKSİKSİZ SİGORTA FORMU MANTIĞI ---
         function sigortaTuruSec(tur) {
             document.querySelectorAll('.insurance-card').forEach(card => {
-                card.classList.remove('active', 'border-primary', 'bg-blue-50');
-                card.querySelector('.icon-box').classList.remove('bg-primary', 'text-white');
-                card.querySelector('.icon-box').classList.add('bg-blue-50', 'text-primary');
+                card.classList.remove('active', 'border-primary', 'bg-blue-50'); card.querySelector('.icon-box').classList.remove('bg-primary', 'text-white'); card.querySelector('.icon-box').classList.add('bg-blue-50', 'text-primary');
             });
             const activeCard = document.querySelector(`.insurance-card[data-tur='${tur}']`);
-            if (activeCard) {
-                activeCard.classList.add('active', 'border-primary', 'bg-blue-50');
-                activeCard.querySelector('.icon-box').classList.add('bg-primary', 'text-white');
-                activeCard.querySelector('.icon-box').classList.remove('bg-blue-50', 'text-primary');
-            }
+            if (activeCard) { activeCard.classList.add('active', 'border-primary', 'bg-blue-50'); activeCard.querySelector('.icon-box').classList.add('bg-primary', 'text-white'); activeCard.querySelector('.icon-box').classList.remove('bg-blue-50', 'text-primary'); }
 
-            const altTurVeFormDiv = document.getElementById('altTurVeForm');
-            const altTurButonlariDiv = document.getElementById('altTurSecimButonlari');
-            const formDiv = document.getElementById('teklifFormu');
-            const formBaslik = document.getElementById('formBaslik');
-
-            altTurVeFormDiv.classList.remove('hidden', 'animate-fade-in');
-            void altTurVeFormDiv.offsetWidth; altTurVeFormDiv.classList.add('animate-fade-in');
-
+            const altTurVeFormDiv = document.getElementById('altTurVeForm'); const altTurButonlariDiv = document.getElementById('altTurSecimButonlari'); const formDiv = document.getElementById('teklifFormu'); const formBaslik = document.getElementById('formBaslik');
+            altTurVeFormDiv.classList.remove('hidden', 'animate-fade-in'); void altTurVeFormDiv.offsetWidth; altTurVeFormDiv.classList.add('animate-fade-in');
             altTurButonlariDiv.innerHTML = ''; formDiv.innerHTML = ''; formBaslik.textContent = '';
             
             if (tur === 'arac') {
                 formBaslik.textContent = 'Araç Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'kasko', 'Kasko Sigortası'));
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'trafik', 'Zorunlu Trafik Sigortası'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'kasko', 'Kasko Sigortası')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'trafik', 'Zorunlu Trafik Sigortası'));
             } else if (tur === 'saglik') {
                 formBaslik.textContent = 'Sağlık Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'tss', 'Tamamlayıcı Sağlık (TSS)'));
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'oss', 'Özel Sağlık (ÖSS)'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'tss', 'Tamamlayıcı Sağlık (TSS)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'oss', 'Özel Sağlık (ÖSS)'));
             } else if (tur === 'konut') {
                 formBaslik.textContent = 'Konut Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)'));
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Paket Sigortası'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'dask', 'DASK (Zorunlu Deprem)')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'konut_paket', 'Konut Paket Sigortası'));
             } else if (tur === 'seyahat') {
                 formBaslik.textContent = 'Seyahat Sigortası Türünü Seçin';
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_disi', 'Yurt Dışı Seyahat'));
-                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_ici', 'Yurt İçi Seyahat'));
+                altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_disi', 'Yurt Dışı Seyahat')); altTurButonlariDiv.appendChild(createAltTurButton(tur, 'yurt_ici', 'Yurt İçi Seyahat'));
             }
         }
 
         function createAltTurButton(anaTur, altTurId, altTurAd) {
-            const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = altTurAd;
-            // Aktif buton yakalaması için data-id eklendi
-            btn.dataset.id = altTurId;
+            const btn = document.createElement('button'); btn.type = 'button'; btn.textContent = altTurAd; btn.dataset.id = altTurId;
             btn.className = 'alt-tur-btn bg-white border border-gray-200 text-gray-700 px-6 py-2.5 rounded-full font-bold hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm';
             btn.onclick = () => teklifFormuOlustur(anaTur, altTurId, altTurAd); return btn;
         }
@@ -836,15 +742,9 @@
             formDiv.classList.remove('animate-fade-in'); void formDiv.offsetWidth; formDiv.classList.add('animate-fade-in'); formDiv.innerHTML = ''; 
             
             if (altTur) {
-                document.querySelectorAll('.alt-tur-btn').forEach(btn => { 
-                    btn.classList.remove('bg-primary', 'text-white', 'border-primary'); 
-                    btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200'); 
-                });
+                document.querySelectorAll('.alt-tur-btn').forEach(btn => { btn.classList.remove('bg-primary', 'text-white', 'border-primary'); btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200'); });
                 const activeButton = document.querySelector(`.alt-tur-btn[data-id='${altTur}']`);
-                if (activeButton) { 
-                    activeButton.classList.remove('bg-white', 'text-gray-700', 'border-gray-200'); 
-                    activeButton.classList.add('bg-primary', 'text-white', 'border-primary'); 
-                }
+                if (activeButton) { activeButton.classList.remove('bg-white', 'text-gray-700', 'border-gray-200'); activeButton.classList.add('bg-primary', 'text-white', 'border-primary'); }
             }
 
             let formHTML = `
@@ -854,26 +754,26 @@
                     <div><label for="tc_kimlik" class="form-label">T.C. Kimlik No</label><input type="text" id="tc_kimlik" name="tc_kimlik" class="form-input" required></div>
                     <div><label for="dogum_tarihi" class="form-label">Doğum Tarihi</label><input type="date" id="dogum_tarihi" name="dogum_tarihi" class="form-input" required></div>
                     <div class="md:col-span-2"><label for="ad_soyad" class="form-label">Adınız Soyadınız</label><input type="text" id="ad_soyad" name="ad_soyad" class="form-input" required></div>
-                    <div><label for="cep_telefonu" class="form-label">Cep Telefonu</label><input type="tel" id="cep_telefonu" name="cep_telefonu" class="form-input" placeholder="0 (5XX) XXX XX XX" required></div>
-                    <div><label for="eposta" class="form-label">E-posta Adresi</label><input type="email" id="eposta" name="eposta" class="form-input" required></div>
+                    <div class="md:col-span-2"><label for="cep_telefonu" class="form-label">Cep Telefonu</label><input type="tel" id="cep_telefonu" name="cep_telefonu" class="form-input" placeholder="0 (5XX) XXX XX XX" required></div>
                 </div>
                 <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-clipboard-list text-primary mr-2"></i>2. Sigorta Detayları</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             `;
 
             if (altTur === 'kasko' || altTur === 'trafik') {
-                formHTML += `<div><label for="plaka" class="form-label">Plaka No (Örn: 34ABC123)</label><input type="text" id="plaka" name="plaka" class="form-input" required></div><div><label for="arac_markasi" class="form-label">Araç Markası</label><select id="arac_markasi" name="arac_markasi" class="form-input" required><option value="" disabled selected>Marka Seçiniz...</option><option value="Fiat">Fiat</option><option value="Renault">Renault</option><option value="Volkswagen">Volkswagen</option><option value="Ford">Ford</option><option value="Hyundai">Hyundai</option><option value="Peugeot">Peugeot</option><option value="Opel">Opel</option><option value="Toyota">Toyota</option><option value="Skoda">Skoda</option><option value="Mercedes-Benz">Mercedes-Benz</option><option value="BMW">BMW</option><option value="Audi">Audi</option><option value="Diger">Diğer</option></select></div>`;
-                if (altTur === 'kasko') formHTML += `<div class="md:col-span-2"><label for="ruhsat_seri_no" class="form-label">Ruhsat Seri No (Kasko Değeri İçin)</label><input type="text" id="ruhsat_seri_no" name="ruhsat_seri_no" class="form-input" required></div>`;
+                formHTML += `<div><label for="plaka" class="form-label">Plaka No (Örn: 34ABC123)</label><input type="text" id="plaka" name="plaka" class="form-input" required></div>`;
+                if (altTur === 'kasko') formHTML += `<div><label for="belge_seri_no" class="form-label">Belge Seri No</label><input type="text" id="belge_seri_no" name="belge_seri_no" class="form-input" required></div>`;
             } else if (altTur === 'tss' || altTur === 'oss') {
                 formHTML += `<div class="md:col-span-2"><label for="kisi_sayisi" class="form-label">Sigortalanacak Kişi Sayısı</label><select id="kisi_sayisi" name="kisi_sayisi" class="form-input" required><option value="" disabled selected>Seçiniz...</option><option value="1">Bireysel (1 Kişi)</option><option value="2">Aile (2 Kişi)</option><option value="3+">Aile (3+ Kişi)</option></select></div>`;
-            } else if (altTur === 'dask') {
-                formHTML += `<div><label for="uavt_kodu" class="form-label">UAVT Kodu (Adres Kodu)</label><input type="text" id="uavt_kodu" name="uavt_kodu" class="form-input" required></div><div><label for="bina_insa_yili" class="form-label">Bina İnşa Yılı</label><input type="number" id="bina_insa_yili" name="bina_insa_yili" class="form-input" placeholder="Örn: 2010" required></div><div class="md:col-span-2"><label for="daire_mkare" class="form-label">Daire Brüt m²</label><input type="number" id="daire_mkare" name="daire_mkare" class="form-input" placeholder="Örn: 120" required></div>`;
-            } else if (altTur === 'konut_paket') {
-                formHTML += `<div><label for="bina_insa_yili" class="form-label">Bina İnşa Yılı</label><input type="number" id="bina_insa_yili" name="bina_insa_yili" class="form-input" placeholder="Örn: 2010" required></div><div><label for="daire_mkare" class="form-label">Daire Brüt m²</label><input type="number" id="daire_mkare" name="daire_mkare" class="form-input" placeholder="Örn: 120" required></div><div><label for="bina_bedeli" class="form-label">Bina Bedeli (İsteğe bağlı)</label><input type="number" id="bina_bedeli" name="bina_bedeli" class="form-input" placeholder="Örn: 1.000.000"></div><div><label for="esya_bedeli" class="form-label">Eşya Bedeli (İsteğe bağlı)</label><input type="number" id="esya_bedeli" name="esya_bedeli" class="form-input" placeholder="Örn: 250.000"></div>`;
-            } else if (altTur === 'yurt_disi') {
-                formHTML += `<div><label for="bolge" class="form-label">Gidilecek Bölge</label><select id="bolge" name="bolge" class="form-input" required><option value="" disabled selected>Seçiniz...</option><option value="Schengen">Schengen Bölgesi (Vize)</option><option value="Avrupa_Geneli">Avrupa (Schengen Dışı)</option><option value="Amerika_Kanada">ABD / Kanada</option><option value="Asya">Asya / Uzak Doğu</option><option value="Orta_Dogu">Orta Doğu / Afrika</option><option value="Dunya_Geneli">Tüm Dünya (ABD/Kanada Hariç)</option><option value="Dunya_Kapsamli">Tüm Dünya (Full Kapsam)</option></select></div><div><label for="baslangic_tarihi" class="form-label">Başlangıç Tarihi</label><input type="date" id="baslangic_tarihi" name="baslangic_tarihi" class="form-input" required></div><div><label for="bitis_tarihi" class="form-label">Bitiş Tarihi</label><input type="date" id="bitis_tarihi" name="bitis_tarihi" class="form-input" required></div>`;
-            } else if (altTur === 'yurt_ici') {
-                 formHTML += `<div><label for="baslangic_tarihi" class="form-label">Başlangıç Tarihi</label><input type="date" id="baslangic_tarihi" name="baslangic_tarihi" class="form-input" required></div><div><label for="bitis_tarihi" class="form-label">Bitiş Tarihi</label><input type="date" id="bitis_tarihi" name="bitis_tarihi" class="form-input" required></div>`;
+            } else if (altTur === 'dask' || altTur === 'konut_paket') {
+                formHTML += `<div class="md:col-span-2"><label for="acik_adres" class="form-label">Açık Adres</label><textarea id="acik_adres" name="acik_adres" rows="2" class="form-input" required></textarea></div>`;
+                formHTML += `<div><label for="bina_insa_yili" class="form-label">Bina İnşa Yılı</label><input type="number" id="bina_insa_yili" name="bina_insa_yili" class="form-input" placeholder="Örn: 2010" required></div>`;
+                formHTML += `<div><label for="bina_kat_sayisi" class="form-label">Bina Kat Sayısı</label><input type="number" id="bina_kat_sayisi" name="bina_kat_sayisi" class="form-input" placeholder="Örn: 5" required></div>`;
+                formHTML += `<div><label for="daire_mkare" class="form-label">Daire Brüt m²</label><input type="number" id="daire_mkare" name="daire_mkare" class="form-input" placeholder="Örn: 120" required></div>`;
+                if(altTur === 'konut_paket') formHTML += `<div class="md:col-span-2"><label for="esya_bedeli" class="form-label">Eşya Bedeli (İsteğe bağlı)</label><input type="number" id="esya_bedeli" name="esya_bedeli" class="form-input" placeholder="Örn: 250.000"></div>`;
+            } else if (altTur === 'yurt_disi' || altTur === 'yurt_ici') {
+                if(altTur === 'yurt_disi') formHTML += `<div class="md:col-span-2"><label for="bolge" class="form-label">Gidilecek Bölge</label><select id="bolge" name="bolge" class="form-input" required><option value="" disabled selected>Seçiniz...</option><option value="Schengen">Schengen Bölgesi (Vize)</option><option value="Avrupa_Geneli">Avrupa (Schengen Dışı)</option><option value="Amerika_Kanada">ABD / Kanada</option><option value="Asya">Asya / Uzak Doğu</option><option value="Orta_Dogu">Orta Doğu / Afrika</option><option value="Dunya_Geneli">Tüm Dünya (ABD/Kanada Hariç)</option><option value="Dunya_Kapsamli">Tüm Dünya (Full Kapsam)</option></select></div>`;
+                formHTML += `<div><label for="baslangic_tarihi" class="form-label">Başlangıç Tarihi</label><input type="date" id="baslangic_tarihi" name="baslangic_tarihi" class="form-input" required></div><div><label for="bitis_tarihi" class="form-label">Bitiş Tarihi</label><input type="date" id="bitis_tarihi" name="bitis_tarihi" class="form-input" required></div>`;
             }
             
             formHTML += `
@@ -892,38 +792,15 @@
             IMask(document.getElementById('cep_telefonu'), { mask: '0 (500) 000 00 00' });
 
             formDiv.addEventListener('submit', async function(e) {
-                e.preventDefault(); 
-                const submitButton = formDiv.querySelector('button[type="submit"]');
-                const sonucMesaji = document.getElementById('formSonuc');
-                
-                submitButton.disabled = true; 
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; 
-                submitButton.classList.add('opacity-70', 'cursor-not-allowed');
-                sonucMesaji.innerHTML = '';
-
-                const formData = new FormData(formDiv);
-                const data = Object.fromEntries(formData.entries());
-
+                e.preventDefault(); const submitButton = formDiv.querySelector('button[type="submit"]'); const sonucMesaji = document.getElementById('formSonuc');
+                submitButton.disabled = true; submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Bilgileriniz Gönderiliyor...'; submitButton.classList.add('opacity-70', 'cursor-not-allowed'); sonucMesaji.innerHTML = '';
+                const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
                 try {
-                    const response = await fetch('/api/send', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-
-                    if (response.ok) {
-                        sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
-                        formDiv.reset();
-                    } else {
-                        throw new Error('Sunucu hatası veya bağlantı problemi.');
-                    }
-                } catch (error) {
-                    sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`;
-                } finally {
-                    submitButton.disabled = false; 
-                    submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; 
-                    submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
-                }
+                    const response = await fetch('/api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    if (response.ok) { sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>'; formDiv.reset(); } 
+                    else { throw new Error('Sunucu hatası.'); }
+                } catch (error) { sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; } 
+                finally { submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed'); }
             });
         }
     </script>

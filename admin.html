@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .tab-btn.active { background-color: #f3f4f6; color: #1d4ed8; border-bottom: 3px solid #1d4ed8; font-weight: bold; }
-        /* Sayfa yüklenirken içeriği gizle, sadece yetki varsa göster */
         #adminApp { display: none; }
     </style>
 </head>
@@ -21,7 +20,6 @@
     </div>
 
     <div id="adminApp" class="max-w-6xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden animate-fade-in">
-        
         <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 text-white flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold"><i class="fas fa-user-shield mr-2"></i> Yönetim Paneli</h1>
@@ -84,45 +82,30 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydWFmb2h6dGRnZW1xeWFhbXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDQzNjMsImV4cCI6MjA5MTkyMDM2M30.ur3o3yD5yhccLKzY1jftZ4FVQILbyKCub4tYySrfElM';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
-        // ---- ADMIN YETKİ KONTROLÜ ----
-        // LÜTFEN AŞAĞIDAKİ MAİL ADRESİNİ KENDİ KAYIT OLDUĞUN ADRES İLE DEĞİŞTİR:
         const ADMIN_EMAIL = 'admin@aressigorta.com'; 
 
         async function checkAdminAuth() {
             const { data: { session }, error } = await supabaseClient.auth.getSession();
-            
             if (!session || session.user.email !== ADMIN_EMAIL) {
                 alert("Bu sayfayı görüntüleme yetkiniz yok! Ana sayfaya yönlendiriliyorsunuz.");
                 window.location.href = '/index.html';
             } else {
-                // Yetki başarılıysa siteyi göster
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.getElementById('adminApp').style.display = 'block';
                 verileriYenile();
             }
         }
-
-        // Sayfa açılır açılmaz yetkiyi kontrol et
         window.addEventListener('DOMContentLoaded', checkAdminAuth);
+        async function adminLogout() { await supabaseClient.auth.signOut(); window.location.href = '/index.html'; }
 
-        async function adminLogout() {
-            await supabaseClient.auth.signOut();
-            window.location.href = '/index.html';
-        }
-
-        // ---- PANEL MANTIĞI ----
         function switchAdminTab(tab) {
             document.getElementById('gorevSection').classList[tab === 'gorev' ? 'replace' : 'replace'](tab === 'gorev' ? 'hidden' : 'block', tab === 'gorev' ? 'block' : 'hidden');
             document.getElementById('odulSection').classList[tab === 'odul' ? 'replace' : 'replace'](tab === 'odul' ? 'hidden' : 'block', tab === 'odul' ? 'block' : 'hidden');
-            document.getElementById('tabGorev').classList.toggle('active', tab === 'gorev');
-            document.getElementById('tabOdul').classList.toggle('active', tab === 'odul');
+            document.getElementById('tabGorev').classList.toggle('active', tab === 'gorev'); document.getElementById('tabOdul').classList.toggle('active', tab === 'odul');
         }
+        function verileriYenile() { talepleriGetir(); odulleriGetir(); }
 
-        function verileriYenile() {
-            talepleriGetir();
-            odulleriGetir();
-        }
-
+        // --- GÖREV ONAY MANTIĞI ---
         async function talepleriGetir() {
             const tbody = document.getElementById('onayTablosu');
             const { data, error } = await supabaseClient.from('gorev_talepleri').select('*').eq('durum', 'Bekliyor').order('olusturulma_tarihi', { ascending: false });
@@ -130,23 +113,50 @@
             if (error) { tbody.innerHTML = `<tr><td colspan="4" class="text-center text-red-500">Hata: ${error.message}</td></tr>`; return; }
             if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500">✅ Bekleyen görev yok.</td></tr>`; return; }
             
-            tbody.innerHTML = data.map(t => `
+            tbody.innerHTML = data.map(t => {
+                const isMonthly = t.gorev_adi.startsWith('Aylık');
+                let actionBtns = '';
+                
+                // Eğer görev "Aylık" kelimesi ile başlıyorsa iki seçenek çıkar
+                if(isMonthly) {
+                    actionBtns = `
+                        <div class="flex flex-col space-y-2">
+                            <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Tek')" class="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 text-xs font-bold shadow"><i class="fas fa-check mr-1"></i> Tek Seferlik Onayla (1 Ay Bekler)</button>
+                            <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı_Otomatik')" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-xs font-bold shadow"><i class="fas fa-sync-alt mr-1"></i> Otomatik (Her Ay) Seç</button>
+                            <button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-xs font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>
+                        </div>
+                    `;
+                } else {
+                    actionBtns = `
+                        <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}', 'Onaylandı')" class="bg-green-500 text-white px-3 py-1.5 rounded hover:bg-green-600 mr-2 font-bold shadow"><i class="fas fa-check mr-1"></i> Onayla</button>
+                        <button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 font-bold shadow"><i class="fas fa-times mr-1"></i> Reddet</button>
+                    `;
+                }
+
+                return `
                 <tr class="border-b hover:bg-gray-50" id="talep-${t.id}">
                     <td class="p-3 text-sm">${new Date(t.olusturulma_tarihi).toLocaleDateString('tr-TR')}</td>
                     <td class="p-3"><b>${t.ad_soyad}</b><br><span class="text-xs text-gray-500">${t.kullanici_email}</span></td>
                     <td class="p-3 font-medium text-blue-700">${t.gorev_adi}</td>
-                    <td class="p-3 text-center">
-                        <button onclick="goreviOnayla(${t.id}, '${t.kullanici_email}')" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2">✓ Onayla</button>
-                        <button onclick="goreviReddet(${t.id})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">X Reddet</button>
-                    </td>
+                    <td class="p-3 text-center align-middle">${actionBtns}</td>
                 </tr>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        async function goreviOnayla(id, email) {
-            await supabaseClient.from('gorev_talepleri').update({ durum: 'Onaylandı' }).eq('id', id);
+        async function goreviOnayla(id, email, newDurum) {
+            const btnDiv = event.target.closest('td');
+            btnDiv.innerHTML = '<span class="text-green-600 font-bold"><i class="fas fa-spinner fa-spin"></i> İşleniyor...</span>';
+
+            // Onaylandığı anın tarihini güncelliyoruz ki geri sayım tam o saniyeden başlasın
+            await supabaseClient.from('gorev_talepleri').update({ 
+                durum: newDurum, 
+                olusturulma_tarihi: new Date().toISOString() 
+            }).eq('id', id);
+            
             const { data: h } = await supabaseClient.from('kullanici_haklari').select('kalan_hak').eq('email', email).single();
             await supabaseClient.from('kullanici_haklari').upsert({ email: email, kalan_hak: (h ? h.kalan_hak : 0) + 1 });
+            
             document.getElementById('talep-' + id).remove();
         }
 
@@ -155,6 +165,7 @@
             document.getElementById('talep-' + id).remove();
         }
 
+        // --- ÖDÜLLER MANTIĞI ---
         async function odulleriGetir() {
             const tbody = document.getElementById('odulTablosu');
             const { data, error } = await supabaseClient.from('kazanilan_oduller').select('*').eq('durum', 'Bekliyor').order('kazanma_tarihi', { ascending: false });
@@ -182,8 +193,7 @@
             if(!kod) return alert("Lütfen üyeye iletilecek hediye çekinin kodunu giriniz!");
             
             const btn = event.target;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
 
             await supabaseClient.from('kazanilan_oduller').update({ durum: 'İletildi', teslim_edilen_kod: kod }).eq('id', id);
             document.getElementById('odul-' + id).remove();

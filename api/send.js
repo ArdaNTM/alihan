@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         // 1. SUPABASE'E KAYIT ATMA (Hiçbir paket kurmadan direkt fetch ile)
         const supabaseEndpoint = `${SUPABASE_URL}/rest/v1/teklifler`;
         
-        await fetch(supabaseEndpoint, {
+        const supabaseResponse = await fetch(supabaseEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,6 +47,12 @@ export default async function handler(req, res) {
                 detaylar: formData
             })
         });
+
+        if (!supabaseResponse.ok) {
+            const dbError = await supabaseResponse.text();
+            console.error('Supabase kayıt hatası:', supabaseResponse.status, dbError);
+            throw new Error('Teklif veritabanına kaydedilemedi.');
+        }
 
         // 2. TELEGRAM'A GÖNDERME (Markdown korumalı)
         let text = `🚨 *YENİ SİGORTA TEKLİF TALEBİ* 🚨\n\n`;

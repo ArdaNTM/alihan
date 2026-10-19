@@ -768,38 +768,31 @@
 
             let formHTML = `
                 <input type="hidden" name="sigorta_turu" value="${altTurAdi || anaTur}">
-                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-user text-primary mr-2"></i>1. Kişisel Bilgiler</h4>
+                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-address-book text-primary mr-2"></i>1. İletişim Bilgileri</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-8">
-                    <div><label for="tc_kimlik" class="form-label">T.C. Kimlik No</label><input type="text" id="tc_kimlik" name="tc_kimlik" class="form-input" required></div>
-                    <div><label for="dogum_tarihi" class="form-label">Doğum Tarihi</label><input type="date" id="dogum_tarihi" name="dogum_tarihi" class="form-input" required></div>
-                    <div class="md:col-span-2"><label for="ad_soyad" class="form-label">Adınız Soyadınız</label><input type="text" id="ad_soyad" name="ad_soyad" class="form-input" required></div>
-                </div>
-                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-address-book text-primary mr-2"></i>2. İletişim Bilgileri</h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-8">
+                    <div><label for="ad_soyad" class="form-label">Adınız Soyadınız</label><input type="text" id="ad_soyad" name="ad_soyad" class="form-input" required></div>
                     <div><label for="cep_telefonu" class="form-label">Telefon Numarası</label><input type="tel" id="cep_telefonu" name="cep_telefonu" class="form-input" placeholder="0 (5XX) XXX XX XX" required></div>
                 </div>
-                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-clipboard-list text-primary mr-2"></i>3. Sigorta Detayları</h4>
+                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-clipboard-list text-primary mr-2"></i>2. Sigorta Detayları</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             `;
 
             if (altTur === 'kasko' || altTur === 'trafik') {
                 formHTML += `<div><label for="plaka" class="form-label">Plaka No (Örn: 34ABC123)</label><input type="text" id="plaka" name="plaka" class="form-input" required></div>`;
-                if (altTur === 'kasko') {
-                    formHTML += `
+                formHTML += `
                     <div>
                         <label for="belge_seri_no" class="form-label flex items-center relative ruhsat-trigger cursor-help w-max">
-                            Belge Seri No 
+                            Belge Seri No
                             <i class="fas fa-question-circle text-primary ml-2"></i>
                             <div class="ruhsat-tooltip absolute bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden z-50 w-80">
                                 <div class="bg-gray-100 p-2 text-center text-xs font-bold text-gray-700 border-b">Ruhsatın sağ alt köşesindeki numara</div>
                                 <div class="p-2 bg-white flex justify-center overflow-hidden">
-                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' fill='white'><rect width='400' height='300' fill='%23f3f4f6'/><rect x='20' y='20' width='360' height='260' fill='white' stroke='%23d1d5db' stroke-width='2'/><rect x='40' y='40' width='100' height='100' fill='%23e5e7eb'/><line x1='160' y1='60' x2='340' y2='60' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='90' x2='300' y2='90' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='120' x2='320' y2='120' stroke='%23e5e7eb' stroke-width='8'/><line x1='40' y1='180' x2='340' y2='180' stroke='%23e5e7eb' stroke-width='4'/><line x1='40' y1='210' x2='340' y2='210' stroke='%23e5e7eb' stroke-width='4'/><rect x='250' y='230' width='100' height='30' fill='none' stroke='red' stroke-width='3' rx='4'/><text x='300' y='250' font-family='Arial' font-size='14' fill='red' text-anchor='middle' font-weight='bold'>AB123456</text><text x='300' y='220' font-family='Arial' font-size='12' fill='%234b5563' text-anchor='middle'>Belge Seri No</text></svg>" alt="Belge Seri No" class="w-full h-auto ruhsat-img">
+                                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' fill='white'><rect width='400' height='300' fill='%23f3f4f6'/><rect x='20' y='20' width='360' height='260' fill='white' stroke='%23d1d5db' stroke-width='2'/><rect x='40' y='40' width='100' height='100' fill='%23e5e7eb'/><line x1='160' y1='60' x2='340' y2='60' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='90' x2='300' y2='90' stroke='%23e5e7eb' stroke-width='8'/><line x1='160' y1='120' x2='320' y2='120' stroke='%23e5e7eb' stroke-width='8'/><line x1='40' y1='180' x2='340' y2='180' stroke='%23e5e7eb' stroke-width='4'/><line x1='40' y1='210' x2='340' y2='210' stroke='%23e5e7eb' stroke-width='4'/><rect x='250' y='230' width='100' height='30' fill='none' stroke='red' stroke-width='3' rx='4'/><text x='300' y='250' font-family='Arial' font-size='14' fill='red' text-anchor='middle' font-weight='bold'>AB123456</text><text x='300' y='220' font-family='Arial' font-size='12' fill='%234b5563' text-anchor='middle'>Belge Seri No</text></svg>" alt="Belge Seri No örneği" class="w-full h-auto ruhsat-img">
                                 </div>
                             </div>
                         </label>
                         <input type="text" id="belge_seri_no" name="belge_seri_no" class="form-input" required>
                     </div>`;
-                }
             } else if (altTur === 'tss' || altTur === 'oss') {
                 formHTML += `<div class="md:col-span-2"><label for="kisi_sayisi" class="form-label">Sigortalanacak Kişi Sayısı</label><select id="kisi_sayisi" name="kisi_sayisi" class="form-input" required><option value="" disabled selected>Seçiniz...</option><option value="1">Bireysel (1 Kişi)</option><option value="2">Aile (2 Kişi)</option><option value="3+">Aile (3+ Kişi)</option></select></div>`;
             } else if (altTur === 'dask' || altTur === 'konut_paket') {
@@ -814,14 +807,12 @@
             }
             
             formHTML += `
-                </div> 
+                </div>
                 <div class="flex items-start space-x-3 pt-6 mt-8 border-t border-gray-200">
                     <input type="checkbox" id="kvkk" name="kvkk" value="kabul_edildi" required class="mt-1 h-5 w-5 accent-primary cursor-pointer">
-                    <label for="kvkk" class="text-sm text-gray-600 font-medium cursor-pointer"><a href="kvkk.html" target="_blank" class="text-primary font-bold hover:underline">Aydınlatma Metni</a> ile <a href="kampanya.html" target="_blank" class="text-primary font-bold hover:underline">Kampanya Şartlarını</a> okudum, kabul ediyorum.</label>
+                    <label for="kvkk" class="text-sm text-gray-600 font-medium cursor-pointer"><a href="kvkk.html" target="_blank" class="text-primary font-bold hover:underline">Aydınlatma Metnini</a> okudum, kabul ediyorum.</label>
                 </div>
-                <button type="submit" class="w-full bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-secondary transition-all mt-6 shadow-lg hover:shadow-xl hover:-translate-y-1">
-                    Teklif Hazırlanması İçin Gönder
-                </button>
+                <button type="submit" class="w-full bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-secondary transition-all mt-6 shadow-lg hover:shadow-xl hover:-translate-y-1">Teklif Hazırlanması İçin Gönder</button>
                 <div id="formSonuc" class="mt-4 text-center"></div>
             `;
             formDiv.innerHTML = formHTML;

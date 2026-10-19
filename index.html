@@ -847,21 +847,40 @@
                 const formData = new FormData(formDiv); const data = Object.fromEntries(formData.entries());
 
                 try {
-                    let tgMessage = `🚀 *YENİ SİGORTA TALEBİ* 🚀\n\n`;
-                    for (const [key, value] of Object.entries(data)) {
-                        if(key === 'kvkk') continue;
-                        const cleanKey = key.replace(/_/g, ' ').toUpperCase();
-                        tgMessage += `▪️ *${cleanKey}:* ${value}\n`;
-                    }
-                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgMessage, parse_mode: 'Markdown' })
+                    const response = await fetch('/api/send', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
                     });
-
-                    sonucMesaji.innerHTML = '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200"><i class="fas fa-check-circle mr-2"></i> Bilgileriniz başarıyla alındı. Uzmanımız size en kısa sürede dönüş yapacaktır!</p>';
+                
+                    const result = await response.json();
+                
+                    if (!response.ok) {
+                        throw new Error(
+                            result.message || 'Teklif gönderilemedi.'
+                        );
+                    }
+                
+                    sonucMesaji.innerHTML =
+                        '<p class="text-green-700 font-bold p-4 bg-green-50 rounded-xl border border-green-200">' +
+                        '<i class="fas fa-check-circle mr-2"></i>' +
+                        'Teklifiniz başarıyla gönderildi.' +
+                        '</p>';
+                
                     formDiv.reset();
-                    
-                } catch (error) { 
+                
+                } catch (error) {
+                    console.error('Teklif gönderim hatası:', error);
+                
+                    sonucMesaji.innerHTML =
+                        '<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200">' +
+                        '<i class="fas fa-exclamation-circle mr-2"></i>' +
+                        'Gönderim başarısız. Lütfen daha sonra tekrar deneyin.' +
+                        '</p>';
+                } 
+                  catch (error) { 
                     sonucMesaji.innerHTML = `<p class="text-red-700 font-bold p-4 bg-red-50 rounded-xl border border-red-200"><i class="fas fa-exclamation-circle mr-2"></i> Hata: Sistemde geçici bir sorun var. Lütfen WhatsApp üzerinden bize ulaşın.</p>`; 
                 } finally { 
                     submitButton.disabled = false; submitButton.textContent = 'Teklif Hazırlanması İçin Gönder'; submitButton.classList.remove('opacity-70', 'cursor-not-allowed'); 

@@ -84,7 +84,6 @@ export default async function handler(req, res) {
         
             throw new Error('Telegram mesajı gönderilemedi.');
         }
-        }
 
         return res.status(200).json({ message: "Başarıyla gönderildi" });
     } catch (error) {

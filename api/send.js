@@ -74,8 +74,16 @@ export default async function handler(req, res) {
             })
         });
 
-        if (!telegramResponse.ok) {
-            throw new Error("Telegram API hatası.");
+        const telegramResult = await telegramResponse.json();
+        
+        if (!telegramResponse.ok || !telegramResult.ok) {
+            console.error(
+                'Telegram gönderim hatası:',
+                telegramResult.description || 'Bilinmeyen hata'
+            );
+        
+            throw new Error('Telegram mesajı gönderilemedi.');
+        }
         }
 
         return res.status(200).json({ message: "Başarıyla gönderildi" });

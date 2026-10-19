@@ -317,45 +317,16 @@
         </div>
     </div>
 
-    <div id="campaignModal" class="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
+    <div id="campaignModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
         <div class="modal-container">
-            <span class="close-btn" onclick="closeCampaignModal()" aria-label="Kapat">×</span>
-            <div id="unauthCampaignView" class="block">
-                <div class="modal-header-kampanya"><h1 id="whatsappModalTitle" class="text-2xl font-bold">Ares Sigorta WhatsApp Destek</h1></div>
-                <div class="p-8 text-center">
-                    <div class="text-6xl mb-4 text-green-600"><i class="fab fa-whatsapp"></i></div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">Size nasıl yardımcı olabiliriz?</h3>
-                    <p class="text-gray-500 font-medium mb-8">Sigorta teklifi almak veya sorularınızı iletmek için WhatsApp hattımıza ulaşabilirsiniz.</p>
-                    <a href="https://wa.me/905367074329" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold w-full mb-6 hover:bg-green-700 transition-all shadow-md"><i class="fab fa-whatsapp text-xl"></i> WhatsApp ile İletişime Geç</a>
-                    <div class="border-t border-gray-100 pt-6 text-sm text-gray-500">Dilerseniz bu pencereyi kapatıp siteyi kullanmaya devam edebilirsiniz.</div>
-                </div>
-            </div>
-            <div id="authCampaignView" class="hidden">
-                <div class="modal-header-kampanya flex flex-col items-center">
-                    <h1 class="text-2xl font-bold">Ares Avantajlar Dünyası</h1>
-                    <div class="bg-white/20 px-4 py-1.5 rounded-full mt-3 font-semibold shadow-sm backdrop-blur-sm">Çevirme Hakkın: <span id="spinRightsText" class="text-accent text-xl ml-1">0</span></div>
-                </div>
-                <div class="flex border-b border-gray-200">
-                    <button id="tabCark" onclick="switchCampaignTab('cark')" class="flex-1 py-4 font-bold text-primary border-b-2 border-primary transition outline-none">Çarkıfelek</button>
-                    <button id="tabGorev" onclick="switchCampaignTab('gorev')" class="flex-1 py-4 font-semibold text-gray-500 transition outline-none border-b-2 border-transparent">Görevlerim</button>
-                    <button id="tabOdul" onclick="switchCampaignTab('odul')" class="flex-1 py-4 font-semibold text-gray-500 transition outline-none border-b-2 border-transparent">Ödüllerim</button>
-                </div>
-                <div id="carkSection" style="display:none !important" class="p-6 md:p-8 text-center block">
-                    <div class="wheel-outer mx-auto mb-6" style="position: relative; width: 320px; height: 320px;">
-                        <div class="arrow" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #e74c3c; z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));"></div>
-                        <canvas id="wheel" width="400" height="400" style="border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); width: 100%; height: 100%; border: 4px solid white;"></canvas>
-                    </div>
-                    <button id="spinBtn" class="bg-green-600 text-white px-12 py-3.5 rounded-full font-extrabold shadow-lg hover:bg-green-700 transition-transform hover:scale-105 text-lg mt-2 tracking-wide">ÇARKI ÇEVİR</button>
-                    <div id="wheelResult" class="mt-5 font-extrabold text-2xl text-primary h-8"></div>
-                </div>
-                <div id="gorevSection" style="display:none !important" class="p-6 md:p-8 hidden max-h-[500px] overflow-y-auto bg-gray-50">
-                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-6"><p class="text-sm text-blue-800 font-medium"><i class="fas fa-info-circle mr-2"></i>Görevi tamamladıktan sonra onaya gönderin. Yöneticimiz doğruladığında çark hakkınız hemen eklenecektir.</p></div>
-                    <div id="tasksContainer" class="space-y-4"></div>
-                </div>
-                <div id="odulSection" style="display:none !important" class="p-6 md:p-8 hidden max-h-[500px] overflow-y-auto bg-gray-50">
-                    <p class="text-sm text-gray-500 font-medium mb-6">Çarkıfelekten kazandığınız tüm Opet Yakıt Çekleri bu alanda listelenir.</p>
-                    <div id="prizesContainer" class="space-y-4"></div>
-                </div>
+            <button type="button" class="close-btn" onclick="closeCampaignModal()" aria-label="Kapat">×</button>
+            <div class="modal-header-kampanya"><h1 id="whatsappModalTitle" class="text-2xl font-bold">Ares Sigorta WhatsApp Destek</h1></div>
+            <div class="p-8 text-center">
+                <div class="text-6xl mb-4 text-green-600"><i class="fab fa-whatsapp"></i></div>
+                <h3 class="text-xl font-bold mb-2 text-gray-800">Size nasıl yardımcı olabiliriz?</h3>
+                <p class="text-gray-500 font-medium mb-8">Sigorta teklifi almak veya sorularınızı iletmek için WhatsApp hattımıza ulaşabilirsiniz.</p>
+                <a href="https://wa.me/905367074329" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold w-full mb-4 hover:bg-green-700 transition-all shadow-md"><i class="fab fa-whatsapp text-xl"></i> WhatsApp ile İletişime Geç</a>
+                <button type="button" onclick="closeCampaignModal()" class="text-sm text-gray-500 hover:text-gray-700">Şimdilik siteye devam et</button>
             </div>
         </div>
     </div>
@@ -538,7 +509,11 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            checkSession(); setTimeout(() => { const dontShow = localStorage.getItem('hideCampaignModal'); if(false && !dontShow && !currentUser) document.getElementById('campaignModal').classList.add('active'); }, 3000);
+            checkSession();
+            setTimeout(() => {
+                const whatsappModal = document.getElementById('campaignModal');
+                if (whatsappModal) whatsappModal.classList.add('active');
+            }, 700);
         });
 
         supabaseClient.auth.onAuthStateChange((event, session) => {

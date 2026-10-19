@@ -317,17 +317,17 @@
         </div>
     </div>
 
-    <div id="campaignModal" class="modal-overlay" style="display:none !important" aria-hidden="true">
+    <div id="campaignModal" class="modal-overlay active" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
         <div class="modal-container">
-            <span class="close-btn" onclick="closeCampaignModal()">×</span>
+            <span class="close-btn" onclick="closeCampaignModal()" aria-label="Kapat">×</span>
             <div id="unauthCampaignView" class="block">
-                <div class="modal-header-kampanya"><h1 class="text-2xl font-bold">Ares Avantajlar Dünyası</h1></div>
+                <div class="modal-header-kampanya"><h1 id="whatsappModalTitle" class="text-2xl font-bold">Ares Sigorta WhatsApp Destek</h1></div>
                 <div class="p-8 text-center">
-                    <div class="text-6xl mb-4 animate-bounce">🎁</div>
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">Kampanyaya Katılmak İçin Üye Olmalısınız</h3>
-                    <p class="text-gray-500 font-medium mb-8">Üyelerimize özel görevleri tamamlayarak çarkıfelek çevirme hakkı kazanabilir, yüzlerce liralık Opet Yakıt Çekleri kazanabilirsiniz!</p>
-                    <button onclick="closeCampaignModal(); openAuthModal();" class="bg-primary text-white px-8 py-3.5 rounded-xl font-bold w-full mb-6 hover:bg-secondary transition-all shadow-md">Hemen Giriş Yap / Kayıt Ol</button>
-                    <div class="border-t border-gray-100 pt-6 flex items-center justify-center"><input type="checkbox" id="dontShowAgain" class="mr-2 w-4 h-4 cursor-pointer accent-primary"><label for="dontShowAgain" class="text-sm font-medium text-gray-500 cursor-pointer">Bu uyarıyı bir daha otomatik gösterme</label></div>
+                    <div class="text-6xl mb-4 text-green-600"><i class="fab fa-whatsapp"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Size nasıl yardımcı olabiliriz?</h3>
+                    <p class="text-gray-500 font-medium mb-8">Sigorta teklifi almak veya sorularınızı iletmek için WhatsApp hattımıza ulaşabilirsiniz.</p>
+                    <a href="https://wa.me/905367074329" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold w-full mb-6 hover:bg-green-700 transition-all shadow-md"><i class="fab fa-whatsapp text-xl"></i> WhatsApp ile İletişime Geç</a>
+                    <div class="border-t border-gray-100 pt-6 text-sm text-gray-500">Dilerseniz bu pencereyi kapatıp siteyi kullanmaya devam edebilirsiniz.</div>
                 </div>
             </div>
             <div id="authCampaignView" class="hidden">
@@ -770,7 +770,7 @@
                 <input type="hidden" name="sigorta_turu" value="${altTurAdi || anaTur}">
                 <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-address-book text-primary mr-2"></i>1. Kişisel Bilgiler</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5 mb-8">
-                    <div><label for="ad_soyad" class="form-label">Adınız Soyadınız</label><input type="text" id="ad_soyad" name="ad_soyad" class="form-input" required></div><div><label for="tc_kimlik" class="form-label">T.C. Kimlik No</label><input type="text" id="tc_kimlik" name="tc_kimlik" class="form-input" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required></div>
+<div><label for="tc_kimlik" class="form-label">T.C. Kimlik No</label><input type="text" id="tc_kimlik" name="tc_kimlik" class="form-input" inputmode="numeric" maxlength="11" pattern="[0-9]{11}" required></div>
                 </div>
                 <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-clipboard-list text-primary mr-2"></i>2. Araç Bilgileri</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
@@ -808,7 +808,7 @@
             
             formHTML += `
                 </div>
-                <h4 class="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-address-book text-primary mr-2"></i>3. İletişim Bilgileri</h4>
+                <h4 class="text-lg font-bold text-gray-800 mb-4 mt-8 border-b border-gray-200 pb-2"><i class="fas fa-address-book text-primary mr-2"></i>3. İletişim Bilgileri</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
                     <div><label for="cep_telefonu" class="form-label">Telefon Numarası</label><input type="tel" id="cep_telefonu" name="cep_telefonu" class="form-input" placeholder="0 (5XX) XXX XX XX" required></div>
                 </div>
